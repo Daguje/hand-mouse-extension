@@ -1,18 +1,17 @@
-import { initializeStorageWithDefaults } from './storage';
+import { Controller } from './lib'
 
-chrome.runtime.onInstalled.addListener(async () => {
-  // Here goes everything you want to execute after extension initialization
+const controller = new Controller()
 
-  await initializeStorageWithDefaults({});
+chrome.tabs.onUpdated.addListener((tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
+    const url = changeInfo.url
+    const message = { action: 'UPDATED', url };
 
-  console.log('Extension successfully installed!');
-});
+    chrome.tabs.sendMessage(tabId, message, (response) => {
+        if (!response.camera) {
+            console.error('Não foi possível obter informações da camera');
+            return;
+          }
 
-// Log storage changes, might be safely removed
-chrome.storage.onChanged.addListener((changes) => {
-  for (const [key, value] of Object.entries(changes)) {
-    console.log(
-      `"${key}" changed from "${value.oldValue}" to "${value.newValue}"`,
-    );
-  }
-});
+        controller.estimateHands(response.camera, url, tabId)
+    });
+})

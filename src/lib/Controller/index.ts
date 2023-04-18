@@ -1,8 +1,7 @@
-
 import * as handPoseDetection from "@tensorflow-models/hand-pose-detection"
 import * as mediapipeHands from "@mediapipe/hands"
 
-import { Camera } from "../Camera"
+import { Camera } from  '..'
 
 export class Controller {
     camera: Camera
@@ -11,8 +10,8 @@ export class Controller {
         this.camera = {} as Camera
     }
 
-    async estimateHands() {
-        this.camera = await Camera.init()
+    async estimateHands(camera: Camera, url: string, tabId: number) {
+        this.camera = camera
         
         const model = handPoseDetection.SupportedModels.MediaPipeHands;
 
@@ -25,6 +24,7 @@ export class Controller {
 
         const hands = await detector.estimateHands(this.camera.video, { flipHorizontal: true })
 
-        console.log({ hands })
+        const message = { action: 'HANDS_PREDICTED', url, hands }
+        chrome.tabs.sendMessage(tabId, message)
     }
 }
