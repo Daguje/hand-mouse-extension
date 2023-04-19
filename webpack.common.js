@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
+    scripts: './src/scripts.ts',
     serviceWorker: './src/serviceWorker.ts',
     contentScript: './src/contentScript.ts',
     popup: './src/popup.ts',

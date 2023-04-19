@@ -2,7 +2,7 @@
 import * as handPoseDetection from "@tensorflow-models/hand-pose-detection"
 import * as mediapipeHands from "@mediapipe/hands"
 
-import { Camera } from "../Camera"
+import { Camera } from "./lib/Camera"
 
 export class Controller {
     camera: Camera
@@ -28,3 +28,7 @@ export class Controller {
         console.log({ hands })
     }
 }
+
+const controller = new Controller()
+
+controller.estimateHands()
