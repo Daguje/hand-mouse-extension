@@ -1,22 +1,19 @@
 import { Camera } from './lib'
 
-async function sendCamera(sendResponse: (response: any) => void){
-    const camera = await Camera.init()
-    sendResponse({ camera })
-}
-
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (!message) return
     
     switch(message.action){
         case 'UPDATED':
-            console.log('HandMouse carregado')
-            sendCamera(sendResponse)
+            (async () => {
+                const camera = await Camera.init()
+                console.log({camera})
+                sendResponse({ camera })
+            })();
             return true
         case 'HANDS_PREDICTED':
             console.log({ message })
             return true
-        default:
-            return true
     }
+    return true
 });

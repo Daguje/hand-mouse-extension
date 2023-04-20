@@ -1,30 +1,32 @@
-import * as handPoseDetection from "@tensorflow-models/hand-pose-detection"
-import * as mediapipeHands from "@mediapipe/hands"
-
 import { Camera } from  '..'
+
 
 export class Controller {
     camera: Camera
+    handPoseDetection: any
+    mediapipeHands: any
 
-    constructor(){
+    constructor({ mediapipeHands, handPoseDetection }: any){
         this.camera = {} as Camera
+        this.mediapipeHands = mediapipeHands
+        this.handPoseDetection = handPoseDetection
     }
 
-    async estimateHands(camera: Camera, url: string, tabId: number) {
+    async estimateHands(camera: Camera) {
         this.camera = camera
+        console.log({ camera })
         
-        const model = handPoseDetection.SupportedModels.MediaPipeHands;
+        const model = this.handPoseDetection.SupportedModels.MediaPipeHands;
 
-        const detector = await handPoseDetection.createDetector(model, {
+        const detector = await this.handPoseDetection.createDetector(model, {
             runtime: 'mediapipe',
             modelType: 'full',
             maxHands: 2,
-            solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${mediapipeHands.VERSION}`
+            solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${this.mediapipeHands.VERSION}`
         });
 
         const hands = await detector.estimateHands(this.camera.video, { flipHorizontal: true })
 
-        const message = { action: 'HANDS_PREDICTED', url, hands }
-        chrome.tabs.sendMessage(tabId, message)
+        console.log({ hands })
     }
 }

@@ -1,17 +1,21 @@
 import { Controller } from './lib'
 
-const controller = new Controller()
+import * as handPoseDetection from "@tensorflow-models/hand-pose-detection"
+import * as mediapipeHands from "@mediapipe/hands"
 
-chrome.tabs.onUpdated.addListener((tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
-    const url = changeInfo.url
-    const message = { action: 'UPDATED', url };
+const controller = new Controller({ mediapipeHands, handPoseDetection })
 
-    chrome.tabs.sendMessage(tabId, message, (response) => {
-        if (!response.camera) {
-            console.error('Não foi possível obter informações da camera');
-            return;
-          }
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    (async () => {
+        chrome.tabs.sendMessage(tabId, { action: 'UPDATED' }, async (response) => {
+            if (!response.camera) {
+                console.error('Não foi possível obter informações da camera');
+                return;
+            }
 
-        controller.estimateHands(response.camera, url, tabId)
-    });
+            console.log(response)
+        
+            await controller.estimateHands(response.camera)
+        })
+    })();
 })
