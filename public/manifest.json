@@ -6,9 +6,6 @@
   "background": {
     "service_worker": "serviceWorker.js"
   },
-  "host_permissions": [
-    "<all_urls>"
-  ],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
@@ -18,8 +15,9 @@
     }
   ],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
-  },
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval' http://localhost:* http://127.0.0.1:*; script-src-elem 'self' 'wasm-unsafe-eval' 'inline-speculation-rules' https://cdn.jsdelivr.net; object-src 'self'",
+    "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';"
+},
   "permissions": ["storage", "scripting", "contentSettings", "tabs", "activeTab"],
   "options_ui": {
     "page": "options.html",
@@ -35,12 +33,6 @@
       "128": "/icons/128x.png"
     }
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["serviceWorker.js"],
-      "matches": ["<all_urls>"]
-    }
-  ],  
   "icons": {
     "16": "/icons/16x.png",
     "32": "/icons/32x.png",

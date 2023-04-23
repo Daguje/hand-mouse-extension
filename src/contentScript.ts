@@ -1,3 +1,10 @@
+const s = document.createElement('script');
+s.src = chrome.runtime.getURL('serviceWorker.js');
+s.onload = function(this: HTMLScriptElement) {
+  this.remove();
+};
+(document.head || document.documentElement).appendChild(s);
+
 class Camera {
     video: HTMLVideoElement
   
@@ -66,6 +73,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(camera.video, 0, 0);
                 const video = ctx.getImageData(0, 0, camera.video.width, camera.video.height);
+
+                console.log(video.data)
 
                 sendResponse({ video: video.data })
             })();
