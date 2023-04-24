@@ -2,36 +2,37 @@ export class Camera {
     video: HTMLVideoElement
 
     constructor() {
-        this.video = document.createElement("video") as HTMLVideoElement
+        this.video = document.createElement("video")
     }
     
-    private static getVideoConfig() {
+    private static getVideoConfig(): MediaStreamConstraints {
         return {
             audio: false,
             video: {
                 width: globalThis.screen.availWidth,
                 height: globalThis.screen.availHeight,
                 frameRate: {
-                    ideal: 60
+                    ideal: 30,
                 }
             }
         }
     }
 
-    static drawCamera(camera: Camera, stream: MediaStream) {
-        camera.video.srcObject = stream
-        camera.video.height = 240
-        camera.video.width = 320
-        camera.video.style.transform = 'scaleX(-1)'
-        camera.video.style.position = 'fixed'
-        camera.video.style.top = '16px'
-        camera.video.style.left = '16px'  
-        camera.video.style.zIndex = '9999'  
+    static draw(video: HTMLVideoElement) {
+        video.height = 240
+        video.width = 320
+        video.style.transform = 'scaleX(-1)'
+        video.style.position = 'fixed'
+        video.style.top = '16px'
+        video.style.left = '16px'  
+        video.style.zIndex = '9999'  
 
-        document.body.append(camera.video)
+        document.body.append(video)
+
+        video.play()
     }
 
-    static async init() {
+    static async create() {
         if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
             throw new Error('API do Browser navigator.mediaDevices.getUserMedia não está disponível')
         }
@@ -39,7 +40,7 @@ export class Camera {
         const stream = await navigator.mediaDevices.getUserMedia(this.getVideoConfig())
 
         const camera = new Camera()
-        this.drawCamera(camera, stream)
+        camera.video.srcObject = stream
         
         // Permissão da Câmera
         await new Promise(resolve => {
@@ -48,8 +49,6 @@ export class Camera {
             }
         })
 
-        camera.video.play()
-
-        return camera
+        return camera.video
     }
 }
