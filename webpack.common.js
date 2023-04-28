@@ -43,7 +43,7 @@ module.exports = {
       filename: 'styles/[name].css',
     }),
     new CopyPlugin({
-      patterns: [{ from: 'public' }],
+      patterns: [{ from: 'public' }, { from: "node_modules/@mediapipe" }],
     }),
   ],
 };
