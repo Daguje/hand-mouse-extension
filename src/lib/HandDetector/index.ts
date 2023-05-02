@@ -25,7 +25,7 @@ export class HandDector {
         const model = handPoseDetection.SupportedModels.MediaPipeHands
         const detector = await handPoseDetection.createDetector(model, {
             runtime: 'mediapipe',
-            modelType: 'full',
+            modelType: 'lite',
             maxHands: 2,
             solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${mediapipeHands.VERSION}`
         })
