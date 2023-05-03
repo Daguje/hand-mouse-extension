@@ -25,7 +25,7 @@ export class Camera {
         video.style.position = 'fixed'
         video.style.top = '16px'
         video.style.left = '16px'  
-        video.style.zIndex = '9999'  
+        video.style.zIndex = '999'  
 
         document.body.append(video)
 

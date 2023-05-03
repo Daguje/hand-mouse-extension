@@ -19,8 +19,8 @@ export class View {
         this.canvas = document.createElement('canvas')
         this.ctx =  this.canvas.getContext('2d')
         this.canvas.style.pointerEvents = 'none'
-        this.canvas.style.width = globalThis.screen.availWidth.toString() + 'px'
-        this.canvas.style.height = globalThis.screen.availHeight.toString() + 'px'
+        this.canvas.width = globalThis.screen.availWidth
+        this.canvas.height = globalThis.screen.availHeight
         this.canvas.style.position = 'fixed'
         this.canvas.style.top = '0'
         this.canvas.style.left = '0'
@@ -48,14 +48,13 @@ export class View {
     }
 
     drawKeyPoints(keypoints: Array<Keypoint>, handedness: 'Left' | 'Right') {
-        this.ctx.fillStyle = 'red'
+        this.ctx.fillStyle = handedness === 'Left' ? 'red' : 'blue'
         this.ctx.strokeStyle = 'white'
-        this.ctx.lineWidth = 1
+        this.ctx.lineWidth = 2
         this.ctx.lineJoin = 'round'
 
-        for(const keypoint of keypoints){
-            const { x, y } = keypoint
-            this.drawPoint(x, y, 2)
+        for(const { x, y } of keypoints){
+            this.drawPoint(x, y, 4)
         }
 
         const fingers = Object.keys(fingersIndices)
