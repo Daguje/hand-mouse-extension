@@ -12,7 +12,7 @@ export class Camera {
                 width: globalThis.screen.availWidth,
                 height: globalThis.screen.availHeight,
                 frameRate: {
-                    ideal: 30,
+                    ideal: 60,
                 }
             }
         }
