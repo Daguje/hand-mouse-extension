@@ -1,5 +1,5 @@
 const s = document.createElement('script');
-s.src = chrome.runtime.getURL('scripts.js');
+s.src = chrome.runtime.getURL('app.js');
 s.onload = function(this: HTMLScriptElement) {
   this.remove();
 };
