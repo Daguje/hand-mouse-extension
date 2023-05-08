@@ -1,17 +1,20 @@
 @import 'normalize.css';
+@import 'button.scss';
+@import 'toggle.scss';
+@import 'range.scss';
 
+:root {
+  --primary-color: #37669c;
+  --secondary-color: #292d3e;
+  --tertiary-color: #223d2c;
+  --highlight-color: #fbbf24;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --neutral-light-color: #ccc;
+  --neutral-dark-color: #333;
+}
 body {
   background-color: #292d3e;
   color: #ffffff;
-}
-
-.input-group {
-  display: flex;
-
-  margin: 1rem 0;
-
-  flex-direction: row;
-  gap: 1rem;
-
-  align-items: center;
+  font-size: 1rem;
 }
