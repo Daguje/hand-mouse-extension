@@ -1,5 +1,5 @@
 {
-  "name": "chrome-extension-webpack",
+  "name": "hand-mouse",
   "description": "My basic Chrome extension",
   "version": "0.1.0",
   "manifest_version": 3,
@@ -8,8 +8,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["contentScript.js"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
     }
   ],
   "content_security_policy": {
@@ -17,11 +21,18 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["app.js"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "app.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
-  ],  
-  "permissions": ["storage", "scripting"],
+  ],
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true

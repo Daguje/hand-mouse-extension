@@ -5,30 +5,32 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="styles/popup.css">
+  <link rel="stylesheet" href="taiwind.css">
 </head>
 
 <body>
-  <div class="container">
-    <h1>POPUP TEMPLATE</h1>
+  <div class="popup">
+    <article class="text-center">
+      <h3>HAND MOUSE</h3>
+      <i>control your mouse with your hand</i>
+    </article>
+    <main class="flex flex-col gap-3 my-5">
+      <section>
+        <label>Hide camera</label>
+        <input type="checkbox" id="hide-camera">
+      </section>
+      <section>
+        <label for="disable-hand-display">Disable hand display</label>
+        <input type="checkbox" id="disable-hand-display">
+      </section>
+      <section class="flex-col items-start">
+        <label>Hand size</label>
+        <input type="range">
+      </section>
+    </main>
 
-    <section>
-      <input type="checkbox" id="mostrar-camera">
-      <label>Mostrar câmera</label>
-    </section>
-    <section>
-      <input type="range">
-      
-      <label>Tamanho do cursor</label>
-    </section>
-    <section>
-      <input type="checkbox">
-      <label>Mostrar câmera</label>
-    </section>
-
-    <button id="go-to-options" class="button" style="margin-top: 2rem;">Open options page</button>
+    <button id="go-to-options">View more options</button>
   </div>
-
   <script src="popup.js"></script>
 </body>
 </html>
