@@ -31,7 +31,8 @@
   ],
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "management"
   ],
   "options_ui": {
     "page": "options.html",
