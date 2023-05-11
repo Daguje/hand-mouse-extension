@@ -3,7 +3,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const extensionPages = {
-  popup: './src/popup.ts',
+  popup: './src/popup',
   options: './src/options.ts',
 }
 const scripts = {
@@ -30,6 +30,10 @@ module.exports = {
     ],
   },
   resolve: {
+    alias: {
+      '@lib': path.resolve(__dirname, 'src', 'lib'),
+      '@utils': path.resolve(__dirname, 'src', 'utils'),
+    },
     extensions: ['.ts', '.js'],
   },
   output: {
