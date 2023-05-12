@@ -19,8 +19,10 @@ export class Camera {
     }
 
     static draw(video: HTMLVideoElement) {
-        video.height = 240
-        video.width = 320
+        video.width = video.videoWidth
+        video.height = video.videoHeight
+        video.style.height = '240px'
+        video.style.width = '320px'
         video.style.transform = 'scaleX(-1)'
         video.style.position = 'fixed'
         video.style.top = '16px'

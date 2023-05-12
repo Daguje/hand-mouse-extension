@@ -10,11 +10,11 @@ const fingersIndices = {
 }
 
 export class View {
-    video: PixelInput
+    video: HTMLVideoElement
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
 
-    constructor(video: PixelInput) {
+    constructor(video: HTMLVideoElement) {
         this.video = video
         this.canvas = document.createElement('canvas')
         this.ctx =  this.canvas.getContext('2d')
@@ -27,6 +27,27 @@ export class View {
         this.canvas.style.zIndex = '9999' 
 
         document.body.appendChild(this.canvas)
+    }
+
+    applyKeypointsTransformations(keypoints: Array<Keypoint>): Array<Keypoint> {
+        const distZ = 4
+        const xRatio = this.canvas.width / this.video.width
+        const yRatio = this.canvas.height / this.video.height
+
+        for(const keypoint of keypoints){
+            // keypoint.x = keypoint.x * xRatio - this.video.width / 2
+            // keypoint.y = keypoint.y * yRatio - this.video.height / 2 
+            
+            // Proporção da camera em relação a tela
+            keypoint.x = keypoint.x * xRatio
+            keypoint.y = keypoint.y * yRatio
+
+            // Normalização do movimento em relação a distância da camera
+            keypoint.x = distZ * (keypoint.x - this.video.width / 2)
+            keypoint.y = distZ * (keypoint.y - this.video.height / 2)
+        }
+
+        return keypoints
     }
 
     drawHands(hands: Array<Hand>) {
@@ -53,6 +74,8 @@ export class View {
         this.ctx.lineWidth = 2
         this.ctx.lineJoin = 'round'
 
+        this.applyKeypointsTransformations(keypoints)
+
         for(const { x, y } of keypoints){
             this.drawPoint(x, y, 4)
         }
@@ -61,6 +84,7 @@ export class View {
         for(let i = 0; i < fingers.length; i++){
             const currentFinger = fingers[i] as keyof typeof fingersIndices
             const points = fingersIndices[currentFinger].map(jointPos => keypoints[jointPos])
+
             this.drawLine(points)
         }
     }
