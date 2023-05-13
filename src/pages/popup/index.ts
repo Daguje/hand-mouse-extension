@@ -1,31 +1,18 @@
 import '@styles/tailwind.css';
 
 import { browser } from 'webextension-polyfill-ts';
-import { handleChangeInput } from '../../utils/handleChangeInput';
 import { initializeInputByStorage } from '../../utils/InitializeElementByStorage';
-import { sendMessage } from '@utils/sendMessage';
-interface M {
-  message: boolean;
-}
+import { dispatchInputChanges } from '@pages/options/dispatchInputChanges';
+
 document.getElementById('go-to-options').addEventListener('click', () => {
   browser.runtime.openOptionsPage();
 });
-const sendMessageFromPopup = sendMessage<M>('popup');
 
-const switchHideCamera = document.getElementById(
-  'hide-camera',
-) as HTMLInputElement;
-handleChangeInput(switchHideCamera, (value) => {
-  sendMessageFromPopup({ message: value });
+const elements = ['hide-camera', 'disable-hand-display', 'hand-size'].map(
+  (id) => document.getElementById(id) as HTMLInputElement,
+);
+
+elements.forEach((element) => {
+  dispatchInputChanges(element);
+  initializeInputByStorage(element);
 });
-initializeInputByStorage(switchHideCamera).then((res) => console.log(res));
-
-const switchHideHand = document.getElementById(
-  'disable-hand-display',
-) as HTMLInputElement;
-handleChangeInput(switchHideHand, (value) => console.log(value));
-initializeInputByStorage(switchHideHand).then((res) => console.log(res));
-
-const handSize = document.getElementById('hand-size') as HTMLInputElement;
-handleChangeInput(handSize, (value) => console.log(value));
-initializeInputByStorage(handSize).then((res) => console.log(res));

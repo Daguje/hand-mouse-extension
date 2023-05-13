@@ -47,6 +47,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         path.resolve(__dirname, "./manifest.json"),
+        path.resolve(__dirname, 'src', 'styles', "./tailwind.css"),
         {
           from: 'src/**/*.html',
           to: '[name][ext]'

@@ -1,8 +1,6 @@
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 import { Camera, HandDector, View } from '../../lib';
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log();
-});
+
 let video: PixelInput;
 let handDetector: HandDector;
 let view: View;
