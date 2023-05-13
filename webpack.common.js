@@ -3,13 +3,12 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const extensionPages = {
-  popup: './src/popup',
-  options: './src/options.ts',
+  popup: './src/pages/popup',
+  options: './src/pages/options',
 }
 const scripts = {
-  app: './src/app.ts',
-  serviceWorker: './src/serviceWorker.ts',
-  contentScript: './src/contentScript.ts',
+  serviceWorker: './src/services/serviceWorker',
+  contentScript: './src/services/contentScript',
 }
 module.exports = {
   entry: {
@@ -32,6 +31,9 @@ module.exports = {
   resolve: {
     alias: {
       '@lib': path.resolve(__dirname, 'src', 'lib'),
+      '@pages': path.resolve(__dirname, 'src', 'pages'),
+      '@services': path.resolve(__dirname, 'src', 'services'),
+      '@styles': path.resolve(__dirname, 'src', 'styles'),
       '@utils': path.resolve(__dirname, 'src', 'utils'),
     },
     extensions: ['.ts', '.js'],
@@ -43,7 +45,14 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: 'public' },],
+      patterns: [
+        path.resolve(__dirname, "./manifest.json"),
+        {
+          from: 'src/**/*.html',
+          to: '[name][ext]'
+        },
+        { from: 'public' }
+      ]
     }),
     new ESLintPlugin({
       extensions: ['js', 'ts'],

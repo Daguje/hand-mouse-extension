@@ -1,8 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -14,6 +12,13 @@
     "node": true
   },
   "rules": {
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "message": "Please don't use chrome! Use browser instead. (https://github.com/mozilla/webextension-polyfill)",
+        "selector": "MemberExpression > Identifier[name='chrome']"
+      }
+    ],
     "@typescript-eslint/no-var-requires": 0
   }
 }

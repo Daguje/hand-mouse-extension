@@ -1,5 +1,4 @@
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
-import * as mediapipeHands from '@mediapipe/hands';
 import '@tensorflow/tfjs-backend-webgl';
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
@@ -26,8 +25,7 @@ export class HandDector {
     const detector = await handPoseDetection.createDetector(model, {
       runtime: 'tfjs',
       modelType: 'full',
-      maxHands: 2,
-      // solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.0.1605554581`,
+      maxHands: 1,
     });
     return detector;
   }

@@ -1,5 +1,6 @@
-import '../styles/tailwind.css';
-
+import '@styles/tailwind.css';
+const asMutable = () => console.log(2);
+asMutable();
 function browserName() {
   let browserName = 'No browser detection';
   if (
@@ -10,7 +11,6 @@ function browserName() {
   if (/Edg/gi.test(navigator.userAgent)) browserName = 'edge';
   return browserName;
 }
-
 // window.addEventListener('DOMContentLoaded', async () => {
 //   try {
 //     const stream = await navigator.mediaDevices.getUserMedia({

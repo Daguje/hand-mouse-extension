@@ -1,13 +1,16 @@
-import '../../styles/tailwind.css';
-import { browser } from 'webextension-polyfill-ts';
-import { handleChangeInput } from '../utils/handleChangeInput';
-import { initializeInputByStorage } from '../utils/InitializeElementByStorage';
-import { sendMessage } from '@utils/sendMessage';
+import '@styles/tailwind.css';
 
+import { browser } from 'webextension-polyfill-ts';
+import { handleChangeInput } from '../../utils/handleChangeInput';
+import { initializeInputByStorage } from '../../utils/InitializeElementByStorage';
+import { sendMessage } from '@utils/sendMessage';
+interface M {
+  message: boolean;
+}
 document.getElementById('go-to-options').addEventListener('click', () => {
   browser.runtime.openOptionsPage();
 });
-const sendMessageFromPopup = sendMessage('popup');
+const sendMessageFromPopup = sendMessage<M>('popup');
 
 const switchHideCamera = document.getElementById(
   'hide-camera',

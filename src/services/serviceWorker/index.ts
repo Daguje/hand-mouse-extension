@@ -1,5 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
-import { initializeStorageWithDefaults } from './storage';
+import { initializeStorageWithDefaults } from '../../utils/storage';
 
 browser.runtime.onInstalled.addListener(async () => {
   await initializeStorageWithDefaults({});
