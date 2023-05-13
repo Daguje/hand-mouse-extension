@@ -16,33 +16,6 @@
       ]
     }
   ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'",
-    "sandbox": "sandbox allow-scripts; script-src 'wasm-unsafe-eval' 'inline-speculation-rules'  http://localhost:* http://127.0.0.1:* https://cdn.jsdelivr.net/*;"
-  },
-  "sandbox": {
-    "pages": [
-      "contentScript.js",
-      "options.html"
-    ]
-  },
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "app.js"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
-    }
-  ],
-  "host_permissions": [
-    "https://cdn.jsdelivr.net/*"
-  ],
-  "optional_host_permissions": [
-    "https://*/*",
-    "http://*/*"
-  ],
   "permissions": [
     "storage",
     "scripting",
