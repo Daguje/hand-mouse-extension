@@ -1,7 +1,8 @@
-import * as handPoseDetection from "@tensorflow-models/hand-pose-detection"
-import * as mediapipeHands from "@mediapipe/hands"
+import * as handPoseDetection from "@tensorflow-models/hand-pose-detection";
+import * as mediapipeHands from "@mediapipe/hands";
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from "@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces";
+import { convertToFingerpose, estimateGesture} from "./utils";
 
 export class HandDector {
     detector: handPoseDetection.HandDetector
@@ -39,6 +40,17 @@ export class HandDector {
 
         try {
             hands = await detector.estimateHands(video, { flipHorizontal: true })
+            if (hands.length > 0) {
+              //
+              for (let i = 0; i < estimatedGestures.gestures.length; i++) {
+                if (estimatedGestures.gestures[i].name === 'thumbs_up' && estimatedGestures.gestures[i].score > 9) {
+                  console.log('Thumbs up!')
+                }
+                else if (estimatedGestures.gestures[i].name === 'victory' && estimatedGestures.gestures[i].score > 9) {
+                  console.log('victory!')
+                }
+              }
+            }
             return hands
         } catch (err) {
             detector.dispose()
