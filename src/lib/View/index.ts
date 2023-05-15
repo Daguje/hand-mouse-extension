@@ -10,11 +10,11 @@ const fingersIndices = {
 }
 
 export class View {
-    video: PixelInput
+    video: HTMLVideoElement
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
 
-    constructor(video: PixelInput) {
+    constructor(video: HTMLVideoElement) {
         this.video = video
         this.canvas = document.createElement('canvas')
         this.ctx =  this.canvas.getContext('2d')
@@ -27,6 +27,37 @@ export class View {
         this.canvas.style.zIndex = '9999' 
 
         document.body.appendChild(this.canvas)
+    }
+
+    distance(p1: Keypoint, p2: Keypoint){
+        const dx = p1.x - p2.x
+        const dy = p1.y - p2.y
+        return Math.sqrt(dx * dx + dy * dy)
+    }
+
+    applyKeypointsTransformations(keypoints: Array<Keypoint>): Array<Keypoint> {
+        const ringFingerMCP = keypoints[13]
+        const pinkyMCP = keypoints[17]
+        const handSize = this.distance(ringFingerMCP, pinkyMCP)
+
+        const scale = 50
+        const xRatio = this.canvas.width * scale / (this.video.width * handSize)
+        const yRatio = this.canvas.height * scale / (this.video.height * handSize)
+
+        for(const keypoint of keypoints){
+            // keypoint.x = keypoint.x * xRatio - this.video.width / 2
+            // keypoint.y = keypoint.y * yRatio - this.video.height / 2 
+
+            // Proporção da camera em relação a tela
+            keypoint.x = keypoint.x * xRatio
+            keypoint.y = keypoint.y * yRatio
+
+            // Normalização do movimento em relação a distância da camera
+            // keypoint.x = handSize * (keypoint.x + this.canvas.width / 2)
+            // keypoint.y = handSize * (keypoint.y + this.canvas.height / 2)
+        }
+
+        return keypoints
     }
 
     drawHands(hands: Array<Hand>) {
@@ -53,15 +84,18 @@ export class View {
         this.ctx.lineWidth = 2
         this.ctx.lineJoin = 'round'
 
-        for(const { x, y } of keypoints){
-            this.drawPoint(x, y, 4)
-        }
+        keypoints = this.applyKeypointsTransformations(keypoints)
 
         const fingers = Object.keys(fingersIndices)
         for(let i = 0; i < fingers.length; i++){
             const currentFinger = fingers[i] as keyof typeof fingersIndices
             const points = fingersIndices[currentFinger].map(jointPos => keypoints[jointPos])
+
             this.drawLine(points)
+        }
+
+        for(const { x, y } of keypoints){
+            this.drawPoint(x, y, 4)
         }
     }
 
