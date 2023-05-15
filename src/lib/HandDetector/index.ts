@@ -2,7 +2,7 @@ import * as handPoseDetection from "@tensorflow-models/hand-pose-detection";
 import * as mediapipeHands from "@mediapipe/hands";
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from "@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces";
-import { convertToFingerpose, estimateGesture} from "./utils";
+import { estimateGesture } from "./utils";
 
 export class HandDector {
     detector: handPoseDetection.HandDetector
@@ -41,13 +41,19 @@ export class HandDector {
         try {
             hands = await detector.estimateHands(video, { flipHorizontal: true })
             if (hands.length > 0) {
-              //
-              for (let i = 0; i < estimatedGestures.gestures.length; i++) {
-                if (estimatedGestures.gestures[i].name === 'thumbs_up' && estimatedGestures.gestures[i].score > 9) {
+              const estimatedGestures = await estimateGesture(hands)
+              for (let i = 0; i < estimatedGestures.length; i++) {
+                if (estimatedGestures[i].name === 'thumbs_up' && estimatedGestures[i].score > 9) {
                   console.log('Thumbs up!')
                 }
-                else if (estimatedGestures.gestures[i].name === 'victory' && estimatedGestures.gestures[i].score > 9) {
+                else if (estimatedGestures[i].name === 'victory' && estimatedGestures[i].score > 9) {
                   console.log('victory!')
+                }
+                else if (estimatedGestures[i].name === 'thumbs_down' && estimatedGestures[i].score > 9) {
+                  console.log('thumbs down!')
+                }
+                else if (estimatedGestures[i].name === 'faz_o_L' && estimatedGestures[i].score > 9) {
+                  console.log('faz o L!')
                 }
               }
             }
