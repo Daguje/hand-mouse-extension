@@ -36,19 +36,15 @@ export class View {
     }
 
     applyKeypointsTransformations(keypoints: Array<Keypoint>): Array<Keypoint> {
-        const handPalm = keypoints[0]
-        const thumCMC = keypoints[17]
-        const handSize = this.distance(handPalm, thumCMC)
+        const ringFingerMCP = keypoints[13]
+        const pinkyMCP = keypoints[17]
+        const handSize = this.distance(ringFingerMCP, pinkyMCP)
 
-        const xScale = 40
-        const yScale = 20
-        console.log(handSize)
-        
-        const xRatio = this.canvas.width / (this.video.width * xScale)
-        const yRatio = this.canvas.height / (this.video.height * yScale)
+        const scale = 50
+        const xRatio = this.canvas.width * scale / (this.video.width * handSize)
+        const yRatio = this.canvas.height * scale / (this.video.height * handSize)
 
         for(const keypoint of keypoints){
-            
             // keypoint.x = keypoint.x * xRatio - this.video.width / 2
             // keypoint.y = keypoint.y * yRatio - this.video.height / 2 
 
@@ -59,7 +55,6 @@ export class View {
             // Normalização do movimento em relação a distância da camera
             // keypoint.x = handSize * (keypoint.x + this.canvas.width / 2)
             // keypoint.y = handSize * (keypoint.y + this.canvas.height / 2)
-            
         }
 
         return keypoints
