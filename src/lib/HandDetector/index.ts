@@ -40,23 +40,7 @@ export class HandDector {
 
         try {
             hands = await detector.estimateHands(video, { flipHorizontal: true })
-            if (hands.length > 0) {
-              const estimatedGestures = await estimateGesture(hands)
-              for (let i = 0; i < estimatedGestures.length; i++) {
-                if (estimatedGestures[i].name === 'thumbs_up' && estimatedGestures[i].score > 9) {
-                  console.log('Thumbs up!')
-                }
-                else if (estimatedGestures[i].name === 'victory' && estimatedGestures[i].score > 9) {
-                  console.log('victory!')
-                }
-                else if (estimatedGestures[i].name === 'thumbs_down' && estimatedGestures[i].score > 9) {
-                  console.log('thumbs down!')
-                }
-                else if (estimatedGestures[i].name === 'faz_o_L' && estimatedGestures[i].score > 9) {
-                  console.log('faz o L!')
-                }
-              }
-            }
+            
             return hands
         } catch (err) {
             detector.dispose()

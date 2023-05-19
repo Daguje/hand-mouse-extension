@@ -1,5 +1,5 @@
 import * as fp from "fingerpose";
-import { Hand } from '@tensorflow-models/hand-pose-detection';
+import { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
 
 // definindo gestos
 
@@ -25,25 +25,26 @@ for(const finger of [fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
   fazOLGesture.addCurl(finger, fp.FingerCurl.FullCurl, 0.9)
 }
 
-function convertToFingerpose(hand: Array<Hand>): number[][] {
+function convertToFingerpose(keypoints: Array<Keypoint>): number[][] {
   const vetor: number[][] = [];
-  for (let i = 0; i < hand[0].keypoints.length; i++) {
-    const x = hand[0].keypoints[i]['x'];
-    const y = hand[0].keypoints[i]['y'];
+  for (let i = 0; i < keypoints.length; i++) {
+    const x = keypoints[i].x
+    const y = keypoints[i].y
     const z = 0;
     vetor[i] = [x, y, z];
   }
   return vetor;
 }
 
-export async function estimateGesture(hands: Array<Hand>) {
+export function estimateGesture(keypoints: Array<Keypoint>) {
   const GE = new fp.GestureEstimator([
     fp.Gestures.VictoryGesture,
     fp.Gestures.ThumbsUpGesture,
     thumbsDownGesture,
     fazOLGesture
   ])
-  const examplePrediction = await convertToFingerpose(hands)                       
+  
+  const examplePrediction = convertToFingerpose(keypoints)                       
   const estimatedGestures = GE.estimate(examplePrediction, 5)
   return estimatedGestures.gestures
 }
