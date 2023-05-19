@@ -1,5 +1,4 @@
 import { Hand, Keypoint } from "@tensorflow-models/hand-pose-detection";
-import { PixelInput } from "@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces";
 
 const fingersIndices = {
     thumb: [0, 1, 2, 3, 4],
@@ -40,7 +39,7 @@ export class View {
         const pinkyMCP = keypoints[17]
         const handSize = this.distance(ringFingerMCP, pinkyMCP)
 
-        const scale = 50
+        const scale = 10
         const xRatio = this.canvas.width * scale / (this.video.width * handSize)
         const yRatio = this.canvas.height * scale / (this.video.height * handSize)
 
