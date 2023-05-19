@@ -15,4 +15,4 @@ for(const finger of [fp.Finger.Ring, fp.Finger.Pinky]) {
   victoryGesture.addCurl(finger, fp.FingerCurl.FullCurl, 0.9)
 }
 
-export default victoryGesture
+export { victoryGesture }

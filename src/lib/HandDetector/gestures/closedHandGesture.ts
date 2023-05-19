@@ -7,4 +7,4 @@ for(const finger of [fp.Finger.Index, fp.Finger.Middle, fp.Finger.Ring, fp.Finge
   closedHandGesture.addCurl(finger, fp.FingerCurl.FullCurl, 0.9)
 }
 
-export default closedHandGesture
+export { closedHandGesture }

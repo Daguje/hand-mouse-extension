@@ -1,8 +1,6 @@
 import * as fp from "fingerpose";
 import { Hand } from '@tensorflow-models/hand-pose-detection';
-import okGesture from "./gestures/okGesture";
-import closedHandGesture from "./gestures/closedHandGesture";
-import victoryGesture from "./gestures/victoryGesture";
+import { closedHandGesture, okGesture, victoryGesture } from './gestures/index';
 
 function convertToFingerpose(hand: Array<Hand>): number[][] {
   const vetor: number[][] = [];

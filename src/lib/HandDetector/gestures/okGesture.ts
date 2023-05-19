@@ -12,4 +12,4 @@ for(const finger of [fp.Finger.Ring, fp.Finger.Middle, fp.Finger.Pinky]) {
   okGesture.addCurl(finger, fp.FingerCurl.NoCurl, 0.9)
 }
 
-export default okGesture
+export { okGesture }
