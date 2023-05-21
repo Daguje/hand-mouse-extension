@@ -65,19 +65,14 @@ export class Cursor {
         this.drawCursor(cursor.x, cursor.y, 8, 16)
         
         for (let i = 0; i < estimatedGestures.length; i++) {
-            if (estimatedGestures[i].name === 'thumbs_up' && estimatedGestures[i].score > 9) {
-                console.log('Thumbs up!')
+            if (estimatedGestures[i].name === 'closedHandGesture' && estimatedGestures[i].score > 9) {
                 this.drawAutoScrollCursor(cursor.x, cursor.y, 4, 16)
             }
-            else if (estimatedGestures[i].name === 'victory' && estimatedGestures[i].score > 9) {
-                console.log('victory!')
-            }
-            else if (estimatedGestures[i].name === 'thumbs_down' && estimatedGestures[i].score > 9) {
-                console.log('thumbs down!')
-            }
-            else if (estimatedGestures[i].name === 'faz_o_L' && estimatedGestures[i].score > 9) {
-                console.log('faz o L!')
+            else if (estimatedGestures[i].name === 'okGesture' && estimatedGestures[i].score > 9) {
                 this.drawCursor(cursor.x, cursor.y, 4, 16)
+            }
+            else if (estimatedGestures[i].name === 'victoryGesture' && estimatedGestures[i].score > 9) {
+                console.log('Victory')
             }
         }
     }
