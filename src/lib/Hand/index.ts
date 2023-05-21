@@ -1,5 +1,5 @@
-import { Hand, Keypoint } from "@tensorflow-models/hand-pose-detection";
-import { PixelInput } from "@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces";
+import { Hand as tfHand, Keypoint } from "@tensorflow-models/hand-pose-detection";
+import { IHandProps } from "./types";
 
 const fingersIndices = {
     thumb: [0, 1, 2, 3, 4],
@@ -9,28 +9,18 @@ const fingersIndices = {
     pinky: [0, 17, 18, 19, 20],
 }
 
-export class View {
+export class Hand {
     video: HTMLVideoElement
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
 
-    constructor(video: HTMLVideoElement) {
+    constructor({ video, canvas, ctx }: IHandProps) {
         this.video = video
-        this.canvas = document.createElement('canvas')
-        this.ctx =  this.canvas.getContext('2d')
-
-        this.canvas.style.pointerEvents = 'none'
-        this.canvas.width = 320
-        this.canvas.height = 240
-        this.canvas.style.position = 'fixed'
-        this.canvas.style.top = video.style.top
-        this.canvas.style.left = video.style.left
-        this.canvas.style.zIndex = '9999' 
-
-        document.body.appendChild(this.canvas)
+        this.canvas = canvas
+        this.ctx =  ctx
     }
 
-    drawHands(hands: Array<Hand>) {
+    drawHands(hands: Array<tfHand>) {
         this.clearScreen()
         if (!hands.length) return
 
@@ -43,7 +33,7 @@ export class View {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawHand(hand: Hand) {
+    drawHand(hand: tfHand) {
         if(!hand.keypoints) return
         this.drawKeyPoints(hand.keypoints, hand.handedness)
     }

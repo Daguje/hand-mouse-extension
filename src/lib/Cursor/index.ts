@@ -1,25 +1,16 @@
 import { Hand, Keypoint } from "@tensorflow-models/hand-pose-detection";
 import { estimateGesture } from "../HandDetector/utils";
+import { ICursorProps } from "./types";
 
 export class Cursor {
     video: HTMLVideoElement
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
 
-    constructor(video: HTMLVideoElement) {
+    constructor({ video, canvas, ctx }: ICursorProps) {
         this.video = video
-        this.canvas = document.createElement('canvas')
-        this.ctx =  this.canvas.getContext('2d')
-        
-        this.canvas.style.pointerEvents = 'none'
-        this.canvas.width = globalThis.screen.availWidth
-        this.canvas.height = globalThis.screen.availHeight
-        this.canvas.style.position = 'fixed'
-        this.canvas.style.top = '0'
-        this.canvas.style.left = '0'
-        this.canvas.style.zIndex = '9999'
-
-        document.body.appendChild(this.canvas)
+        this.canvas = canvas
+        this.ctx =  ctx
     }
 
     drawHands(hands: Array<Hand>) {
@@ -37,7 +28,7 @@ export class Cursor {
     drawHand(hand: Hand) {
         if(!hand.keypoints) return
           
-        this.drawKeypoint(hand.keypoints, hand.handedness)
+        this.drawHandCenter(hand.keypoints)
     }
 
     getHandCenter(keypoints: Array<Keypoint>): Keypoint {
@@ -54,7 +45,7 @@ export class Cursor {
         return handCenter
     }
 
-    drawKeypoint(keypoints: Array<Keypoint>, handedness: 'Left' | 'Right') {
+    drawHandCenter(keypoints: Array<Keypoint>) {
         this.ctx.globalCompositeOperation = "destination-over";
     
         this.ctx.fillStyle = 'white'
@@ -71,11 +62,12 @@ export class Cursor {
         cursor.y *= yRatio
 
         const estimatedGestures = estimateGesture(keypoints)
-        this.drawCursor(cursor.x, cursor.y, 8)
+        this.drawCursor(cursor.x, cursor.y, 8, 16)
+        
         for (let i = 0; i < estimatedGestures.length; i++) {
             if (estimatedGestures[i].name === 'thumbs_up' && estimatedGestures[i].score > 9) {
                 console.log('Thumbs up!')
-                this.drawFreeMoveCursor(cursor.x, cursor.y, 8)
+                this.drawAutoScrollCursor(cursor.x, cursor.y, 4, 16)
             }
             else if (estimatedGestures[i].name === 'victory' && estimatedGestures[i].score > 9) {
                 console.log('victory!')
@@ -85,64 +77,57 @@ export class Cursor {
             }
             else if (estimatedGestures[i].name === 'faz_o_L' && estimatedGestures[i].score > 9) {
                 console.log('faz o L!')
-                this.drawPinchCursor(cursor.x, cursor.y, 8)
+                this.drawCursor(cursor.x, cursor.y, 4, 16)
             }
         }
     }
 
-    drawCursor(x: number, y: number, radius: number){
+    drawCursor(x: number, y: number, innerRadius: number, outterRadius: number){
         this.clearScreen()
 
         this.ctx.beginPath()
-        this.ctx.arc(x, y, radius, 0, 2 * Math.PI)
+        this.ctx.arc(x, y, innerRadius, 0, 2 * Math.PI)
         this.ctx.fill()
 
 
         this.ctx.setLineDash([5, 5]);
         this.ctx.beginPath();
-        this.ctx.arc(x, y, radius + 8, 0, 2 * Math.PI)
+        this.ctx.arc(x, y, outterRadius, 0, 2 * Math.PI)
         this.ctx.closePath();
         this.ctx.stroke();
     }
 
-    drawPinchCursor(x: number, y: number, radius: number) {
-        this.clearScreen()
-
-        this.ctx.beginPath()
-        this.ctx.arc(x, y, radius - 4, 0, 2 * Math.PI)
-        this.ctx.fill()
-
-
-        this.ctx.setLineDash([5, 5]);
+    drawTriangle(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number) {
         this.ctx.beginPath();
-        this.ctx.arc(x, y, radius + 8, 0, 2 * Math.PI)
-        this.ctx.closePath();
-        this.ctx.stroke();
+        this.ctx.moveTo(xOff, yOff);
+        this.ctx.lineTo(x1, y1);
+        this.ctx.lineTo(x2, y2);
+        this.ctx.fill();
     }
 
-    drawFreeMoveCursor(x: number, y: number, radius: number) {
+    drawTopTriangle(x: number, y: number) {
+        this.drawTriangle(x + 6, y - 24, x - 6, y - 24, x, y - 34)
+    }
+
+    drawRightTriangle(x: number, y: number) {
+        this.drawTriangle(x + 24, y - 6, x + 24, y + 6, x + 34, y)
+    }
+    
+    drawBottomTriangle(x: number, y: number) {
+        this.drawTriangle(x + 6, y + 24, x - 6, y + 24, x, y + 34)
+    }
+
+    drawLeftTriangle(x: number, y: number) {
+        this.drawTriangle(x - 24, y - 6, x - 24, y + 6, x - 34, y)
+    }
+
+    drawAutoScrollCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         this.clearScreen()
 
-        this.ctx.beginPath()
-        this.ctx.arc(x, y, radius - 4, 0, 2 * Math.PI)
-        this.ctx.fill()
-
-        this.ctx.setLineDash([5, 5]);
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, radius + 8, 0, 2 * Math.PI)
-        this.ctx.closePath();
-        this.ctx.stroke();
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(x + 32, y);
-        this.ctx.lineTo(x + 25, y - 8);
-        this.ctx.lineTo(x + 25, y + 8);
-        this.ctx.fill();
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(x - 32, y);
-        this.ctx.lineTo(x - 25, y - 8);
-        this.ctx.lineTo(x - 25, y + 8);
-        this.ctx.fill();
+        this.drawCursor(x, y, innerRadius, outterRadius)
+        this.drawTopTriangle(x, y)
+        this.drawRightTriangle(x, y)
+        this.drawBottomTriangle(x, y)
+        this.drawLeftTriangle(x, y)
     }
 }
