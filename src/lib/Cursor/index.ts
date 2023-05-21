@@ -116,6 +116,34 @@ export class Cursor {
         this.drawTriangle(x - 24, y - 6, x - 24, y + 6, x - 34, y)
     }
 
+    drawScrollUpCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+        this.clearScreen()
+
+        this.drawCursor(x, y, innerRadius, outterRadius)
+        this.drawTopTriangle(x, y)
+    }
+
+    drawScrollRightCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+        this.clearScreen()
+
+        this.drawCursor(x, y, innerRadius, outterRadius)
+        this.drawRightTriangle(x, y)
+    }
+
+    drawScrollDownCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+        this.clearScreen()
+
+        this.drawCursor(x, y, innerRadius, outterRadius)
+        this.drawBottomTriangle(x, y)
+    }
+
+    drawScrollLeftCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+        this.clearScreen()
+
+        this.drawCursor(x, y, innerRadius, outterRadius)
+        this.drawLeftTriangle(x, y)
+    }
+
     drawAutoScrollCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         this.clearScreen()
 
