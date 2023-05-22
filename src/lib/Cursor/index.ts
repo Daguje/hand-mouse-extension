@@ -2,6 +2,8 @@ import { Hand, Keypoint } from "@tensorflow-models/hand-pose-detection";
 import { estimateGesture } from "../HandDetector/utils";
 import { ICursorProps } from "./types";
 
+let lastPosition = { x: 0, y: 0 }
+let isRunning = true
 export class Cursor {
     video: HTMLVideoElement
     canvas: HTMLCanvasElement
@@ -27,7 +29,7 @@ export class Cursor {
 
     drawHand(hand: Hand) {
         if(!hand.keypoints) return
-          
+
         this.drawHandCenter(hand.keypoints)
     }
 
@@ -45,31 +47,58 @@ export class Cursor {
         return handCenter
     }
 
+    scrollBy2(x: number, y: number) {
+        isRunning = false
+        if (lastPosition.y > y) {
+            window.scrollBy(0, -(lastPosition.y - y)/10)
+        }
+        else if (lastPosition.y < y) {
+            window.scrollBy(0, (y - lastPosition.y)/10)
+        }
+        if(lastPosition.x > x) {
+            window.scrollBy(-(lastPosition.x - x)/10, 0)
+        }
+        else if(lastPosition.x < x) {
+            window.scrollBy((x-lastPosition.x)/10, 0)
+        }
+    }
+
     drawHandCenter(keypoints: Array<Keypoint>) {
         this.ctx.globalCompositeOperation = "destination-over";
-    
+
         this.ctx.fillStyle = 'white'
-        this.ctx.strokeStyle = 'white'
+        this.ctx.strokeStyle = 'black'
         this.ctx.lineWidth = 2
         this.ctx.lineJoin = 'round'
-        
+
         const cursor = this.getHandCenter(keypoints)
-        
+
         const xRatio = this.canvas.width / this.video.width
         const yRatio = this.canvas.height / this.video.height
-        
+
         cursor.x *= xRatio
         cursor.y *= yRatio
 
         const estimatedGestures = estimateGesture(keypoints)
         this.drawCursor(cursor.x, cursor.y, 8, 16)
-        
+
         for (let i = 0; i < estimatedGestures.length; i++) {
             if (estimatedGestures[i].name === 'closedHandGesture' && estimatedGestures[i].score > 9) {
                 this.drawAutoScrollCursor(cursor.x, cursor.y, 4, 16)
+                if (isRunning) {
+                  lastPosition = cursor
+                }
+                this.scrollBy2(cursor.x, cursor.y)
             }
             else if (estimatedGestures[i].name === 'okGesture' && estimatedGestures[i].score > 9) {
                 this.drawCursor(cursor.x, cursor.y, 4, 16)
+                const element = document.elementFromPoint(cursor.x, cursor.y)
+                const event = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                })
+                element?.dispatchEvent(event)
             }
             else if (estimatedGestures[i].name === 'victoryGesture' && estimatedGestures[i].score > 9) {
                 console.log('Victory')
@@ -107,7 +136,7 @@ export class Cursor {
     drawRightTriangle(x: number, y: number) {
         this.drawTriangle(x + 24, y - 6, x + 24, y + 6, x + 34, y)
     }
-    
+
     drawBottomTriangle(x: number, y: number) {
         this.drawTriangle(x + 6, y + 24, x - 6, y + 24, x, y + 34)
     }
