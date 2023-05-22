@@ -2,7 +2,6 @@ import * as handPoseDetection from "@tensorflow-models/hand-pose-detection";
 import * as mediapipeHands from "@mediapipe/hands";
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from "@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces";
-import { verifyGesture } from "./utils";
 
 export class HandDector {
     detector: handPoseDetection.HandDetector
@@ -40,10 +39,7 @@ export class HandDector {
 
         try {
             hands = await detector.estimateHands(video, { flipHorizontal: true })
-            if (hands.length > 0) {
-              const gesture = await verifyGesture(hands)
-              if (gesture) console.log(gesture)
-            }
+
             return hands
         } catch (err) {
             detector.dispose()

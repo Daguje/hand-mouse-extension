@@ -1,3 +1,4 @@
 export { HandDector } from './HandDetector'
 export { Camera } from './Camera'
-export { View } from './View'
+export { Hand } from './Hand'
+export { Cursor } from './Cursor'
