@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  button {
+    @apply btn btn-primary;
+  }
+  p,
+  label {
+    @apply text-base;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  input[type='checkbox'] {
+    @apply toggle toggle-primary;
+  }
+  input[type='range'] {
+    @apply range range-primary;
+  }
+  .popup {
+    @apply container mx-auto py-5 px-8 min-w-[300px] flex flex-col items-center justify-center gap-5;
+  }
+  section {
+    @apply flex items-center gap-x-2 gap-y-1;
+  }
+}

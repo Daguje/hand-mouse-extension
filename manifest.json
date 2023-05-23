@@ -1,6 +1,6 @@
 {
-  "name": "chrome-extension-webpack",
-  "description": "My basic Chrome extension",
+  "name": "hand-mouse",
+  "description": "HandMouse is a browser extension that lets you move the mouse cursor with hand gestures. Perfect for people with mobility issues, it uses your computer's camera to track your hand movements and translate them into mouse movements. Customize the sensitivity to your liking. Compatible with Google Chrome",
   "version": "0.1.0",
   "manifest_version": 3,
   "background": {
@@ -8,17 +8,25 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["contentScript.js"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
     }
   ],
-  "permissions": ["storage", "scripting"],
+  "permissions": [
+    "storage",
+    "scripting",
+    "management"
+  ],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
   },
   "action": {
-    "default_title": "My basic Chrome extension",
+    "default_title": "hand-mouse",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "/icons/16x.png",
