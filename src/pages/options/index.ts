@@ -1,6 +1,6 @@
 import '@styles/tailwind.css';
 function browserName() {
-  let browserName = 'No browser detection';
+  let browserName = 'No browser detected';
   if (
     /browser/gi.test(navigator.userAgent) &&
     /Google Inc/.test(navigator.vendor)

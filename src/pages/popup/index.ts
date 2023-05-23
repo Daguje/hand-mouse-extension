@@ -1,7 +1,7 @@
 import '@styles/tailwind.css';
 
 import { browser } from 'webextension-polyfill-ts';
-import { initializeInputByStorage } from '../../utils/InitializeElementByStorage';
+import { setInputValueFromStorage } from '../../utils/setInputValueFromStorage';
 import { dispatchInputChanges } from '@pages/options/dispatchInputChanges';
 
 document.getElementById('go-to-options').addEventListener('click', () => {
@@ -14,5 +14,5 @@ const elements = ['hide-camera', 'disable-hand-display', 'hand-size'].map(
 
 elements.forEach((element) => {
   dispatchInputChanges(element);
-  initializeInputByStorage(element);
+  setInputValueFromStorage(element);
 });

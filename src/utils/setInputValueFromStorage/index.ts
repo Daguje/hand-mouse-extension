@@ -5,7 +5,7 @@ import { getStorageItem } from '@utils/storage';
  * @param {HTMLInputElement} element - The input element to initialize.
  * @returns {Promise<Storage>} The data from the storage.
  */
-export function initializeInputByStorage(element: HTMLInputElement) {
+export function setInputValueFromStorage(element: HTMLInputElement) {
   return new Promise((resolve, reject) => {
     if (!element) {
       reject(new Error(`Element not found`));
