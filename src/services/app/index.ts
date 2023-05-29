@@ -1,5 +1,5 @@
-import { Camera, Cursor, HandDector } from '@lib/index';
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
+import { Camera, Cursor, HandDector } from '../../lib';
 
 let video: PixelInput;
 let handDetector: HandDector;

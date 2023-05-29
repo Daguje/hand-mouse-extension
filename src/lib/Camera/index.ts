@@ -39,22 +39,9 @@ export class Camera {
       );
     }
 
-<<<<<<< HEAD
     const stream = await navigator.mediaDevices.getUserMedia(
       this.getVideoConfig(),
     );
-=======
-    static draw(video: HTMLVideoElement) {
-        video.width = video.videoWidth
-        video.height = video.videoHeight
-        video.style.height = '240px'
-        video.style.width = '320px'
-        video.style.transform = 'scaleX(-1)'
-        video.style.position = 'fixed'
-        video.style.top = '16px'
-        video.style.left = '16px'  
-        video.style.zIndex = '999'  
->>>>>>> 9a30ced12cedd86870d1ef763bf55775fccb2d63
 
     const camera = new Camera();
     camera.video.srcObject = stream;

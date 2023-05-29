@@ -7,7 +7,7 @@ const extensionPages = {
   options: './src/pages/options',
 }
 const scripts = {
-  app: './src/app',
+  app: './src/services/app',
   serviceWorker: './src/services/serviceWorker',
   contentScript: './src/services/contentScript',
 }
