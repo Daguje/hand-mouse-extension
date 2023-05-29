@@ -47,7 +47,9 @@
     "@tensorflow/tfjs-converter": "^4.4.0",
     "@tensorflow/tfjs-core": "^4.4.0",
     "daisyui": "^2.51.6",
-    "webextension-polyfill-ts": "^0.26.0"
+    "webextension-polyfill-ts": "^0.26.0",
+    "fingerpose": "^0.1.0",
+    "normalize.css": "^8.0.1"
   },
   "browserslist": "> 0.25%, not dead",
   "husky": {

@@ -1,5 +1,5 @@
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
-import '@tensorflow/tfjs-backend-webgl';
+import * as mediapipeHands from '@mediapipe/hands';
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 
@@ -20,12 +20,14 @@ export class HandDector {
       throw new Error(`Houve um erro ao criar o detector de mãos: ${err}`);
     }
   }
+
   static async createDetector(): Promise<handPoseDetection.HandDetector> {
     const model = handPoseDetection.SupportedModels.MediaPipeHands;
     const detector = await handPoseDetection.createDetector(model, {
-      runtime: 'tfjs',
-      modelType: 'full',
-      maxHands: 1,
+      runtime: 'mediapipe',
+      modelType: 'lite',
+      maxHands: 2,
+      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${mediapipeHands.VERSION}`,
     });
     return detector;
   }
@@ -37,6 +39,7 @@ export class HandDector {
 
     try {
       hands = await detector.estimateHands(video, { flipHorizontal: true });
+
       return hands;
     } catch (err) {
       detector.dispose();
