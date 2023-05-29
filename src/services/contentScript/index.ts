@@ -1,25 +1,8 @@
-import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
-import { Camera, HandDector, View } from '../../lib';
+import { browser } from 'webextension-polyfill-ts';
 
-let video: PixelInput;
-let handDetector: HandDector;
-let view: View;
-
-const results = async () => {
-  const hands = await handDetector.estimateHands(video);
-  view.drawHands(hands);
-
-  requestAnimationFrame(results);
+const s = document.createElement('script');
+s.src = browser.runtime.getURL('app.js');
+s.onload = function (this: HTMLScriptElement) {
+  this.remove();
 };
-
-const app = async () => {
-  video = await Camera.create();
-  handDetector = await HandDector.create();
-  view = new View(video);
-
-  Camera.draw(video);
-
-  results();
-};
-
-app();
+(document.head || document.documentElement).appendChild(s);

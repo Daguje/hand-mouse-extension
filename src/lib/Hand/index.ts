@@ -1,5 +1,8 @@
-import { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
-import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
+import {
+  Hand as tfHand,
+  Keypoint,
+} from '@tensorflow-models/hand-pose-detection';
+import { IHandProps } from './types';
 
 const fingersIndices = {
   thumb: [0, 1, 2, 3, 4],
@@ -9,27 +12,18 @@ const fingersIndices = {
   pinky: [0, 17, 18, 19, 20],
 };
 
-export class View {
-  video: PixelInput;
+export class Hand {
+  video: HTMLVideoElement;
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  constructor(video: PixelInput) {
+  constructor({ video, canvas, ctx }: IHandProps) {
     this.video = video;
-    this.canvas = document.createElement('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.canvas.style.pointerEvents = 'none';
-    this.canvas.width = globalThis.screen.availWidth;
-    this.canvas.height = globalThis.screen.availHeight;
-    this.canvas.style.position = 'fixed';
-    this.canvas.style.top = '0';
-    this.canvas.style.left = '0';
-    this.canvas.style.zIndex = '9999';
-
-    document.body.appendChild(this.canvas);
+    this.canvas = canvas;
+    this.ctx = ctx;
   }
 
-  drawHands(hands: Array<Hand>) {
+  drawHands(hands: Array<tfHand>) {
     this.clearScreen();
     if (!hands.length) return;
 
@@ -42,7 +36,7 @@ export class View {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawHand(hand: Hand) {
+  drawHand(hand: tfHand) {
     if (!hand.keypoints) return;
     this.drawKeyPoints(hand.keypoints, hand.handedness);
   }
@@ -53,8 +47,9 @@ export class View {
     this.ctx.lineWidth = 2;
     this.ctx.lineJoin = 'round';
 
-    for (const { x, y } of keypoints) {
-      this.drawPoint(x, y, 4);
+    for (const keypoint of keypoints) {
+      keypoint.x *= this.canvas.width / this.canvas.height;
+      keypoint.y *= this.canvas.height / this.canvas.height;
     }
 
     const fingers = Object.keys(fingersIndices);
@@ -63,7 +58,12 @@ export class View {
       const points = fingersIndices[currentFinger].map(
         (jointPos) => keypoints[jointPos],
       );
+
       this.drawLine(points);
+    }
+
+    for (const { x, y } of keypoints) {
+      this.drawPoint(x, y, 4);
     }
   }
 
