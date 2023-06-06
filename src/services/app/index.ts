@@ -1,5 +1,7 @@
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 import { Camera, Cursor, HandDector } from '../../lib';
+import { browser } from 'webextension-polyfill-ts';
+import { getStorageItem } from '@utils/storage';
 
 let video: PixelInput;
 let handDetector: HandDector;
@@ -29,7 +31,6 @@ const app = async () => {
   video = await Camera.create();
   handDetector = await HandDector.create();
   cursor = new Cursor({ video, canvas, ctx });
-
   Camera.draw(video);
 
   results();
