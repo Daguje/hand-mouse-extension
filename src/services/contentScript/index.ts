@@ -47,7 +47,6 @@ const contextScript = async () => {
         if (message.content['hide-camera'] !== undefined) {
           if (message.content['hide-camera'] === true) {
             Camera.hide();
-            console.log('hide');
           } else {
             Camera.show();
           }
