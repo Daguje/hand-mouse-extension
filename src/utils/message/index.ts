@@ -18,15 +18,15 @@ export function sendMessageToRuntime<MessageType>(
 
 /**
  *  This function is a decorator to send messages to the content script.
- * @property {number}  tabId                - The id of the tab.
+ * @property {MessageFrom}  from                - The id of the tab.
  * @returns {function} sendMessage        - The function to send a message to tab.
  */
 export function sendMessageToTab<MessageType>(
-  tabId: number,
-): (content: MessageContent) => Promise<void> {
+  from: MessageFrom,
+): (tabId: number, content: MessageContent) => Promise<void> {
   /**
    * @property {MessageContent} content                - The content to send to the tab.
    */
-  return (content: MessageContent<MessageType>) =>
-    browser.tabs.sendMessage(tabId, { content });
+  return (tabId: number, content: MessageContent<MessageType>) =>
+    browser.tabs.sendMessage(tabId, { from, content });
 }

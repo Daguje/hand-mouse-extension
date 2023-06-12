@@ -5,31 +5,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="taiwind.css">
+  <link rel="stylesheet" href="tailwind.css">
 </head>
 
 <body>
-  <div class="popup">
-    <article class="text-center">
+  <div>
+    <main>
+    <article>
       <h3>HAND MOUSE</h3>
       <i>control your mouse with your hand</i>
     </article>
-    <main class="flex flex-col gap-3 my-5">
       <section>
         <label for="hide-camera">Hide camera</label>
         <input type="checkbox" id="hide-camera">
-      </section>
-      <section>
-        <label for="disable-hand-display">Disable hand display</label>
-        <input type="checkbox" id="disable-hand-display">
-      </section>
-      <section class="flex-col items-start">
-        <label>Hand size</label>
-        <input type="range" id="hand-size">
-      </section>
+      </section>      
+      <button id="go-to-options">View more options</button>
     </main>
-
-    <button id="go-to-options">View more options</button>
   </div>
   <script src="popup.js"></script>
 </body>
