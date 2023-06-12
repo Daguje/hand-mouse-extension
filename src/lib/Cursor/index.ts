@@ -49,7 +49,7 @@ export class Cursor {
         this.drawHandCenter(hand.keypoints)
     }
 
-    scrollBy2(x: number, y: number) {
+    scrollTo(x: number, y: number) {
       isRunning = false
       if (lastPosition.y > y) {
           window.scrollBy(0, -(lastPosition.y - y)/10)
@@ -63,7 +63,16 @@ export class Cursor {
       else if(lastPosition.x < x) {
           window.scrollBy((x-lastPosition.x)/10, 0)
       }
-  }
+    }
+
+    scrollUp() {
+      window.scrollBy(0, -10)
+    }
+
+    scrollDown() {
+      window.scrollBy(0, 10)
+    }
+
     getHandCenter(keypoints: Array<Keypoint>): Keypoint {
         const wrist = keypoints[0]
         const indexFingerMCP = keypoints[5]
@@ -77,6 +86,16 @@ export class Cursor {
 
         return handCenter
     }
+
+    clickEvent(element: Element) {
+      const event = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+      })
+      element?.dispatchEvent(event)
+    }
+      
 
     drawHandCenter(keypoints: Array<Keypoint>) {
         const cursor = this.getHandCenter(keypoints)
@@ -94,31 +113,24 @@ export class Cursor {
         for(let i = 0; i < estimatedGestures.length; i++) {
             if (estimatedGestures[i].score < 9) continue
             let element
-            let event
-            console.log(estimatedGestures[i].name)
             switch(estimatedGestures[i].name) {
                 case 'closedHandGesture':
                     this.drawAutoScrollCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
                     if (isRunning) {
                       lastPosition = cursor
                     }
-                    this.scrollBy2(cursor.x, cursor.y)
+                    this.scrollTo(cursor.x, cursor.y)
                     break;
                 case 'okGesture':
                     this.drawClickCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
                     element = document.elementFromPoint(cursor.x, cursor.y)
-                    event = new MouseEvent('click', {
-                        view: window,
-                        bubbles: true,
-                        cancelable: true
-                    })
-                    element?.dispatchEvent(event)
-                    break;
-                case 'victoryGesture':
-                    console.log('Victory')
+                    this.clickEvent(element)
                     break;
                 case 'fingerUp':
-                    console.log('Finger Up')
+                    this.scrollUp()
+                    break;
+                case 'fingerDown':
+                    this.scrollDown()
                     break;
                 default:
                     console.log('Nada')
