@@ -29,7 +29,8 @@
   "permissions": [
     "storage",
     "scripting",
-    "management"
+    "management",
+    "tabs"
   ],
   "options_ui": {
     "page": "options.html",

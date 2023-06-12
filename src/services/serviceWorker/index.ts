@@ -1,14 +1,14 @@
-import { browser } from 'webextension-polyfill-ts';
-import { initializeStorageWithDefaults } from '../../utils/storage';
-import { Message } from '@utils/message/types';
+import { browser } from 'webextension-polyfill-ts'
+import { initializeStorageWithDefaults } from '../../utils/storage'
+import { Message } from '@utils/message/types'
 
 browser.runtime.onInstalled.addListener(async () => {
-  await initializeStorageWithDefaults({});
+  await initializeStorageWithDefaults({})
 
-  console.log('HandMouse instalado com sucesso');
+  console.log('HandMouse instalado com sucesso')
 });
 
-browser.runtime.onMessage.addListener((message: Message) => {
+browser.runtime.onMessage.addListener(async (message: Message) => {
   switch (message.from) {
     case 'popup':
       console.log(message);
@@ -16,7 +16,11 @@ browser.runtime.onMessage.addListener((message: Message) => {
     case 'options':
       console.log(message);
       break;
+    case 'app':
+      break
     default:
       throw new Error('Message from not found');
   }
-});
+
+  return true
+})
