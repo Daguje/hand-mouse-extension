@@ -87,6 +87,19 @@ export class Cursor {
         cursor.x *= xRatio
         cursor.y *= yRatio
 
+        for (let x = cursor.x - 10; x <= cursor.x + 10; x++) {
+            for (let y = cursor.y - 10; y <= cursor.y + 10; y++) {
+                const element = document.elementFromPoint(cursor.x, cursor.y)
+                const clicableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
+                if (element && (clicableTagElements.includes(element.tagName) || clicableTagElements.includes(element.parentElement?.tagName))) {
+                    const rect = element.getBoundingClientRect()
+                    cursor.x = rect.x + rect.width / 2
+                    cursor.y = rect.y + rect.height / 2
+                }
+            }
+        }
+        
+        
         const estimatedGestures = estimateGesture(keypoints)
         this.gestureDetected = !!estimatedGestures.length
         this.drawCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
