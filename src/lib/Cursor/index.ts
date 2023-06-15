@@ -2,6 +2,9 @@ import { Hand, Keypoint } from "@tensorflow-models/hand-pose-detection";
 import { estimateGesture } from "../HandDetector/utils";
 import { ICursorProps } from "./types";
 
+let lastPosition = { x: 0, y: 0 }
+let isRunning = true
+
 export class Cursor {
     video: HTMLVideoElement
     canvas: HTMLCanvasElement
@@ -46,6 +49,21 @@ export class Cursor {
         this.drawHandCenter(hand.keypoints)
     }
 
+    scrollBy2(x: number, y: number) {
+      isRunning = false
+      if (lastPosition.y > y) {
+          window.scrollBy(0, -(lastPosition.y - y)/10)
+      }
+      else if (lastPosition.y < y) {
+          window.scrollBy(0, (y - lastPosition.y)/10)
+      }
+      if(lastPosition.x > x) {
+          window.scrollBy(-(lastPosition.x - x)/10, 0)
+      }
+      else if(lastPosition.x < x) {
+          window.scrollBy((x-lastPosition.x)/10, 0)
+      }
+  }
     getHandCenter(keypoints: Array<Keypoint>): Keypoint {
         const wrist = keypoints[0]
         const indexFingerMCP = keypoints[5]
@@ -75,16 +93,32 @@ export class Cursor {
         
         for(let i = 0; i < estimatedGestures.length; i++) {
             if (estimatedGestures[i].score < 9) continue
-            
+            let element
+            let event
+            console.log(estimatedGestures[i].name)
             switch(estimatedGestures[i].name) {
                 case 'closedHandGesture':
                     this.drawAutoScrollCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
+                    if (isRunning) {
+                      lastPosition = cursor
+                    }
+                    this.scrollBy2(cursor.x, cursor.y)
                     break;
                 case 'okGesture':
                     this.drawClickCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
+                    element = document.elementFromPoint(cursor.x, cursor.y)
+                    event = new MouseEvent('click', {
+                        view: window,
+                        bubbles: true,
+                        cancelable: true
+                    })
+                    element?.dispatchEvent(event)
                     break;
                 case 'victoryGesture':
                     console.log('Victory')
+                    break;
+                case 'fingerUp':
+                    console.log('Finger Up')
                     break;
                 default:
                     console.log('Nada')
