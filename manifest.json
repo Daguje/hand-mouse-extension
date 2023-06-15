@@ -13,13 +13,17 @@
       ],
       "js": [
         "contentScript.js"
+      ],
+      "css": [
+        "loading.css"
       ]
     }
   ],
   "web_accessible_resources": [
     {
       "resources": [
-        "app.js"
+        "app.js",
+        "loading.html"
       ],
       "matches": [
         "<all_urls>"

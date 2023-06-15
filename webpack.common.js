@@ -6,15 +6,22 @@ const extensionPages = {
   popup: './src/pages/popup',
   options: './src/pages/options',
 }
+
+const resources = {
+  loading: './src/lib/Loading'
+}
+
 const scripts = {
   app: './src/services/app',
   serviceWorker: './src/services/serviceWorker',
   contentScript: './src/services/contentScript',
 }
+
 module.exports = {
   entry: {
     ...scripts,
-    ...extensionPages
+    ...extensionPages,
+    ...resources
   },
   module: {
     rules: [
@@ -49,6 +56,7 @@ module.exports = {
       patterns: [
         path.resolve(__dirname, "./manifest.json"),
         path.resolve(__dirname, 'src', 'styles', "./tailwind.css"),
+        path.resolve(__dirname, 'src', 'lib', 'Loading', 'loading.css'),
         {
           from: 'src/**/*.html',
           to: '[name][ext]'

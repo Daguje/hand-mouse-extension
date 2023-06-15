@@ -1,3 +1,7 @@
+const MAX_Z_INDEX = '2147483647'
+const CAMERA_DISPLAY_WIDTH = '240px'
+const CAMERA_DISPLAY_HEIGHT = '320px'
+
 export class Camera {
   video: HTMLVideoElement;
 
@@ -21,13 +25,13 @@ export class Camera {
   static draw(video: HTMLVideoElement) {
     video.height = video.videoHeight;
     video.width = video.videoWidth;
-    video.style.height = '120px';
-    video.style.width = '320px';
+    video.style.height = CAMERA_DISPLAY_HEIGHT;
+    video.style.width = CAMERA_DISPLAY_WIDTH;
     video.style.transform = 'scaleX(-1)';
     video.style.position = 'fixed';
     video.style.top = '16px';
     video.style.left = '16px';
-    video.style.zIndex = '999';
+    video.style.zIndex = MAX_Z_INDEX;
     video.style.display = 'none';
     video.id = 'hm-camera-display';
     document.body.append(video);
