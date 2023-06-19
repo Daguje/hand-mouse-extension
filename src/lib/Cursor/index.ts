@@ -78,9 +78,14 @@ export class Cursor {
         const estimatedGestures = estimateGesture(keypoints)
         this.gestureDetected = !!estimatedGestures.length
         this.drawCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
-        
+        if(estimatedGestures.length === 0){
+          this.isRunning = true
+        }
+
         for(let i = 0; i < estimatedGestures.length; i++) {
-            if (estimatedGestures[i].score < 9) continue
+            if (estimatedGestures[i].score < 9){
+              continue
+            } 
             let element
             switch(estimatedGestures[i].name) {
                 case 'closedHandGesture':
