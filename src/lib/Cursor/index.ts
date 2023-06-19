@@ -83,9 +83,7 @@ export class Cursor {
         }
 
         for(let i = 0; i < estimatedGestures.length; i++) {
-            if (estimatedGestures[i].score < 9){
-              continue
-            } 
+            if (estimatedGestures[i].score < 9) continue
             let element
             switch(estimatedGestures[i].name) {
                 case 'closedHandGesture':
