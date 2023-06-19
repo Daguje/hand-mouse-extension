@@ -66,9 +66,10 @@ export class Cursor {
         return handCenter
     }
 
-    private getClickableElementPosition(cursor: Keypoint): Keypoint {
-        for (let x = cursor.x - 10; x <= cursor.x + 10; x++) {
-            for (let y = cursor.y - 10; y <= cursor.y + 10; y++) {
+    private getClickableElementPosition(cursor: Keypoint) {
+        const neighborhood = 38
+        for (let x = cursor.x - neighborhood; x <= cursor.x + neighborhood; x++) {
+            for (let y = cursor.y - neighborhood; y <= cursor.y + neighborhood; y++) {
                 const element = document.elementFromPoint(cursor.x, cursor.y)
                 const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
                 if (element && (clickableTagElements.includes(element.tagName) || clickableTagElements.includes(element.parentElement?.tagName))) {
@@ -122,8 +123,11 @@ export class Cursor {
                     break;
                 case 'okGesture':
                     this.drawClickCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
-                    element = document.elementFromPoint(cursor.x, cursor.y)
-                    clickEvent(element)
+                    if (this.isRunning) {
+                        element = document.elementFromPoint(cursor.x, cursor.y)
+                        clickEvent(element)
+                        this.isRunning = false
+                    }
                     break;
                 case 'fingerUp':
                     scrollUp()
