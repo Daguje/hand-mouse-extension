@@ -21,7 +21,7 @@ export class Camera {
   static draw(video: HTMLVideoElement) {
     video.height = video.videoHeight;
     video.width = video.videoWidth;
-    video.style.height = '120px';
+    video.style.height = '240px';
     video.style.width = '320px';
     video.style.transform = 'scaleX(-1)';
     video.style.position = 'fixed';
@@ -51,7 +51,7 @@ export class Camera {
     const stream = await navigator.mediaDevices.getUserMedia(
       this.getVideoConfig(),
     );
-
+    
     const camera = new Camera();
     camera.video.srcObject = stream;
 

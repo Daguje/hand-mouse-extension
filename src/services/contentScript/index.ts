@@ -2,12 +2,10 @@ import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/c
 import { Camera, Cursor, HandDector } from '../../lib';
 import { browser } from 'webextension-polyfill-ts';
 import { getStorageItem } from '@utils/storage';
-import { sendMessageToRuntime } from '@utils/message';
 
 let video: PixelInput;
 let handDetector: HandDector;
 let cursor: Cursor;
-const sendMessageFromContent = sendMessageToRuntime('content');
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
