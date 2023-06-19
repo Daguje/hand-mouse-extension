@@ -11,7 +11,10 @@
     @apply text-base;
   }
   h3 {
-    @apply text-2xl;
+    @apply text-3xl;
+  }
+  i {
+    @apply text-xs;
   }
   input[type='checkbox'] {
     @apply toggle toggle-primary;
@@ -26,6 +29,6 @@
     @apply container mx-auto py-5 px-8 min-w-[300px] flex flex-col items-center justify-center gap-10;
   }
   section {
-    @apply flex items-center gap-x-2 gap-y-1;
+    @apply flex justify-between w-full;
   }
 }
