@@ -66,8 +66,24 @@ export class Cursor {
         return handCenter
     }
 
+    private getClickableElementPosition(cursor: Keypoint) {
+        
+        for (let x = cursor.x - 10; x <= cursor.x + 10; x++) {
+            for (let y = cursor.y - 10; y <= cursor.y + 10; y++) {
+                const element = document.elementFromPoint(cursor.x, cursor.y)
+                const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
+                if (element && (clickableTagElements.includes(element.tagName) || clickableTagElements.includes(element.parentElement?.tagName))) {
+                    const rect = element.getBoundingClientRect()
+                    cursor.x = rect.x + rect.width / 2
+                    cursor.y = rect.y + rect.height / 2
+                }
+            }
+        }
+        return cursor
+    }
+
     drawHandCenter(keypoints: Array<Keypoint>) {
-        const cursor = this.getHandCenter(keypoints)
+        let cursor = this.getHandCenter(keypoints)
         
         const xRatio = this.canvas.width / this.video.width
         const yRatio = this.canvas.height / this.video.height
@@ -75,18 +91,7 @@ export class Cursor {
         cursor.x *= xRatio
         cursor.y *= yRatio
 
-        for (let x = cursor.x - 10; x <= cursor.x + 10; x++) {
-            for (let y = cursor.y - 10; y <= cursor.y + 10; y++) {
-                const element = document.elementFromPoint(cursor.x, cursor.y)
-                const clicableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
-                if (element && (clicableTagElements.includes(element.tagName) || clicableTagElements.includes(element.parentElement?.tagName))) {
-                    const rect = element.getBoundingClientRect()
-                    cursor.x = rect.x + rect.width / 2
-                    cursor.y = rect.y + rect.height / 2
-                }
-            }
-        }
-        
+        cursor = this.getClickableElementPosition(cursor)
         
         const estimatedGestures = estimateGesture(keypoints)
         this.gestureDetected = !!estimatedGestures.length
