@@ -12,7 +12,6 @@ const resources = {
 }
 
 const scripts = {
-  app: './src/services/app',
   serviceWorker: './src/services/serviceWorker',
   contentScript: './src/services/contentScript',
 }

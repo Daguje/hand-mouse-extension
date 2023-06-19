@@ -30,6 +30,7 @@ const results = async () => {
 const contextScript = async () => {
   video = await Camera.create()
   await Loading.show()
+  
   handDetector = await HandDector.create()
   cursor = new Cursor({ video, canvas, ctx })
   
