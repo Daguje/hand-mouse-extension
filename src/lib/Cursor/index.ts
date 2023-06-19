@@ -82,15 +82,21 @@ export class Cursor {
         return cursor
     }
 
+    private normalizeHandCenterPosition(cursor: Keypoint): Keypoint {
+        const xRatio = this.canvas.width / this.video.width
+        const yRatio = this.canvas.height / this.video.height
+    
+        cursor.x = 2 * (cursor.x * xRatio - this.video.width / 2)
+        cursor.y = 2 * (cursor.y * yRatio- this.video.height / 2)
+
+        return cursor
+    }
+
     drawHandCenter(keypoints: Array<Keypoint>) {
         let cursor = this.getHandCenter(keypoints)
         
-        const xRatio = this.canvas.width / this.video.width
-        const yRatio = this.canvas.height / this.video.height
         
-        cursor.x *= xRatio
-        cursor.y *= yRatio
-
+        cursor = this.normalizeHandCenterPosition(cursor)
         cursor = this.getClickableElementPosition(cursor)
         
         const estimatedGestures = estimateGesture(keypoints)
