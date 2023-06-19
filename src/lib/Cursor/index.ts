@@ -1,22 +1,25 @@
 import { Hand, Keypoint } from "@tensorflow-models/hand-pose-detection";
 import { estimateGesture } from "../HandDetector/utils";
 import { ICursorProps } from "./types";
+import { scrollDown, scrollTo, scrollUp, clickEvent } from '../Events';
 
-let lastPosition = { x: 0, y: 0 }
-let isRunning = true
 
 export class Cursor {
-    video: HTMLVideoElement
-    canvas: HTMLCanvasElement
-    ctx: CanvasRenderingContext2D
-    baseRadius: number
-    outterRadius: number
-    shrinkFactor: number
-    strokeColor: string
-    fillColor: string
-    gestureDetected: boolean
+  video: HTMLVideoElement
+  canvas: HTMLCanvasElement
+  ctx: CanvasRenderingContext2D
+  baseRadius: number
+  outterRadius: number
+  shrinkFactor: number
+  strokeColor: string
+  fillColor: string
+  gestureDetected: boolean
+  lastPosition: {x: number, y: number}
+  isRunning: boolean
 
-    constructor({ video, canvas, ctx }: ICursorProps) {
+  constructor({ video, canvas, ctx }: ICursorProps) {
+        this.lastPosition = { x: 0, y: 0 }
+        this.isRunning = true
         this.video = video
         this.canvas = canvas
         this.ctx =  ctx
@@ -26,7 +29,7 @@ export class Cursor {
         this.outterRadius = 18
         this.shrinkFactor = 0.75
         this.gestureDetected = false
- 
+
         this.strokeColor = '#383838'
         this.fillColor = '#f7f7f7'
     }
@@ -49,30 +52,6 @@ export class Cursor {
         this.drawHandCenter(hand.keypoints)
     }
 
-    scrollTo(x: number, y: number) {
-      isRunning = false
-      if (lastPosition.y > y) {
-          window.scrollBy(0, -(lastPosition.y - y)/10)
-      }
-      else if (lastPosition.y < y) {
-          window.scrollBy(0, (y - lastPosition.y)/10)
-      }
-      if(lastPosition.x > x) {
-          window.scrollBy(-(lastPosition.x - x)/10, 0)
-      }
-      else if(lastPosition.x < x) {
-          window.scrollBy((x-lastPosition.x)/10, 0)
-      }
-    }
-
-    scrollUp() {
-      window.scrollBy(0, -10)
-    }
-
-    scrollDown() {
-      window.scrollBy(0, 10)
-    }
-
     getHandCenter(keypoints: Array<Keypoint>): Keypoint {
         const wrist = keypoints[0]
         const indexFingerMCP = keypoints[5]
@@ -86,16 +65,6 @@ export class Cursor {
 
         return handCenter
     }
-
-    clickEvent(element: Element) {
-      const event = new MouseEvent('click', {
-          view: window,
-          bubbles: true,
-          cancelable: true
-      })
-      element?.dispatchEvent(event)
-    }
-      
 
     drawHandCenter(keypoints: Array<Keypoint>) {
         const cursor = this.getHandCenter(keypoints)
@@ -116,21 +85,22 @@ export class Cursor {
             switch(estimatedGestures[i].name) {
                 case 'closedHandGesture':
                     this.drawAutoScrollCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
-                    if (isRunning) {
-                      lastPosition = cursor
+                    if (this.isRunning) {
+                      this.lastPosition = cursor
+                      this.isRunning = false
                     }
-                    this.scrollTo(cursor.x, cursor.y)
+                    scrollTo(cursor.x, cursor.y, this.lastPosition)
                     break;
                 case 'okGesture':
                     this.drawClickCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
                     element = document.elementFromPoint(cursor.x, cursor.y)
-                    this.clickEvent(element)
+                    clickEvent(element)
                     break;
                 case 'fingerUp':
-                    this.scrollUp()
+                    scrollUp()
                     break;
                 case 'fingerDown':
-                    this.scrollDown()
+                    scrollDown()
                     break;
                 default:
                     console.log('Nada')
