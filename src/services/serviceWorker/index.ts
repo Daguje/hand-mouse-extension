@@ -1,6 +1,9 @@
-import { browser } from 'webextension-polyfill-ts'
-import { initializeStorageWithDefaults } from '../../utils/storage'
 import { Message } from '@utils/message/types'
+import { browser } from 'webextension-polyfill-ts';
+import {
+  getStorageItem,
+  initializeStorageWithDefaults,
+} from '../../utils/storage';
 
 browser.runtime.onInstalled.addListener(async () => {
   await initializeStorageWithDefaults({})
@@ -8,13 +11,16 @@ browser.runtime.onInstalled.addListener(async () => {
   console.log('HandMouse instalado com sucesso')
 });
 
-browser.runtime.onMessage.addListener(async (message: Message) => {
+chrome.runtime.onMessage.addListener(async (message, _, sendResponse) => {
   switch (message.from) {
     case 'popup':
       console.log(message);
       break;
-    case 'options':
-      console.log(message);
+    case 'content':
+      if (message.content.requestStorage) {
+        const storage = await getStorageItem(message.content.requestStorage);
+        sendResponse(storage);
+      }
       break;
     case 'app':
       break

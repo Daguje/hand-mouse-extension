@@ -28,10 +28,17 @@ export class Camera {
     video.style.top = '16px';
     video.style.left = '16px';
     video.style.zIndex = '999';
+    video.style.display = 'none';
     video.id = 'hm-camera-display';
     document.body.append(video);
 
     video.play();
+  }
+  static show() {
+    document.getElementById('hm-camera-display').style.display = 'block';
+  }
+  static hide() {
+    document.getElementById('hm-camera-display').style.display = 'none';
   }
 
   static async create() {

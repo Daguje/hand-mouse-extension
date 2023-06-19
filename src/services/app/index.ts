@@ -1,4 +1,6 @@
 import { Camera, Cursor, HandDector } from '../../lib';
+import { browser } from 'webextension-polyfill-ts';
+import { getStorageItem } from '@utils/storage';
 
 let video: HTMLVideoElement;
 let handDetector: HandDector;
