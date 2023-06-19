@@ -1,3 +1,4 @@
+import { Message } from '@utils/message/types'
 import { browser } from 'webextension-polyfill-ts';
 import {
   getStorageItem,
@@ -5,9 +6,9 @@ import {
 } from '../../utils/storage';
 
 browser.runtime.onInstalled.addListener(async () => {
-  await initializeStorageWithDefaults({});
+  await initializeStorageWithDefaults({})
 
-  console.log('HandMouse instalado com sucesso');
+  console.log('HandMouse instalado com sucesso')
 });
 
 chrome.runtime.onMessage.addListener(async (message, _, sendResponse) => {
@@ -21,7 +22,11 @@ chrome.runtime.onMessage.addListener(async (message, _, sendResponse) => {
         sendResponse(storage);
       }
       break;
+    case 'app':
+      break
     default:
       throw new Error('Message from not found');
   }
-});
+
+  return true
+})

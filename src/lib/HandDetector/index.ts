@@ -1,5 +1,5 @@
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
-import '@tensorflow/tfjs-backend-webgl';
+import '@tensorflow/tfjs-backend-webgl'
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 
@@ -15,7 +15,9 @@ export class HandDector {
 
   async setup() {
     try {
+      console.log('Iniciando Detector')
       this.detector = await HandDector.createDetector();
+      console.log('Dectector inicializado')
     } catch (err) {
       throw new Error(`Houve um erro ao criar o detector de mãos: ${err}`);
     }
@@ -28,6 +30,7 @@ export class HandDector {
       modelType: 'lite',
       maxHands: 1,
     });
+
     return detector;
   }
 

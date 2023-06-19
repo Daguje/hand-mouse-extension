@@ -55,7 +55,7 @@ export class Camera {
     const stream = await navigator.mediaDevices.getUserMedia(
       this.getVideoConfig(),
     );
-
+    
     const camera = new Camera();
     camera.video.srcObject = stream;
 
