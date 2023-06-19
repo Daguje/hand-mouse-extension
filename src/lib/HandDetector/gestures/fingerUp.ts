@@ -4,6 +4,7 @@ const fingerUp = new fp.GestureDescription('fingerUp')
 
 fingerUp.addCurl(fp.Finger.Index, fp.FingerCurl.NoCurl, 1.0);
 fingerUp.addCurl(fp.Finger.Index, fp.FingerCurl.NoCurl, 0.9);
+fingerUp.addDirection(fp.Finger.Index, fp.FingerDirection.VerticalUp, 1.0);
 fingerUp.addDirection(fp.Finger.Index, fp.FingerDirection.VerticalUp, 0.9);
 
 
