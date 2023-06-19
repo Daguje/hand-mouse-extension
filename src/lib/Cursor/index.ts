@@ -85,12 +85,9 @@ export class Cursor {
     private normalizeHandCenterPosition(cursor: Keypoint): Keypoint {
         const xRatio = this.canvas.width / this.video.width
         const yRatio = this.canvas.height / this.video.height
-
-        cursor.x *= xRatio
-        cursor.y *= yRatio
     
-        cursor.x = 2 * (cursor.x - this.video.width / 2)
-        cursor.y = 2 * (cursor.y - this.video.height / 2)
+        cursor.x = 2 * (cursor.x * xRatio - this.video.width / 2)
+        cursor.y = 2 * (cursor.y * yRatio- this.video.height / 2)
 
         return cursor
     }
