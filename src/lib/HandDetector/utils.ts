@@ -1,6 +1,6 @@
 import * as fp from "fingerpose";
 import { Keypoint } from '@tensorflow-models/hand-pose-detection';
-import { closedHandGesture, okGesture, victoryGesture } from './gestures/index';
+import { closedHandGesture, okGesture, victoryGesture, fingerUp, fingerDown } from './gestures/index';
 
 function convertToFingerpose(keypoints: Array<Keypoint>): number[][] {
   const vetor: number[][] = [];
@@ -16,6 +16,8 @@ function convertToFingerpose(keypoints: Array<Keypoint>): number[][] {
 export function estimateGesture(keypoints: Array<Keypoint>) {
   const GE = new fp.GestureEstimator([
     closedHandGesture,
+    fingerUp,
+    fingerDown,
     okGesture,
     victoryGesture
   ])
