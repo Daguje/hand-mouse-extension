@@ -3,7 +3,7 @@ import '@styles/tailwind.css';
 import { setInputValueFromStorage } from '../../utils/setInputValueFromStorage';
 import { dispatchInputChanges } from '@pages/popup/dispatchInputChanges';
 
-const elements = ['hide-camera', 'disable-detector'].map(
+const elements = ['hide-camera', 'disable-detection'].map(
   (id) => document.getElementById(id) as HTMLInputElement,
 );
 
