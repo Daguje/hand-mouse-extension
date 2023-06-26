@@ -16,6 +16,8 @@ export class Cursor {
   gestureDetected: boolean
   lastPosition: {x: number, y: number}
   isRunning: boolean
+  lastSamples: Array<Keypoint>
+  samples: number
 
   constructor({ video, canvas, ctx }: ICursorProps) {
         this.lastPosition = { x: 0, y: 0 }
@@ -32,6 +34,9 @@ export class Cursor {
 
         this.strokeColor = '#383838'
         this.fillColor = '#f7f7f7'
+
+        this.samples = 0
+        this.lastSamples = []
     }
 
     drawHands(hands: Array<Hand>) {
@@ -42,17 +47,17 @@ export class Cursor {
         }
     }
 
-    clearScreen() {
+    private clearScreen() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawHand(hand: Hand) {
+    private drawHand(hand: Hand) {
         if(!hand.keypoints) return
           
         this.drawHandCenter(hand.keypoints)
     }
 
-    getHandCenter(keypoints: Array<Keypoint>): Keypoint {
+    private getHandCenter(keypoints: Array<Keypoint>): Keypoint {
         const wrist = keypoints[0]
         const indexFingerMCP = keypoints[5]
         const middleFingerMCP = keypoints[9]
@@ -64,6 +69,28 @@ export class Cursor {
         const handCenter: Keypoint = { x, y }
 
         return handCenter
+    }
+
+    private smoothHandShake(cursor: Keypoint): Keypoint {
+        this.samples++
+        this.lastSamples.push(cursor)
+        const window = 3
+
+        if (this.lastSamples.length > window){
+            const sum = this.lastSamples.reduce((previousSamples, currentSample) => {
+                previousSamples.x = previousSamples.x + currentSample.x
+                previousSamples.y = previousSamples.y + currentSample.y
+
+                return previousSamples
+            }, { x: 0, y: 0 })
+    
+            cursor.x = sum.x / this.lastSamples.length
+            cursor.y = sum.y / this.lastSamples.length
+
+            this.lastSamples.shift() 
+        }
+
+        return cursor
     }
 
     private getClickableElementPosition(cursor: Keypoint) {
@@ -92,18 +119,18 @@ export class Cursor {
         return cursor
     }
 
-    drawHandCenter(keypoints: Array<Keypoint>) {
+    private drawHandCenter(keypoints: Array<Keypoint>) {
         let cursor = this.getHandCenter(keypoints)
-        
-        
+
         cursor = this.normalizeHandCenterPosition(cursor)
+        cursor = this.smoothHandShake(cursor)
         cursor = this.getClickableElementPosition(cursor)
         
         const estimatedGestures = estimateGesture(keypoints)
         this.gestureDetected = !!estimatedGestures.length
         this.drawCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
         if(estimatedGestures.length === 0){
-          this.isRunning = true
+            this.isRunning = true
         }
 
         for(let i = 0; i < estimatedGestures.length; i++) {
@@ -113,8 +140,8 @@ export class Cursor {
                 case 'closedHandGesture':
                     this.drawAutoScrollCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
                     if (this.isRunning) {
-                      this.lastPosition = cursor
-                      this.isRunning = false
+                        this.lastPosition = cursor
+                        this.isRunning = false
                     }
                     scrollTo(cursor.x, cursor.y, this.lastPosition)
                     break;
@@ -138,7 +165,7 @@ export class Cursor {
         }
     }
 
-    drawCursor(x: number, y: number, innerRadius: number, outterRadius: number){
+    private drawCursor(x: number, y: number, innerRadius: number, outterRadius: number){
         if(!this.gestureDetected) {
             if(this.baseRadius < 8){
                 this.baseRadius *= 1 + this.shrinkFactor
@@ -178,13 +205,13 @@ export class Cursor {
         this.ctx.stroke()
     }
 
-    drawClickCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+    private drawClickCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         if(this.baseRadius > 4) this.baseRadius *= this.shrinkFactor
 
         this.drawCursor(x, y, innerRadius, outterRadius)
     }
 
-    drawTriangle(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number) {
+    private drawTriangle(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number) {
         this.ctx.beginPath()
         this.ctx.moveTo(xOff, yOff)
         this.ctx.lineTo(x1, y1)
@@ -198,51 +225,51 @@ export class Cursor {
         this.ctx.fill()
     }
 
-    drawTopTriangle(x: number, y: number) {
+    private drawTopTriangle(x: number, y: number) {
         this.drawTriangle(x + 6, y - 24, x - 6, y - 24, x, y - 34)
     }
 
-    drawRightTriangle(x: number, y: number) {
+    private drawRightTriangle(x: number, y: number) {
         this.drawTriangle(x + 24, y - 6, x + 24, y + 6, x + 34, y)
     }
     
-    drawBottomTriangle(x: number, y: number) {
+    private drawBottomTriangle(x: number, y: number) {
         this.drawTriangle(x + 6, y + 24, x - 6, y + 24, x, y + 34)
     }
 
-    drawLeftTriangle(x: number, y: number) {
+    private drawLeftTriangle(x: number, y: number) {
         this.drawTriangle(x - 24, y - 6, x - 24, y + 6, x - 34, y)
     }
 
-    drawScrollUpCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+    private drawScrollUpCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         this.clearScreen()
 
         this.drawClickCursor(x, y, innerRadius, outterRadius)
         this.drawTopTriangle(x, y)
     }
 
-    drawScrollRightCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+    private drawScrollRightCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         this.clearScreen()
 
         this.drawClickCursor(x, y, innerRadius, outterRadius)
         this.drawRightTriangle(x, y)
     }
 
-    drawScrollDownCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+    private drawScrollDownCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         this.clearScreen()
 
         this.drawClickCursor(x, y, innerRadius, outterRadius)
         this.drawBottomTriangle(x, y)
     }
 
-    drawScrollLeftCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+    private drawScrollLeftCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         this.clearScreen()
 
         this.drawClickCursor(x, y, innerRadius, outterRadius)
         this.drawLeftTriangle(x, y)
     }
 
-    drawAutoScrollCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
+    private drawAutoScrollCursor(x: number, y: number, innerRadius: number, outterRadius: number) {
         if(this.baseRadius > 4) this.baseRadius *= this.shrinkFactor
 
         this.clearScreen()
