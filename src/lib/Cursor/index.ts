@@ -77,8 +77,8 @@ export class Cursor {
             return previousSamples
         }, { x: 0, y: 0 })
 
-        const x = sum.x / (window + 1)
-        const y = sum.y / (window + 1)
+        const x = sum.x / window
+        const y = sum.y / window
 
         return { x, y }
     }
@@ -105,7 +105,7 @@ export class Cursor {
         for (let x = cursor.x - neighborhood; x <= cursor.x + neighborhood; x++) {
             for (let y = cursor.y - neighborhood; y <= cursor.y + neighborhood; y++) {
                 const element = document.elementFromPoint(cursor.x, cursor.y)
-                const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA']
+                const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY']
                 if (element && (clickableTagElements.includes(element.tagName) || clickableTagElements.includes(element.parentElement?.tagName))) {
                     const rect = element.getBoundingClientRect()
                     cursor.x = rect.x + rect.width / 2
@@ -129,8 +129,8 @@ export class Cursor {
     private drawHandCenter(keypoints: Array<Keypoint>) {
         let cursor = this.getHandCenter(keypoints)
 
-        cursor = this.normalizeHandCenterPosition(cursor)
         cursor = this.smoothHandShake(cursor)
+        cursor = this.normalizeHandCenterPosition(cursor)
         cursor = this.getClickableElementPosition(cursor)
         
         const estimatedGestures = estimateGesture(keypoints)
@@ -156,6 +156,7 @@ export class Cursor {
                     this.drawClickCursor(cursor.x, cursor.y, this.baseRadius, this.outterRadius)
                     if (this.isRunning) {
                         element = document.elementFromPoint(cursor.x, cursor.y)
+                        element.scrollLeft
                         clickEvent(element)
                         this.isRunning = false
                     }
