@@ -17,7 +17,6 @@ export class Cursor {
   lastPosition: {x: number, y: number}
   isRunning: boolean
   lastSamples: Array<Keypoint>
-  samples: number
 
   constructor({ video, canvas, ctx }: ICursorProps) {
         this.lastPosition = { x: 0, y: 0 }
@@ -35,7 +34,6 @@ export class Cursor {
         this.strokeColor = '#383838'
         this.fillColor = '#f7f7f7'
 
-        this.samples = 0
         this.lastSamples = []
     }
 
@@ -86,7 +84,6 @@ export class Cursor {
     }
 
     private smoothHandShake(cursor: Keypoint): Keypoint {
-        this.samples++
         this.lastSamples.push(cursor)
         let averagedCursor = cursor
         const window = 3
