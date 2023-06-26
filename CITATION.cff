@@ -11,7 +11,7 @@ authors:
   given-names: "Gustavo"
   orcid: "https://orcid.org/0000-0000-0000-0000"
 title: "Hand Mouse browser extension"
-version: 2.0.4
+version: 0.1.0
 doi: 10.5281/zenodo.8080440
 date-released: 2023/06/26
 url: "https://github.com/daguje/hand-mouse-extension"
