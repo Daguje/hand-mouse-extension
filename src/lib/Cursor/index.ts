@@ -71,26 +71,36 @@ export class Cursor {
         return handCenter
     }
 
+    private keypointMovingAvarage(data: Array<Keypoint>, window: number): Keypoint {
+        const sum = data.reduce((previousSamples, currentSample) => {
+            previousSamples.x = previousSamples.x + currentSample.x
+            previousSamples.y = previousSamples.y + currentSample.y
+
+            return previousSamples
+        }, { x: 0, y: 0 })
+
+        const x = sum.x / (window + 1)
+        const y = sum.y / (window + 1)
+
+        return { x, y }
+    }
+
     private smoothHandShake(cursor: Keypoint): Keypoint {
         this.samples++
         this.lastSamples.push(cursor)
+        let averagedCursor = cursor
         const window = 3
 
-        if (this.lastSamples.length > window){
-            const sum = this.lastSamples.reduce((previousSamples, currentSample) => {
-                previousSamples.x = previousSamples.x + currentSample.x
-                previousSamples.y = previousSamples.y + currentSample.y
+        if (this.lastSamples.length < window) return averagedCursor
 
-                return previousSamples
-            }, { x: 0, y: 0 })
-    
-            cursor.x = sum.x / this.lastSamples.length
-            cursor.y = sum.y / this.lastSamples.length
+        averagedCursor = this.keypointMovingAvarage(this.lastSamples, window)
 
-            this.lastSamples.shift() 
-        }
+        cursor.x = averagedCursor.x
+        cursor.y = averagedCursor.y
 
-        return cursor
+        this.lastSamples.shift() 
+
+        return averagedCursor
     }
 
     private getClickableElementPosition(cursor: Keypoint) {
