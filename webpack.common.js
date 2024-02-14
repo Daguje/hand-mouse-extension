@@ -12,8 +12,8 @@ const resources = {
 }
 
 const scripts = {
-  serviceWorker: './src/services/serviceWorker',
-  contentScript: './src/services/contentScript',
+  serviceWorker: './src/threads/serviceWorker',
+  contentScript: './src/threads/contentScript',
 }
 
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
     alias: {
       '@lib': path.resolve(__dirname, 'src', 'lib'),
       '@pages': path.resolve(__dirname, 'src', 'pages'),
-      '@services': path.resolve(__dirname, 'src', 'services'),
+      '@threads': path.resolve(__dirname, 'src', 'threads'),
       '@styles': path.resolve(__dirname, 'src', 'styles'),
       '@utils': path.resolve(__dirname, 'src', 'utils'),
     },

@@ -9,7 +9,7 @@
     "paths": {
       "@lib/*": ["./src/lib/*"],
       "@pages/*": ["./src/pages/*"],
-      "@services/*": ["./src/services/*"],
+      "@threads/*": ["src/threads/*"],
       "@styles/*": ["./src/styles/*"],
       "@utils/*": ["./src/utils/*"]
     }
