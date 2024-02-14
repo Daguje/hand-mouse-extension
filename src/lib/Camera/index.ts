@@ -3,13 +3,13 @@ const CAMERA_DISPLAY_WIDTH = '240px'
 const CAMERA_DISPLAY_HEIGHT = '320px'
 
 export class Camera {
-  video: HTMLVideoElement;
+  video: HTMLVideoElement
 
   constructor() {
     this.video = document.createElement('video');
   }
 
-  private static getVideoConfig(): MediaStreamConstraints {
+  private static getVideoConfig() {
     return {
       audio: false,
       video: {
@@ -38,12 +38,6 @@ export class Camera {
 
     video.play();
   }
-  static show() {
-    document.getElementById('hm-camera-display').style.display = 'block';
-  }
-  static hide() {
-    document.getElementById('hm-camera-display').style.display = 'none';
-  }
 
   static async create() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -58,7 +52,7 @@ export class Camera {
     
     const camera = new Camera();
     camera.video.srcObject = stream;
-
+    
     // Permissão da Câmera
     await new Promise((resolve) => {
       camera.video.onloadedmetadata = () => {
@@ -66,6 +60,8 @@ export class Camera {
       };
     });
 
-    return camera.video;
+    this.draw(camera.video)
+    
+    return camera;
   }
 }

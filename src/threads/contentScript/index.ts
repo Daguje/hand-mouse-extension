@@ -1,3 +1,7 @@
+import mouseFactory from '../../factories/MouseFactory'
+
+mouseFactory.initialize()
+
 // import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces'
 // import { Camera, Cursor, HandDector, Loading } from '../../lib'
 // import { browser } from 'webextension-polyfill-ts'

@@ -2,16 +2,24 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "ES2022",
+    "target": "ES2017",
     "allowJs": true,
     "moduleResolution": "node",
     "paths": {
       "@lib/*": ["./src/lib/*"],
       "@pages/*": ["./src/pages/*"],
-      "@threads/*": ["src/threads/*"],
+      "@threads/*": ["./src/threads/*"],
+      "@views/*": ["./src/views/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@services/*": ["./src/services/*"],
+      "@factories/*": ["./src/factories/*"],
       "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils/*"]
-    }
+      "@utils/*": ["./src/utils/*"],
+      "@models/*": ["./src/models/*"],
+      "@classifiers/*": ["./src/classifiers/*"],
+      "@handLandmarkDetectors/*": ["./src/handLandmarkDetectors/*"],
+    },
+    "experimentalDecorators": true
   }
 }

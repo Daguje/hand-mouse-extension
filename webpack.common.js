@@ -22,6 +22,9 @@ module.exports = {
     ...extensionPages,
     ...resources
   },
+  experiments: {
+    topLevelAwait: true
+  },
   module: {
     rules: [
       {
@@ -40,8 +43,15 @@ module.exports = {
       '@lib': path.resolve(__dirname, 'src', 'lib'),
       '@pages': path.resolve(__dirname, 'src', 'pages'),
       '@threads': path.resolve(__dirname, 'src', 'threads'),
+      '@views': path.resolve(__dirname, 'src', 'views'),
+      '@controllers': path.resolve(__dirname, 'src', 'controllers'),
+      '@services': path.resolve(__dirname, 'src', 'services'),
+      '@factories': path.resolve(__dirname, 'src', 'factories'),
       '@styles': path.resolve(__dirname, 'src', 'styles'),
       '@utils': path.resolve(__dirname, 'src', 'utils'),
+      '@models': path.resolve(__dirname, 'src', 'models'),
+      '@handLandmarkDetectors': path.resolve(__dirname, 'src', 'handLandmarkDetectors'),
+      '@classifiers': path.resolve(__dirname, 'src', 'classifiers'),
     },
     extensions: ['.ts', '.js'],
   },
