@@ -1,18 +1,55 @@
 import { Point } from "../../types";
 
 export class Cursor {
-    static primaryColor = '#f7f7f7'
-    static secondaryColor = '#383838'
+    private static primaryColor = '#f7f7f7'
+    private static secondaryColor = '#383838'
     static baseRadius = 10
     static executingActionRadius = 8
 
-    static innerCircle(handCenter: Point, radius: number, ctx: CanvasRenderingContext2D) {
+    private static x: number
+    private static y: number
+
+    private static getClickableElementPosition(handCenter: Point) {
+        const neighborPixels = 38
+        const position: Point = handCenter
+        const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY']
+        const element = document.elementFromPoint(handCenter.x, handCenter.y)
+
+        if(!element) return position
+        if(!clickableTagElements.includes(element.tagName) && !clickableTagElements.includes(element.parentElement?.tagName)) return position
+
+        for (let x = handCenter.x - neighborPixels; x <= handCenter.x + neighborPixels; x++) {
+            for (let y = handCenter.y - neighborPixels; y <= handCenter.y + neighborPixels; y++) {
+                const rect = element.getBoundingClientRect()
+                position.x = rect.x + rect.width / 2
+                position.y = rect.y + rect.height / 2
+            }
+        }
+
+        return position
+    }
+
+    static setCursor(handCenter: Point) {
+        const { x, y } = this.getClickableElementPosition(handCenter)
+
+        this.x = x
+        this.y = y
+    }
+
+    static getCursor() {
+        return {
+            x: this.x,
+            y: this.y
+        }
+    }
+
+    static innerCircle(radius: number, ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = this.primaryColor
         ctx.strokeStyle = this.secondaryColor
         ctx.lineWidth = 2
 
         ctx.beginPath()
-        ctx.arc(handCenter.x, handCenter.y, radius, 0, 2 * Math.PI)
+        ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI)
         ctx.closePath()
         
         ctx.lineWidth = 1
@@ -22,9 +59,9 @@ export class Cursor {
         ctx.fill()
     }
 
-    static outterCircle(handCenter: Point, ctx: CanvasRenderingContext2D) {
+    static outterCircle(ctx: CanvasRenderingContext2D) {
         ctx.beginPath()
-        ctx.arc(handCenter.x, handCenter.y, 18, 0, 2 * Math.PI)
+        ctx.arc(this.x, this.y, 18, 0, 2 * Math.PI)
         ctx.closePath()
 
         ctx.lineWidth = 2
@@ -32,11 +69,41 @@ export class Cursor {
         ctx.stroke()
 
         ctx.beginPath()
-        ctx.arc(handCenter.x, handCenter.y, 18, 0, 2 * Math.PI)
+        ctx.arc(this.x, this.y, 18, 0, 2 * Math.PI)
         ctx.closePath()
 
         ctx.lineWidth = 4
         ctx.strokeStyle = this.secondaryColor
+    }
+
+    private static triangle(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number, ctx: CanvasRenderingContext2D) {
+        ctx.beginPath()
+        ctx.moveTo(xOff, yOff)
+        ctx.lineTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.closePath()
+        
+        ctx.lineWidth = 1
+        ctx.strokeStyle = this.secondaryColor
+        ctx.stroke()
+
+        ctx.fill()
+    }
+
+    static topTriangle(ctx: CanvasRenderingContext2D) {
+        this.triangle(this.x + 6, this.y - 24, this.x - 6, this.y - 24, this.x, this.y - 34, ctx)
+    }
+
+    static rightTriangle(ctx: CanvasRenderingContext2D) {
+        this.triangle(this.x + 24, this.y - 6, this.x + 24, this.y + 6, this.x + 34, this.y, ctx)
+    }
+    
+    static bottomTriangle(ctx: CanvasRenderingContext2D) {
+        this.triangle(this.x + 6, this.y + 24, this.x - 6, this.y + 24, this.x, this.y + 34, ctx)
+    }
+
+    static leftTriangle(ctx: CanvasRenderingContext2D) {
+        this.triangle(this.x - 24, this.y - 6, this.x - 24, this.y + 6, this.x - 34, this.y, ctx)
     }
 //   video: HTMLVideoElement
 //   canvas: HTMLCanvasElement
@@ -131,22 +198,6 @@ export class Cursor {
 //         this.lastSamples.shift() 
 
 //         return averagedCursor
-//     }
-
-//     private getClickableElementPosition(cursor: Keypoint) {
-//         const neighborhood = 38
-//         for (let x = cursor.x - neighborhood; x <= cursor.x + neighborhood; x++) {
-//             for (let y = cursor.y - neighborhood; y <= cursor.y + neighborhood; y++) {
-//                 const element = document.elementFromPoint(cursor.x, cursor.y)
-//                 const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY']
-//                 if (element && (clickableTagElements.includes(element.tagName) || clickableTagElements.includes(element.parentElement?.tagName))) {
-//                     const rect = element.getBoundingClientRect()
-//                     cursor.x = rect.x + rect.width / 2
-//                     cursor.y = rect.y + rect.height / 2
-//                 }
-//             }
-//         }
-//         return cursor
 //     }
 
 //     private normalizeHandCenterPosition(cursor: Keypoint): Keypoint {
@@ -250,36 +301,6 @@ export class Cursor {
 //         if(this.baseRadius > 4) this.baseRadius *= this.shrinkFactor
 
 //         this.drawCursor(x, y, innerRadius, outterRadius)
-//     }
-
-//     private drawTriangle(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number) {
-//         this.ctx.beginPath()
-//         this.ctx.moveTo(xOff, yOff)
-//         this.ctx.lineTo(x1, y1)
-//         this.ctx.lineTo(x2, y2)
-//         this.ctx.closePath()
-        
-//         this.ctx.lineWidth = 1
-//         this.ctx.strokeStyle = this.strokeColor
-//         this.ctx.stroke()
-
-//         this.ctx.fill()
-//     }
-
-//     private drawTopTriangle(x: number, y: number) {
-//         this.drawTriangle(x + 6, y - 24, x - 6, y - 24, x, y - 34)
-//     }
-
-//     private drawRightTriangle(x: number, y: number) {
-//         this.drawTriangle(x + 24, y - 6, x + 24, y + 6, x + 34, y)
-//     }
-    
-//     private drawBottomTriangle(x: number, y: number) {
-//         this.drawTriangle(x + 6, y + 24, x - 6, y + 24, x, y + 34)
-//     }
-
-//     private drawLeftTriangle(x: number, y: number) {
-//         this.drawTriangle(x - 24, y - 6, x - 24, y + 6, x - 34, y)
 //     }
 
 //     private drawScrollUpCursor(x: number, y: number, innerRadius: number, outterRadius: number) {

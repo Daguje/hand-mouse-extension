@@ -1,14 +1,26 @@
 import { Cursor } from "@lib/Cursor";
-import { Point } from "../types";
 import { IGesture } from "./types";
 
 export class Click implements IGesture {
-    draw(handCenter: Point, ctx: CanvasRenderingContext2D) {
-        Cursor.innerCircle(handCenter, Cursor.executingActionRadius, ctx)
-        Cursor.outterCircle(handCenter, ctx)
+    draw(ctx: CanvasRenderingContext2D) {
+        Cursor.innerCircle(Cursor.executingActionRadius, ctx)
+        Cursor.outterCircle(ctx)
     }
 
-    execute(...args: any[]) {
-        // executar a ação
+    execute() {
+        const { x, y } = Cursor.getCursor()
+        const element = document.elementFromPoint(x, y)
+        element.scrollLeft
+
+        this.fireClickEvent(element)
+    }
+
+    private fireClickEvent(element: Element) {
+        const event = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        })
+        element?.dispatchEvent(event)
     }
 }

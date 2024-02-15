@@ -35,6 +35,10 @@ export default class MouseController {
         this.view.drawCursor(gesture, handCenter)
     }
 
+    private execute(gesture: GesturesDef) {
+        this.view.execute(gesture)
+    }
+
     private async estimateHands() {
         const hands = await this.handLandmarkService.estimateHands(this.camera.video)
         return hands as Array<Hand>
@@ -51,6 +55,7 @@ export default class MouseController {
 
         const handCenter = this.getHandCenter(hands)
         this.drawCursor(gesture, handCenter)
+        this.execute(gesture)
 
         this.view.loop(this.loop.bind(this))
     }

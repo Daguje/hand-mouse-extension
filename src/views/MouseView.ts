@@ -1,6 +1,7 @@
 import { GesturesDef, IGesture } from "@gestures/types";
 import { Keypoint } from "@tensorflow-models/hand-pose-detection";
 import { Point } from "../types";
+import { Cursor } from "@lib/Cursor";
 
 interface IMouseViewProps {
     gestures: Partial<Record<GesturesDef, IGesture>>
@@ -36,7 +37,12 @@ export default class MouseView {
 
     drawCursor(gesture: GesturesDef, handCenter: Point) {
         this.clearCanvas()
-        this.gestures[gesture].draw({ ...handCenter }, this.ctx)
+        Cursor.setCursor(handCenter)
+        this.gestures[gesture].draw(this.ctx)
+    }
+
+    execute(gesture: GesturesDef) {
+        this.gestures[gesture].execute()
     }
 
     // private keypointMovingAvarage(data: Array<Keypoint>, window: number): Keypoint {

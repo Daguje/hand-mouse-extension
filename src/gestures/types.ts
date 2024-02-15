@@ -1,5 +1,3 @@
-import { Point } from "../types"
-
 export enum GesturesDef {
     Click = 'click',
     ScrollUp = 'scrollUp',
@@ -10,6 +8,6 @@ export enum GesturesDef {
 }
 
 export interface IGesture {
-    draw(handCenter: Point, c: CanvasRenderingContext2D): void
-    execute?(...args: any[]): void
+    draw(ctx: CanvasRenderingContext2D): void
+    execute(): void
 }
