@@ -19,6 +19,7 @@
       "@models/*": ["./src/models/*"],
       "@classifiers/*": ["./src/classifiers/*"],
       "@handLandmarkDetectors/*": ["./src/handLandmarkDetectors/*"],
+      "@gestures/*": ["./src/gestures/*"],
     },
     "experimentalDecorators": true
   }

@@ -14,4 +14,8 @@ export default class HandLandmarkEstimatorService {
     async estimateHands(img: HTMLVideoElement) {
         return await this.handLandmarkDetector.estimateHands(img)
     }
+
+    getHandCenter(hand: unknown) {
+        return this.handLandmarkDetector.getHandCenter(hand)
+    }
 }

@@ -1,6 +1,7 @@
+import { GesturesDef } from '@gestures/types';
 import * as fp from 'fingerpose'
 
-const okGesture = new fp.GestureDescription('okGesture')
+const okGesture = new fp.GestureDescription(GesturesDef.Click)
 okGesture.addCurl(fp.Finger.Thumb, fp.FingerCurl.NoCurl, 1.0);
 okGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpLeft, 1);
 

@@ -1,6 +1,7 @@
+import { GesturesDef } from '@gestures/types';
 import * as fp from 'fingerpose'
 
-const fingerUp = new fp.GestureDescription('fingerUp')
+const fingerUp = new fp.GestureDescription(GesturesDef.ScrollUp)
 
 fingerUp.addCurl(fp.Finger.Index, fp.FingerCurl.NoCurl, 1.0);
 fingerUp.addCurl(fp.Finger.Index, fp.FingerCurl.NoCurl, 0.9);
