@@ -45,63 +45,6 @@ export default class MouseView {
         this.gestures[gesture].execute()
     }
 
-    // private keypointMovingAvarage(data: Array<Keypoint>, window: number): Keypoint {
-    //     const sum = data.reduce((previousSamples, currentSample) => {
-    //         previousSamples.x = previousSamples.x + currentSample.x
-    //         previousSamples.y = previousSamples.y + currentSample.y
-
-    //         return previousSamples
-    //     }, { x: 0, y: 0 })
-
-    //     const x = sum.x / window
-    //     const y = sum.y / window
-
-    //     return { x, y }
-    // }
-
-    // private smoothHandShake(cursor: Keypoint): Keypoint {
-    //     this.lastSamples.push(cursor)
-    //     let averagedCursor = cursor
-    //     const window = 3
-
-    //     if (this.lastSamples.length < window) return averagedCursor
-
-    //     averagedCursor = this.keypointMovingAvarage(this.lastSamples, window)
-
-    //     cursor.x = averagedCursor.x
-    //     cursor.y = averagedCursor.y
-
-    //     this.lastSamples.shift() 
-
-    //     return averagedCursor
-    // }
-
-    // private getClickableElementPosition(cursor: Keypoint) {
-    //     const neighborhood = 38
-    //     for (let x = cursor.x - neighborhood; x <= cursor.x + neighborhood; x++) {
-    //         for (let y = cursor.y - neighborhood; y <= cursor.y + neighborhood; y++) {
-    //             const element = document.elementFromPoint(cursor.x, cursor.y)
-    //             const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY']
-    //             if (element && (clickableTagElements.includes(element.tagName) || clickableTagElements.includes(element.parentElement?.tagName))) {
-    //                 const rect = element.getBoundingClientRect()
-    //                 cursor.x = rect.x + rect.width / 2
-    //                 cursor.y = rect.y + rect.height / 2
-    //             }
-    //         }
-    //     }
-    //     return cursor
-    // }
-
-    // private normalizeHandCenterPosition(cursor: Keypoint): Keypoint {
-    //     const xRatio = this.canvas.width / this.video.width
-    //     const yRatio = this.canvas.height / this.video.height
-    
-    //     cursor.x = 2 * (cursor.x * xRatio - this.video.width / 2)
-    //     cursor.y = 2 * (cursor.y * yRatio- this.video.height / 2)
-
-    //     return cursor
-    // }
-
     loop(fn: FrameRequestCallback) {
         requestAnimationFrame(fn)
     }

@@ -1,9 +1,12 @@
 import { Cursor } from "@lib/Cursor";
 import { IGesture } from "./types";
 import { Point } from "../types";
+import { checkEventCanExecute } from "@utils/checkEventCanExecute";
+
+const { shouldExecute } = checkEventCanExecute(500)
 
 export class FreeMove implements IGesture {
-    lastPosition: Point
+    lastPosition: Point = { x: 0, y: 0 }
 
     draw(ctx: CanvasRenderingContext2D) {
         Cursor.innerCircle(Cursor.executingActionRadius, ctx)
@@ -13,9 +16,11 @@ export class FreeMove implements IGesture {
         Cursor.bottomTriangle(ctx)
         Cursor.leftTriangle(ctx)
 
+        if(!shouldExecute()) return
+
         this.lastPosition = Cursor.getCursor()
     }
-
+    
     execute() {
         const { x, y } = Cursor.getCursor()
 

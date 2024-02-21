@@ -1,4 +1,4 @@
-import mouseFactory from '../../factories/MouseFactory'
+import mouseFactory from '@factories/MouseFactory'
 
 mouseFactory.initialize()
 

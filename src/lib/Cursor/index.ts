@@ -9,14 +9,20 @@ export class Cursor {
     private static x: number
     private static y: number
 
-    private static getClickableElementPosition(handCenter: Point) {
-        const neighborPixels = 38
+    private static stickToClickableElement(handCenter: Point) {
+        const neighborPixels = 64
         const position: Point = handCenter
         const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY']
         const element = document.elementFromPoint(handCenter.x, handCenter.y)
 
         if(!element) return position
-        if(!clickableTagElements.includes(element.tagName) && !clickableTagElements.includes(element.parentElement?.tagName)) return position
+
+        const isClickableElement = 
+            clickableTagElements.includes(element.tagName) ||
+            clickableTagElements.includes(element.parentElement?.tagName) ||
+            clickableTagElements.includes(element.role?.toUpperCase()) 
+
+        if(!isClickableElement) return position
 
         for (let x = handCenter.x - neighborPixels; x <= handCenter.x + neighborPixels; x++) {
             for (let y = handCenter.y - neighborPixels; y <= handCenter.y + neighborPixels; y++) {
@@ -30,7 +36,7 @@ export class Cursor {
     }
 
     static setCursor(handCenter: Point) {
-        const { x, y } = this.getClickableElementPosition(handCenter)
+        const { x, y } = this.stickToClickableElement(handCenter)
 
         this.x = x
         this.y = y

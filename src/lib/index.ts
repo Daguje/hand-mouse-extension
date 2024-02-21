@@ -1,5 +1,5 @@
-export { HandDector } from './HandDetector'
+import LoadingToast from './Loading'
+
 export { Camera } from './Camera'
-export { Hand } from './Hand'
 export { Cursor } from './Cursor'
-export { Loading } from './Loading'
+export { LoadingToast }

@@ -1,6 +1,6 @@
 import { browser } from "webextension-polyfill-ts";
 
-export class Loading {
+export default class LoadingToast {
     static async show(){
         const loadingUrl = await fetch(browser.runtime.getURL('/loading.html'))
         const loadingHtml = await loadingUrl.text()
@@ -8,7 +8,7 @@ export class Loading {
     }
 
     static hide() {
-        const loadingElement = document.querySelector('.hm-loading')
+        const loadingElement = document.getElementById('hm-loading')
         loadingElement.remove()
     }
 }

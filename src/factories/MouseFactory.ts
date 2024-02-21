@@ -11,9 +11,11 @@ import { FreeMove } from "@gestures/FreeMove";
 import { GoBack } from "@gestures/GoBack";
 import { ScrollDown } from "@gestures/ScrollDown";
 import { ScrollUp } from "@gestures/ScrollUp";
+import LoadingToast from "@lib/Loading";
+
+await LoadingToast.show()
 
 const camera = await Camera.create()
-// const mediapipeHandLandmarkDetector = await MediaPipeHandDetector.create()
 const tfjsHandLandmarkDetector = await TFJSHandDector.create()
 const fingerPoseClassifier = FingerPoseClassifier.create()
 
@@ -40,5 +42,7 @@ const factory = {
         })
     }
 }
+
+LoadingToast.hide()
 
 export default factory

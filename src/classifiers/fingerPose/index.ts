@@ -38,7 +38,7 @@ export default class FingerPoseClassifier {
         console.log(data, labels)
     }
 
-    convertToFingerpose(keypoints: Array<Keypoint>) {
+    private convertToFingerpose(keypoints: Array<Keypoint>) {
         const vetor: number[][] = [];
 
         for (let i = 0; i < keypoints.length; i++) {
