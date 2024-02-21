@@ -1,4 +1,4 @@
-{
+module.exports = {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "extends": [
@@ -9,7 +9,8 @@
   ],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "commonjs": true,
   },
   "rules": {
     "no-restricted-syntax": [

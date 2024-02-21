@@ -1,4 +1,3 @@
-import { Message } from '@utils/message/types'
 import { browser } from 'webextension-polyfill-ts';
 import {
   getStorageItem,

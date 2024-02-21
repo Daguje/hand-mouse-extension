@@ -3,7 +3,7 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "ES2022",
-    "target": "ES2017",
+    "target": "ES2020",
     "allowJs": true,
     "moduleResolution": "node",
     "paths": {
@@ -19,7 +19,7 @@
       "@models/*": ["./src/models/*"],
       "@classifiers/*": ["./src/classifiers/*"],
       "@handLandmarkDetectors/*": ["./src/handLandmarkDetectors/*"],
-      "@gestures/*": ["./src/gestures/*"],
+      "@gestures/*": ["./src/gestures/*"]
     },
     "experimentalDecorators": true
   }

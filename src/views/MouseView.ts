@@ -1,5 +1,4 @@
 import { GesturesDef, IGesture } from "@gestures/types";
-import { Keypoint } from "@tensorflow-models/hand-pose-detection";
 import { Point } from "../types";
 import { Cursor } from "@lib/Cursor";
 

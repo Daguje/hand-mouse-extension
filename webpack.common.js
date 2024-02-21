@@ -76,7 +76,7 @@ module.exports = {
     }),
     new ESLintPlugin({
       extensions: ['js', 'ts'],
-      overrideConfigFile: path.resolve(__dirname, '.eslintrc'),
+      overrideConfigFile: path.resolve(__dirname, '.eslintrc.cjs'),
     }),
   ],
 };
