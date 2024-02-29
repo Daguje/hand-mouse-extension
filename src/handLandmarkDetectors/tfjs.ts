@@ -1,7 +1,6 @@
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import '@tensorflow/tfjs-backend-webgl'
 import { Hand } from '@tensorflow-models/hand-pose-detection';
-import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 import { staticImplements } from '@utils/staticImplements';
 import { IStaticHandLandmarkDetector } from './types';
 import { Point } from '../types';
@@ -59,7 +58,17 @@ export class TFJSHandDector {
     return handCenter
   }
 
-  async estimateHands(img: PixelInput) {
+  normalize(hand: Hand, img: HTMLVideoElement) {
+    const normalizedKeypoints =  hand.keypoints.map(({ x, y }) => ({
+      x: x / img.width,
+      y: y / img.height
+    }))
+
+    hand.keypoints = normalizedKeypoints
+    return hand
+  }
+
+  async estimateHands(img: HTMLVideoElement) {
     const detector = this.detector;
 
     let hands: Array<Hand> = [];

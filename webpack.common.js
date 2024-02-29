@@ -23,7 +23,11 @@ module.exports = {
     ...resources
   },
   experiments: {
-    topLevelAwait: true
+    asyncWebAssembly: true,
+    layers: true,
+    outputModule: true,
+    syncWebAssembly: true,
+    topLevelAwait: true,
   },
   module: {
     rules: [
@@ -39,6 +43,11 @@ module.exports = {
     ],
   },
   resolve: {
+    fallback: {
+      path: false,
+      crypto: false,
+      fs: false,
+    },
     alias: {
       '@lib': path.resolve(__dirname, 'src', 'lib'),
       '@pages': path.resolve(__dirname, 'src', 'pages'),
@@ -60,6 +69,7 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    wasmLoading: 'fetch'
   },
   plugins: [
     new CopyPlugin({
@@ -79,4 +89,9 @@ module.exports = {
       overrideConfigFile: path.resolve(__dirname, '.eslintrc.cjs'),
     }),
   ],
+  node: {
+    global: false,
+    __filename: false,
+    __dirname: false,
+  }
 };

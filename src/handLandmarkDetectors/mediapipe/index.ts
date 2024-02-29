@@ -4,8 +4,8 @@ import {
     HandLandmarkerResult,
     ImageSource,
 } from "@mediapipe/tasks-vision";
-import { staticImplements } from '../utils/staticImplements'
-import { IStaticHandLandmarkDetector } from "./types";
+import { staticImplements } from '../../utils/staticImplements'
+import { IStaticHandLandmarkDetector } from "../types";
   
 @staticImplements<IStaticHandLandmarkDetector>()
 export class MediaPipeHandDetector {
@@ -28,14 +28,21 @@ export class MediaPipeHandDetector {
         }
     }
 
+    getHandCenter(hand: unknown) {
+        return {
+            x: 0,
+            y: 0
+        }
+    }
+
     static async createDetector() {
-        const vision = await FilesetResolver.forVisionTasks(
-            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0"
-        );
+        const vision = await FilesetResolver.forVisionTasks("tasks-vision@0.10");
+
+        FilesetResolver.forVisionTasks
 
         const detector = await HandLandmarker.createFromOptions(vision, {
             baseOptions: {
-                modelAssetPath: '../models/hand_landmarker.task',
+                modelAssetPath: 'hand_landmarker.task',
                 delegate: "GPU",
             },
             runningMode: "VIDEO",

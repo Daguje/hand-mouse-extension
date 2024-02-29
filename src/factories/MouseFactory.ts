@@ -4,7 +4,6 @@ import HandLandmarkEstimatorService from "@services/HandLandmarkEstimatorService
 import MouseView from "@views/MouseView";
 import { TFJSHandDector } from "@handLandmarkDetectors/tfjs";
 import GestureEstimatorService from "@services/GestureEstimatorService";
-import FingerPoseClassifier from "@classifiers/fingerPose";
 import { Click } from "@gestures/Click";
 import { None } from "@gestures/None";
 import { FreeMove } from "@gestures/FreeMove";
@@ -12,12 +11,13 @@ import { GoBack } from "@gestures/GoBack";
 import { ScrollDown } from "@gestures/ScrollDown";
 import { ScrollUp } from "@gestures/ScrollUp";
 import LoadingToast from "@lib/Loading";
+import SVMClassifier from "@classifiers/svm";
 
 await LoadingToast.show()
 
 const camera = await Camera.create()
 const tfjsHandLandmarkDetector = await TFJSHandDector.create()
-const fingerPoseClassifier = FingerPoseClassifier.create()
+const svmClassifier = SVMClassifier.create()
 
 const factory = {
     initialize() {
@@ -37,7 +37,7 @@ const factory = {
                 handLandmarkDetector: tfjsHandLandmarkDetector
             }),
             gestureService: new GestureEstimatorService({
-                gestureClassifier: fingerPoseClassifier
+                gestureClassifier: svmClassifier
             })
         })
     }

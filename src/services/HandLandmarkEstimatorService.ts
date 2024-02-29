@@ -15,6 +15,10 @@ export default class HandLandmarkEstimatorService {
         return await this.handLandmarkDetector.estimateHands(img)
     }
 
+    normalize(hand: unknown, img: HTMLVideoElement) {
+        return this.handLandmarkDetector.normalize(hand, img)
+    }
+
     getHandCenter(hand: unknown) {
         return this.handLandmarkDetector.getHandCenter(hand)
     }

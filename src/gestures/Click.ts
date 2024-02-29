@@ -1,4 +1,4 @@
-import { Cursor } from "@lib/Cursor";
+import { Cursor } from "../lib/Cursor";
 import { IGesture } from "./types";
 
 export class Click implements IGesture {
@@ -10,7 +10,6 @@ export class Click implements IGesture {
     execute() {
         const { x, y } = Cursor.getCursor()
         const element = document.elementFromPoint(x, y)
-        element.scrollLeft
 
         this.fireClickEvent(element)
     }
