@@ -4,6 +4,8 @@ import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { staticImplements } from '@utils/staticImplements';
 import { IStaticHandLandmarkDetector } from './types';
 import { Point } from '../types';
+import * as tf from '@tensorflow/tfjs'
+
 
 @staticImplements<IStaticHandLandmarkDetector>()
 export class TFJSHandDector {
@@ -68,13 +70,22 @@ export class TFJSHandDector {
     return hand
   }
 
+  parse(hand: Hand) {
+    const parsedHandsData =  hand.keypoints.map(({ x, y }) => {
+      return [x, y]
+    })
+
+    return parsedHandsData.flat()
+  }
+
   async estimateHands(img: HTMLVideoElement) {
     const detector = this.detector;
 
     let hands: Array<Hand> = [];
+    const input = tf.browser.fromPixels(img)
 
     try {
-      hands = await detector.estimateHands(img, { flipHorizontal: true });
+      hands = await detector.estimateHands(input, { flipHorizontal: true });
 
       return hands;
     } catch (err) {

@@ -22,21 +22,14 @@ export class Camera {
     };
   }
 
-  static draw(video: HTMLVideoElement) {
+  static draw(video: HTMLVideoElement, element: HTMLElement) {
     video.height = video.videoHeight;
     video.width = video.videoWidth;
     video.style.height = CAMERA_DISPLAY_HEIGHT;
     video.style.width = CAMERA_DISPLAY_WIDTH;
     video.style.transform = 'scaleX(-1)';
-    video.style.position = 'fixed';
-    video.style.top = '16px';
-    video.style.left = '16px';
-    video.style.zIndex = MAX_Z_INDEX;
-    video.style.display = 'none';
     video.id = 'hm-camera-display';
-    document.body.append(video);
-
-    video.play();
+    element.append(video);
   }
 
   static async create() {
@@ -60,8 +53,8 @@ export class Camera {
       };
     });
 
-    this.draw(camera.video)
-    
+    camera.video.play()
+
     return camera;
   }
 }

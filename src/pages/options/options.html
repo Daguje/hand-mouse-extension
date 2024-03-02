@@ -9,12 +9,66 @@
 </head>
 
 <body>
-  <div class="popup w-[500px]">
-    <h1>Options page!</h1>
-    
-    <button>Save</button>
-    <input type="checkbox" name="" id="">
-  </div>
+  <dialog>
+    <div>
+      <div>
+        <h2>Editar gesto de <span id="gesture-name-span"></span></h2>
+        <button id="close-dialog">Fechar</button>
+      </div>
+      <p>Uma sequência de x fotos serão capturadas para registrar o novo gesto correspondente a ação de clique</p>
+    </div>
+    <div>
+      <div>
+        <button id="start-capture-button">Começar</button>
+        <button id="finish-capture-button">Finalizar</button>
+        <div id="video-container"></div>
+      </div>
+      <div>
+        <h4>Capturas</h4>
+        <div id="gestures-captures-previews-container">
+
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <main>
+    <header>
+      <button>Voltar</button>
+      <h1>Hand Mouse</h1>
+    </header>
+    <section>
+      <p>Altere de acordo com sua preferência os gestos correspondentes as ações que você realiza usando a Hand Mouse</p>
+      <div>
+        <div>
+          <div>
+            <div>
+              <img>
+            </div>
+            <div>
+              <h5>Ação</h5>
+              <h4>Clique</h4>
+            </div>
+          </div>
+          <button id="edit-click-gesture-button">Editar</button>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <img>
+            </div>
+            <div>
+              <h5>Ação</h5>
+              <h4>Mover Livremente</h4>
+            </div>
+          </div>
+          <button id="edit-free-move-gesture-button">Editar</button>
+        </div>
+      </div>
+      <button id="save-changes-button">Salvar</button>
+    </section>
+  </main>
   <script src="options.js"></script>
 </body>
 </html>

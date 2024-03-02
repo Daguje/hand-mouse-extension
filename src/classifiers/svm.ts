@@ -2,6 +2,7 @@ import SVM from 'libsvm-js/dist/browser/asm/libsvm'
 
 import { IStaticClassifier } from '@classifiers/types'
 import { staticImplements } from '@utils/staticImplements'
+import { GesturesDef } from '@gestures/types'
 
 @staticImplements<IStaticClassifier>()
 export default class SVMClassifier {
@@ -33,6 +34,15 @@ export default class SVMClassifier {
     }
 
     async predict(hands: number[][]) {
-        return this.estimator.predict(hands)
+        try {
+            const predictions = this.estimator.predict(hands)
+    
+            if(!predictions) return GesturesDef.None
+            if(!predictions.length) return GesturesDef.None
+    
+            return predictions
+        } catch(e) {
+            throw new Error(`Não foi possível fazer a predição: ${e}`)
+        }
     }
 }

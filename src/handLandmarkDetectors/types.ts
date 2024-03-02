@@ -5,7 +5,8 @@ export interface IHandLandmarkDetector {
     setup(): Promise<void>
     estimateHands(args: unknown): Promise<unknown>
     getHandCenter(hand: unknown): Point
-    normalize(hand: unknown, img: HTMLVideoElement): unknown
+    normalize(hand: unknown, img: PixelInput): unknown
+    parse(hand: unknown): Array<number>
 }
 
 export interface IStaticHandLandmarkDetector {
