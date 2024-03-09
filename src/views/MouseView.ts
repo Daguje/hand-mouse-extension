@@ -1,15 +1,15 @@
-import { GesturesDef, IGesture } from "@gestures/types";
+import { GesturesDef, GesturesStringDef, IGesture } from "@gestures/types";
 import { Point } from "../types";
 import { Cursor } from "@lib/Cursor";
 
 interface IMouseViewProps {
-    gestures: Partial<Record<GesturesDef, IGesture>>
+    gestures: Partial<Record<GesturesStringDef, IGesture>>
 }
 
 export default class MouseView {
     private canvas: HTMLCanvasElement
     private ctx: CanvasRenderingContext2D
-    private gestures: Partial<Record<GesturesDef, IGesture>>
+    private gestures: Partial<Record<GesturesStringDef, IGesture>>
 
     constructor({ gestures }: IMouseViewProps) {
         this.canvas = document.createElement('canvas')
@@ -34,13 +34,13 @@ export default class MouseView {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawCursor(gesture: GesturesDef, handCenter: Point) {
+    drawCursor(gesture: GesturesStringDef, handCenter: Point) {
         this.clearCanvas()
         Cursor.setCursor(handCenter)
-        this.gestures[gesture].draw(this.ctx)
+        this.gestures[gesture].draw(this.ctx)   
     }
 
-    execute(gesture: GesturesDef) {
+    execute(gesture: GesturesStringDef) {
         this.gestures[gesture].execute()
     }
 

@@ -23,13 +23,14 @@ export class Camera {
   }
 
   static draw(video: HTMLVideoElement, element: HTMLElement) {
-    video.height = video.videoHeight;
-    video.width = video.videoWidth;
-    video.style.height = CAMERA_DISPLAY_HEIGHT;
-    video.style.width = CAMERA_DISPLAY_WIDTH;
-    video.style.transform = 'scaleX(-1)';
-    video.id = 'hm-camera-display';
-    element.append(video);
+    video.style.height = CAMERA_DISPLAY_HEIGHT
+    video.style.width = CAMERA_DISPLAY_WIDTH
+    // video.style.transform = 'scaleX(-1)'
+    // video.style.position = 'absolute'
+    // video.style.top = '0'
+    // video.style.left = '0'
+    // video.style.zIndex = MAX_Z_INDEX  
+    element.append(video)
   }
 
   static async create() {
@@ -41,10 +42,13 @@ export class Camera {
 
     const stream = await navigator.mediaDevices.getUserMedia(
       this.getVideoConfig(),
-    );
-    
+      );
+      
     const camera = new Camera();
     camera.video.srcObject = stream;
+    camera.video.height = camera.video.videoHeight;
+    camera.video.width = camera.video.videoWidth;
+    camera.video.id = 'hm-camera-display';
     
     // Permissão da Câmera
     await new Promise((resolve) => {

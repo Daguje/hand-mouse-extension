@@ -1,4 +1,4 @@
-import { GesturesDef } from '@gestures/types'
+import { GesturesDef, GesturesStringDef, gestureNameMap } from '@gestures/types'
 import { Camera } from '@lib/Camera'
 import GestureEstimatorService from '@services/GestureEstimatorService'
 import HandLandmarkEstimatorService from '@services/HandLandmarkEstimatorService'
@@ -32,15 +32,15 @@ export default class MouseController {
 
     private drawCursor(gesture: GesturesDef, handCenter: Point) {
         if(!handCenter) return
-        this.view.drawCursor(gesture, handCenter)
+        this.view.drawCursor(gestureNameMap[gesture] as GesturesStringDef, handCenter)
     }
 
     private execute(gesture: GesturesDef) {
-        this.view.execute(gesture)
+        this.view.execute(gestureNameMap[gesture] as GesturesStringDef)
     }
 
     private async estimateHands() {
-        const hands = await this.handLandmarkService.estimateHands(this.camera.video)
+        const hands = await this.handLandmarkService.estimateFromVideo(this.camera.video)
         return hands as Array<Hand>
     }
 
@@ -61,10 +61,12 @@ export default class MouseController {
         const hands = await this.estimateHands()
         const normalizedHands = this.normalizeHands(hands)
         const handCenter = this.getHandCenter(hands)
-        const gesture = await this.estimateGesture(normalizedHands)
+        console.log(handCenter)
+        // const gesture = await this.estimateGesture(normalizedHands)
+        // console.log(gesture)
 
-        this.drawCursor(gesture, handCenter)
-        this.execute(gesture)
+        // this.drawCursor(gesture, handCenter)
+        // this.execute(gesture)
 
         this.view.loop(this.loop.bind(this))
     }

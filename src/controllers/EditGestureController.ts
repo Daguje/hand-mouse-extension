@@ -1,18 +1,17 @@
 /* eslint-disable no-case-declarations */
 import { gestureNameMap } from '@gestures/types';
 import { Camera } from '@lib/Camera';
-import GestureEstimatorService from '@services/GestureEstimatorService';
+import { Constants } from '@lib/constants';
 import HandLandmarkEstimatorService from '@services/HandLandmarkEstimatorService';
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { checkEventCanExecute } from '@utils/checkEventCanExecute';
-import { setStorageData } from '@utils/storage';
+import { setStorageItem } from '@utils/storage';
 import EditGestureView from '@views/EditGestureView';
 
 interface IEditGestureControllerProps {
   view: EditGestureView;
   camera: Camera;
   handLandmarkService: HandLandmarkEstimatorService;
-  gestureService: GestureEstimatorService;
   gesture: number
 }
 
@@ -29,38 +28,29 @@ export default class EditGestureController {
   private view: EditGestureView;
   private camera: Camera;
   private handLandmarkService: HandLandmarkEstimatorService;
-  private gestureService: GestureEstimatorService;
   private gesture: number
   private state: CaptureStates;
-
-  private parsedGestureData: Array<Array<number>> = []
 
   constructor({
     camera,
     view,
     handLandmarkService,
-    gestureService,
     gesture,
   }: IEditGestureControllerProps) {
     this.camera = camera;
     this.view = view;
     this.handLandmarkService = handLandmarkService;
-    this.gestureService = gestureService;
     this.gesture = gesture
 
     this.state = CaptureStates.Started;
   }
 
   private isDone() {
-    return this.view.getCaptureListLength() >= 2;
+    return this.view.getCaptureListLength() >= Constants.MAX_PICTURES_TAKEN;
   }
 
   private showCaptures() {
     this.view.showCaptures();
-  }
-
-  private appendParsedGestureData(data: Array<number>) {
-    this.parsedGestureData.push(data)
   }
 
   private appendGesture(img: HTMLImageElement) {
@@ -71,10 +61,14 @@ export default class EditGestureController {
     return this.view.capture(this.camera.video);
   }
 
+  private handleStart() {
+    this.state = CaptureStates.Running;
+  }
+
   private onStart() {
-    this.view.onStart(() => {
-      this.state = CaptureStates.Running;
-    });
+    this.view.onStart();
+    const startButton = this.view.startButton
+    startButton.addEventListener('mouseup', () => this.handleStart())
   }
 
   private async runCaptureLoop() {
@@ -96,44 +90,58 @@ export default class EditGestureController {
   }
 
   private async estimateHands(img: HTMLImageElement) {
-    const hands = await this.handLandmarkService.estimateHands(img);
+    const hands = await this.handLandmarkService.estimateFromImage(img);
     return hands as Array<Hand>;
   }
 
   private normalizeHand(hand: Hand, img: HTMLImageElement) {
     const normalizedHand = this.handLandmarkService.normalize(hand, img);
-
     return normalizedHand as Hand;
   }
 
-  private parse(hand: Hand) {
-    const parsedHandsData = this.handLandmarkService.parse(hand);
-    parsedHandsData.push(this.gesture)
-
-    return parsedHandsData
+  private convert(hand: Hand) {
+    const covertedHandsData = this.handLandmarkService.convert(hand);
+    return covertedHandsData
   }
 
-  private async parseGestureData() {
-    const gestures = this.view.getCaptureList()
-  
-    await Promise.all(gestures.map(async gesture => {
-      const hands = await this.estimateHands(gesture)
-      const normalizedHand = this.normalizeHand(hands[0], gesture)
-      const parsedHandsData = this.parse(normalizedHand)
-      this.appendParsedGestureData(parsedHandsData)
-    }))
+  private async preProcessData() {
+    const captures = this.view.getCaptureList()
+    const data = []
+    const labels = []
+
+    console.log('Pré-Processando Dados')
+    for await (const capture of captures) {
+      const hands = await this.estimateHands(capture)
+
+      if(!hands.length) continue
+      
+      const normalizedHand = this.normalizeHand(hands[0], capture)
+      const convertedHandsData = this.convert(normalizedHand)
+
+      data.push(convertedHandsData)
+      labels.push(this.gesture)
+    }
+    console.log('Dados Pré-Processados')
+
+    return [data, labels]
   }
 
-  private async save() {
-    await this.parseGestureData()
-    await setStorageData({ [gestureNameMap[this.gesture]]: this.parsedGestureData })
+  private async handleSave() {
+    try {
+      const [data, labels] = await this.preProcessData()
+      if(data.length) await setStorageItem(gestureNameMap[this.gesture], data)
+      if(labels.length) await setStorageItem(`${gestureNameMap[this.gesture]}Labels`, labels)
+    } catch (e) {
+      throw new Error(`Não foi possível salvar os dados em Local Storage: ${e}`)
+    }
   }
 
   private onDone() {
     this.state = CaptureStates.Stopped
-    this.view.onDone(async () => {
-      await this.save()
-    });
+    this.view.onDone()
+    
+    const finishButton = this.view.finishButton
+    finishButton.addEventListener('mouseup', () => this.handleSave())
   }
 
   private async loop() {
@@ -163,12 +171,12 @@ export default class EditGestureController {
     return controller;
   }
 
-  static async dispose(deps: IEditGestureControllerProps) {
-    const controller = new EditGestureController(deps);
-    controller.state = CaptureStates.Stopped
-    controller.parsedGestureData = []
-    controller.view.dispose()
+  dispose() {
+    this.state = CaptureStates.Stopped
+    this.view.dispose()
+    this.view.startButton.removeEventListener('mouseup', this.handleStart)
+    this.view.finishButton.removeEventListener('mouseup', this.handleSave)
 
-    return controller;
+    return this;
   }
 }

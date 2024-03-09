@@ -1,14 +1,29 @@
 export default class EditGestureView {
     private gestureImageCaptureList: Array<HTMLImageElement> = []
     private gesturesCapturesPreviewsContainer: HTMLDivElement
-    private startButton: HTMLButtonElement
-    private finishButton: HTMLButtonElement
+    private _startButton: HTMLButtonElement
+    private _finishButton: HTMLButtonElement
+    private _trainButton: HTMLButtonElement
     private loopId: number
 
     constructor() {
-        this.startButton = document.getElementById('start-capture-button') as HTMLButtonElement
-        this.finishButton = document.getElementById('finish-capture-button') as HTMLButtonElement
+        this._startButton = document.getElementById('start-capture-button') as HTMLButtonElement
+        this._finishButton = document.getElementById('finish-capture-button') as HTMLButtonElement
+        this._trainButton = document.getElementById('train-model-button') as HTMLButtonElement
         this.gesturesCapturesPreviewsContainer = document.getElementById('gestures-captures-previews-container') as HTMLDivElement
+        this.loopId = null
+    }
+
+    get startButton() {
+        return this._startButton
+    }
+
+    get finishButton() {
+        return this._finishButton
+    }
+
+    get trainButton() {
+        return this._trainButton
     }
 
     getCaptureList() {
@@ -19,20 +34,18 @@ export default class EditGestureView {
         return this.gestureImageCaptureList.length
     }
 
-    onStart(fn: () => void) {
+    onStart() {
         this.finishButton.disabled = true
         this.startButton.disabled = false
-        this.startButton.addEventListener('click', fn.bind(this))
     }
 
     onRunning() {
         this.startButton.disabled = true
     }
 
-    onDone(fn: () => Promise<void>) {
+    onDone() {
         this.finishButton.disabled = false
         this.startButton.disabled = true
-        this.finishButton.addEventListener('click', fn.bind(this))
     }
 
     appendGesture(img: HTMLImageElement) {
@@ -80,6 +93,7 @@ export default class EditGestureView {
 
     dispose() {
         this.gestureImageCaptureList = []
+        this.gesturesCapturesPreviewsContainer.innerHTML = ""
         cancelAnimationFrame(this.loopId)
     }
 }

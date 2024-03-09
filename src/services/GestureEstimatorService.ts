@@ -11,6 +11,10 @@ export default class GestureEstimatorService {
         this.gestureClassifier = gestureClassifier
     }
 
+    save() {
+        return this.gestureClassifier.save()
+    }
+
     async train(data: unknown, labels: Array<unknown>) {
         return await this.gestureClassifier.fit(data, labels)
     }

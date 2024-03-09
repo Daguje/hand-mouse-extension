@@ -1451,6 +1451,14 @@
     "@types/seedrandom" "^2.4.28"
     seedrandom "^3.0.5"
 
+"@tensorflow/tfjs-backend-wasm@^4.17.0":
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-backend-wasm/-/tfjs-backend-wasm-4.17.0.tgz#56f3603a4bce23a56687dc57a1369073f3c2705e"
+  integrity sha512-MWDjXkc7OVxFlCMZR55d2ObgregvbysA6td7rTauJjLT/oqNKu2F5v9aL61eHvzJP2ei4utWLwXbVJpcN/wVIw==
+  dependencies:
+    "@tensorflow/tfjs-backend-cpu" "4.17.0"
+    "@types/emscripten" "~0.0.34"
+
 "@tensorflow/tfjs-backend-webgl@4.17.0", "@tensorflow/tfjs-backend-webgl@^4.4.0":
   version "4.17.0"
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-backend-webgl/-/tfjs-backend-webgl-4.17.0.tgz#7d540a92343582d37d2cdf9509060598a19cd17a"
@@ -1547,6 +1555,11 @@
   integrity sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==
   dependencies:
     "@types/node" "*"
+
+"@types/emscripten@~0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/emscripten/-/emscripten-0.0.34.tgz#12b4a344274fb102ff2f6c877b37587bc3e46008"
+  integrity sha512-QSb9ojDincskc+uKMI0KXp8e1NALFINCrMlp8VGKGcTSxeEyRTTKyjWw75NYrCZHUsVEEEpr1tYHpbtaC++/sQ==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.7"

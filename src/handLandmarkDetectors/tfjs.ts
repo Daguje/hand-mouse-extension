@@ -1,11 +1,10 @@
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
-import '@tensorflow/tfjs-backend-webgl'
 import { Hand } from '@tensorflow-models/hand-pose-detection';
+import '@tensorflow/tfjs-backend-webgl'
 import { staticImplements } from '@utils/staticImplements';
 import { IStaticHandLandmarkDetector } from './types';
 import { Point } from '../types';
 import * as tf from '@tensorflow/tfjs'
-
 
 @staticImplements<IStaticHandLandmarkDetector>()
 export class TFJSHandDector {
@@ -33,7 +32,7 @@ export class TFJSHandDector {
     const detector = await handPoseDetection.createDetector(model, {
       runtime: 'tfjs',
       modelType: 'lite',
-      maxHands: 1,
+      maxHands: 1, 
     });
 
     return detector;
@@ -61,31 +60,41 @@ export class TFJSHandDector {
   }
 
   normalize(hand: Hand, img: HTMLVideoElement) {
-    const normalizedKeypoints =  hand.keypoints.map(({ x, y }) => ({
-      x: x / img.width,
-      y: y / img.height
+    const normalizedHand = hand
+    const input = tf.browser.fromPixels(img)
+
+    normalizedHand.keypoints.forEach(({ x, y }) => ({
+      x: x / input.shape[0],
+      y: y / input.shape[1]
     }))
 
-    hand.keypoints = normalizedKeypoints
-    return hand
+    return normalizedHand
   }
 
-  parse(hand: Hand) {
-    const parsedHandsData =  hand.keypoints.map(({ x, y }) => {
+  convert(hand: Hand) {
+    const convertHandsData =  hand.keypoints.map(({ x, y }) => {
       return [x, y]
     })
 
-    return parsedHandsData.flat()
+    return convertHandsData.flat()
   }
 
-  async estimateHands(img: HTMLVideoElement) {
+  async estimateFromVideo(video: HTMLVideoElement) {
+    return await this.estimateHands(video, { staticImageMode: false })
+  }
+
+  async estimateFromImage(image: HTMLImageElement) {
+    return await this.estimateHands(image, { staticImageMode: true })
+  }
+
+  async estimateHands(frame: HTMLVideoElement | HTMLImageElement, options?: handPoseDetection.MediaPipeHandsMediaPipeEstimationConfig) {
     const detector = this.detector;
 
     let hands: Array<Hand> = [];
-    const input = tf.browser.fromPixels(img)
-
+    const input = tf.browser.fromPixels(frame)
+    
     try {
-      hands = await detector.estimateHands(input, { flipHorizontal: true });
+      hands = await detector.estimateHands(input, { flipHorizontal: true, ...options });
 
       return hands;
     } catch (err) {
