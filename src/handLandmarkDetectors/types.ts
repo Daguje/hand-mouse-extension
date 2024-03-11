@@ -8,6 +8,7 @@ export interface IHandLandmarkDetector {
     estimateFromImage(image: HTMLImageElement): Promise<unknown>
     getHandCenter(hand: unknown): Point
     normalize(hand: unknown, img: PixelInput): unknown
+    relativize(hand: unknown): unknown
     convert(hand: unknown): Array<number>
 }
 

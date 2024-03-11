@@ -71,6 +71,18 @@ export class TFJSHandDector {
     return normalizedHand
   }
 
+  relativize(hand: Hand) {
+    const relativizedHand = hand
+   
+    relativizedHand.keypoints.forEach(({ x, y, ...keypoint }) => ({
+      x: x - relativizedHand.keypoints[0].x,
+      y: y - relativizedHand.keypoints[0].y,
+      ...keypoint
+    }))
+
+    return relativizedHand
+  }
+
   convert(hand: Hand) {
     const convertHandsData =  hand.keypoints.map(({ x, y }) => {
       return [x, y]

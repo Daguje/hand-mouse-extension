@@ -94,14 +94,8 @@ export default class EditGestureController {
     return hands as Array<Hand>;
   }
 
-  private normalizeHand(hand: Hand, img: HTMLImageElement) {
-    const normalizedHand = this.handLandmarkService.normalize(hand, img);
-    return normalizedHand as Hand;
-  }
-
-  private convert(hand: Hand) {
-    const covertedHandsData = this.handLandmarkService.convert(hand);
-    return covertedHandsData
+  private preprocess(hand: Hand, capture: HTMLImageElement) {
+    return this.handLandmarkService.preprocess(hand, capture)
   }
 
   private async preProcessData() {
@@ -115,10 +109,9 @@ export default class EditGestureController {
 
       if(!hands.length) continue
       
-      const normalizedHand = this.normalizeHand(hands[0], capture)
-      const convertedHandsData = this.convert(normalizedHand)
+      const preprocessedData = this.preprocess(hands[0], capture)
 
-      data.push(convertedHandsData)
+      data.push(preprocessedData)
       labels.push(this.gesture)
     }
     console.log('Dados Pré-Processados')

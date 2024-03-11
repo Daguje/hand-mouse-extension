@@ -44,29 +44,28 @@ export default class MouseController {
         return hands as Array<Hand>
     }
 
-    private normalizeHands(hands: Array<Hand>) {
-        const normalizedHands = hands.map(hand => {
-            return this.handLandmarkService.normalize(hand, this.camera.video) 
-        })
-
-        return normalizedHands as Array<Hand>
+    private preprocess(hand: Hand) {
+        return this.handLandmarkService.preprocess(hand, this.camera.video)
     }
 
-    private async estimateGesture(hands: Array<Hand>) {
-        const gesture = await this.gestureService.predict(hands)
+    private async estimateGesture(data: Array<number>) {
+        const gesture = await this.gestureService.predict([data])
         return gesture
     }
 
     private async loop() {
         const hands = await this.estimateHands()
-        const normalizedHands = this.normalizeHands(hands)
-        const handCenter = this.getHandCenter(hands)
-        console.log(handCenter)
-        // const gesture = await this.estimateGesture(normalizedHands)
-        // console.log(gesture)
+    
+        if(hands.length) {
+            const relativezedHand = this.preprocess(hands[0])
+            
+            const handCenter = this.getHandCenter(hands)
+            const gesture = await this.estimateGesture(relativezedHand)
 
-        // this.drawCursor(gesture, handCenter)
-        // this.execute(gesture)
+            this.drawCursor(gesture, handCenter)
+            this.execute(gesture)
+        }
+
 
         this.view.loop(this.loop.bind(this))
     }

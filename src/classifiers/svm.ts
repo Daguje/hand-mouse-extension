@@ -39,7 +39,7 @@ export default class SVMClassifier {
 
         this.estimator  = new SVM({
             kernel: SVM.KERNEL_TYPES.POLYNOMIAL,
-            type: SVM.SVM_TYPES.EPSILON_SVR,
+            type: SVM.SVM_TYPES.C_SVC,
             gamma: 1,
             cost: 6,
             degree: 2
@@ -74,7 +74,7 @@ export default class SVMClassifier {
     async predict(hand: number[]) {
         try {
             const predictions = this.estimator.predict(hand)
-    
+
             if(!predictions) return GesturesDef.None
             if(!predictions.length) return GesturesDef.None
     
