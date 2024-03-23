@@ -7,9 +7,7 @@ export interface IHandLandmarkDetector {
     estimateFromVideo(video: HTMLVideoElement): Promise<unknown>
     estimateFromImage(image: HTMLImageElement): Promise<unknown>
     getHandCenter(hand: unknown): Point
-    normalize(hand: unknown, img: PixelInput): unknown
-    relativize(hand: unknown): unknown
-    convert(hand: unknown): Array<number>
+    preProcess(hand: unknown, img: unknown): Array<number>
 }
 
 export interface IStaticHandLandmarkDetector {

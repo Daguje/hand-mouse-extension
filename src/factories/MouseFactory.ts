@@ -10,16 +10,15 @@ import { FreeMove } from "@gestures/FreeMove";
 import { Backward } from "@gestures/Backward";
 import { ScrollDown } from "@gestures/ScrollDown";
 import { ScrollUp } from "@gestures/ScrollUp";
-import LoadingToast from "@lib/Loading";
 import SVMClassifier from "@classifiers/svm";
 import { Forward } from "@gestures/Forward";
 
-const camera = await Camera.create()
-const tfjsHandLandmarkDetector = await TFJSHandDector.create()
-const svmClassifier = await SVMClassifier.load()
-
 const factory = {
-    initialize() {
+    async initialize() {
+        const camera = await Camera.create()
+        const tfjsHandLandmarkDetector = await TFJSHandDector.create()
+        const svmClassifier = await SVMClassifier.load()
+
         return MouseController.initialize({
             camera,
             view: new MouseView({

@@ -73,17 +73,11 @@ SV
 `
 
 browser.runtime.onInstalled.addListener(async () => {
-  // await initializeStorageWithDefaults({
-  //   handMouseModel
-  // });
+  await initializeStorageWithDefaults({
+    handMouseModel
+  });
 
   console.log('HandMouse instalado com sucesso');
-});
-
-browser.runtime.onMessage.addListener(async data => {
-  if (data.type === 'notification') {
-    await browser.notifications.create('', data.options);
-  }
 });
 
 // chrome.runtime.onMessage.addListener(async (message, _, sendResponse) => {

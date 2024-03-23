@@ -31,7 +31,9 @@ export default class MouseController {
     }
 
     private drawCursor(gesture: GesturesDef, handCenter: Point) {
+        if(!gesture) return
         if(!handCenter) return
+
         this.view.drawCursor(gestureNameMap[gesture] as GesturesStringDef, handCenter)
     }
 
@@ -57,15 +59,14 @@ export default class MouseController {
         const hands = await this.estimateHands()
     
         if(hands.length) {
-            const relativezedHand = this.preprocess(hands[0])
+            const preProcessedHand = this.preprocess(hands[0])
             
             const handCenter = this.getHandCenter(hands)
-            const gesture = await this.estimateGesture(relativezedHand)
+            const gesture = await this.estimateGesture(preProcessedHand)
 
             this.drawCursor(gesture, handCenter)
             this.execute(gesture)
         }
-
 
         this.view.loop(this.loop.bind(this))
     }

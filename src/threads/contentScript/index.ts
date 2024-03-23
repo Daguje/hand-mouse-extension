@@ -1,17 +1,6 @@
-// import mouseFactory from '@factories/MouseFactory'
-import { browser } from 'webextension-polyfill-ts';
+import mouseFactory from '@factories/MouseFactory'
 
-browser.runtime.sendMessage('', {
-    type: 'notification',
-    options: {
-        title: 'Just wanted to notify you',
-        message: 'How great it is!',
-        iconUrl: '/icon.png',
-        type: 'basic'
-    }
-});
-
-// mouseFactory.initialize()
+await mouseFactory.initialize()
 
 // import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces'
 // import { Camera, Cursor, HandDector, Loading } from '../../lib'

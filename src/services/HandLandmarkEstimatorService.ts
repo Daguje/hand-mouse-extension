@@ -19,25 +19,9 @@ export default class HandLandmarkEstimatorService {
     async estimateFromImage(image: HTMLImageElement) {
         return await this.handLandmarkDetector.estimateFromImage(image)
     }
-
-    private normalize(hand: unknown, img: PixelInput) {
-        return this.handLandmarkDetector.normalize(hand, img)
-    }
-
-    private relativize(hand: unknown) {
-        return this.handLandmarkDetector.relativize(hand)
-    }
-
-    private convert(hands: unknown) {
-        return this.handLandmarkDetector.convert(hands)
-    }
-
+    
     preprocess(hand: unknown, img: PixelInput) {
-        const relativezedHand = this.relativize(hand)
-        const normalizedHand = this.normalize(relativezedHand, img)
-        const convertedHandsData = this.convert(normalizedHand)
-
-        return convertedHandsData
+        return this.handLandmarkDetector.preProcess(hand, img)
     }
 
     getHandCenter(hand: unknown) {

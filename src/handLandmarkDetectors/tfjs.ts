@@ -5,6 +5,7 @@ import { staticImplements } from '@utils/staticImplements';
 import { IStaticHandLandmarkDetector } from './types';
 import { Point } from '../types';
 import * as tf from '@tensorflow/tfjs'
+import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
 
 @staticImplements<IStaticHandLandmarkDetector>()
 export class TFJSHandDector {
@@ -59,36 +60,17 @@ export class TFJSHandDector {
     return handCenter
   }
 
-  normalize(hand: Hand, img: HTMLVideoElement) {
-    const normalizedHand = hand
+  preProcess(hand: Hand, img: HTMLVideoElement | HTMLImageElement) {
     const input = tf.browser.fromPixels(img)
 
-    normalizedHand.keypoints.forEach(({ x, y }) => ({
-      x: x / input.shape[0],
-      y: y / input.shape[1]
-    }))
+    const preProcessedHand =  hand.keypoints.map(({ x, y }) => {
+      const newX = (x - hand.keypoints[0].x) / input.shape[0]
+      const newY = (y - hand.keypoints[0].y) / input.shape[0]
 
-    return normalizedHand
-  }
-
-  relativize(hand: Hand) {
-    const relativizedHand = hand
-   
-    relativizedHand.keypoints.forEach(({ x, y, ...keypoint }) => ({
-      x: x - relativizedHand.keypoints[0].x,
-      y: y - relativizedHand.keypoints[0].y,
-      ...keypoint
-    }))
-
-    return relativizedHand
-  }
-
-  convert(hand: Hand) {
-    const convertHandsData =  hand.keypoints.map(({ x, y }) => {
-      return [x, y]
+      return [newX, newY]
     })
 
-    return convertHandsData.flat()
+    return preProcessedHand.flat()
   }
 
   async estimateFromVideo(video: HTMLVideoElement) {
