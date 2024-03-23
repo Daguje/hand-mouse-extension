@@ -22,7 +22,7 @@ enum CaptureStates {
   Done,
 }
 
-const { shouldExecute } = checkEventCanExecute(2000);
+const { shouldExecute } = checkEventCanExecute(Constants.TIME_BETWEEN_CAPTURES);
 
 export default class EditGestureController {
   private view: EditGestureView;
@@ -47,6 +47,14 @@ export default class EditGestureController {
 
   private isDone() {
     return this.view.getCaptureListLength() >= Constants.MAX_PICTURES_TAKEN;
+  }
+
+  private stopProgress() {
+    this.view.stopProgress()
+  }
+
+  private startProgress() {
+    this.view.startProgress()
   }
 
   private showCaptures() {
@@ -86,6 +94,7 @@ export default class EditGestureController {
 
   private async onRunning() {
     this.view.onRunning();
+    this.startProgress();
     await this.runCaptureLoop();
   }
 
@@ -131,6 +140,7 @@ export default class EditGestureController {
 
   private onDone() {
     this.state = CaptureStates.Stopped
+    this.stopProgress()
     this.view.onDone()
     
     const finishButton = this.view.finishButton
@@ -166,9 +176,11 @@ export default class EditGestureController {
 
   dispose() {
     this.state = CaptureStates.Stopped
-    this.view.dispose()
     this.view.startButton.removeEventListener('mouseup', this.handleStart)
     this.view.finishButton.removeEventListener('mouseup', this.handleSave)
+
+    this.view.dispose()
+    this.camera.dispose()
 
     return this;
   }

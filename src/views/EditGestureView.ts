@@ -1,15 +1,21 @@
+import { Constants } from "@lib/constants"
+
 export default class EditGestureView {
     private gestureImageCaptureList: Array<HTMLImageElement> = []
     private gesturesCapturesPreviewsContainer: HTMLDivElement
     private _startButton: HTMLButtonElement
     private _finishButton: HTMLButtonElement
     private _trainButton: HTMLButtonElement
+    private _progressBar: HTMLDivElement
+    private _progressBarContainer: HTMLDivElement
     private loopId: number
 
     constructor() {
         this._startButton = document.getElementById('start-capture-button') as HTMLButtonElement
         this._finishButton = document.getElementById('finish-capture-button') as HTMLButtonElement
         this._trainButton = document.getElementById('train-model-button') as HTMLButtonElement
+        this._progressBar = document.getElementById('progress-bar') as HTMLDivElement
+        this._progressBarContainer = document.getElementById('progress-bar-container') as HTMLDivElement
         this.gesturesCapturesPreviewsContainer = document.getElementById('gestures-captures-previews-container') as HTMLDivElement
         this.loopId = null
     }
@@ -53,7 +59,9 @@ export default class EditGestureView {
     }
 
     private createGestureCaptureImage(): HTMLImageElement {
-        return document.createElement('img')
+        const img = document.createElement('img')
+        img.className = 'gestures-captures-previews'
+        return img
     }
 
     private createGestureImageCaptureCanvas(): HTMLCanvasElement {
@@ -79,6 +87,14 @@ export default class EditGestureView {
         photo.setAttribute('src', data)
 
         return photo
+    }
+
+    startProgress() {
+        this._progressBar.classList.add('on-progress')
+    }
+    
+    stopProgress() {
+        this._progressBar.classList.remove('on-progress')
     }
 
     showCaptures() {

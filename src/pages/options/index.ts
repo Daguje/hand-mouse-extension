@@ -11,6 +11,7 @@ const editScrollDownGestureButton = document.getElementById('edit-scroll-down-ge
 const editFreeMoveGestureButton = document.getElementById('edit-free-move-gesture-button') as HTMLButtonElement
 const editBackwardGestureButton = document.getElementById('edit-backward-gesture-button') as HTMLButtonElement
 const editForwardGestureButton = document.getElementById('edit-forward-gesture-button') as HTMLButtonElement
+const closePageButton = document.getElementById('close-page-button') as HTMLButtonElement
 
 const closeDialogButton = document.getElementById('close-dialog') as HTMLButtonElement
 const trainButton = document.getElementById('train-model-button') as HTMLButtonElement
@@ -35,9 +36,9 @@ const disposeEditGestureFactory = (controller: EditGestureController) => {
 }
 
 const onEditButtonClick = async (gesture: number) => {
+  dialog.showModal()
   gestureNameSpan.innerHTML = gesturePortugueseTranslateMap[gesture]
   factory = await createEditGestureFactory(gesture)
-  dialog.showModal()
 }
 
 editClickGestureButton.addEventListener('click', () => onEditButtonClick(GesturesDef.Click))
@@ -46,10 +47,11 @@ editScrollDownGestureButton.addEventListener('click', () => onEditButtonClick(Ge
 editFreeMoveGestureButton.addEventListener('click', () => onEditButtonClick(GesturesDef.FreeMove))
 editBackwardGestureButton.addEventListener('click', () => onEditButtonClick(GesturesDef.Backward))
 editForwardGestureButton.addEventListener('click', () => onEditButtonClick(GesturesDef.Forward))
+closePageButton.addEventListener('click', () => window.close())
 
 closeDialogButton.addEventListener('click', () => {
-  factory = disposeEditGestureFactory(factory)
   dialog.close()
+  factory = disposeEditGestureFactory(factory)
 })
 
 trainButton.addEventListener('click', async () => {

@@ -14,13 +14,9 @@ import LoadingToast from "@lib/Loading";
 import SVMClassifier from "@classifiers/svm";
 import { Forward } from "@gestures/Forward";
 
-await LoadingToast.show()
-
 const camera = await Camera.create()
 const tfjsHandLandmarkDetector = await TFJSHandDector.create()
 const svmClassifier = await SVMClassifier.load()
-
-Camera.draw(camera.video, document.body)
 
 const factory = {
     initialize() {
@@ -46,7 +42,5 @@ const factory = {
         })
     }
 }
-
-LoadingToast.hide()
 
 export default factory

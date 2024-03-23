@@ -1,130 +1,515 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="taiwind.css">
-</head>
+    <!-- <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="options.css"> -->
+    <!-- Font Awesome Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
-<body>
-  <dialog>
-    <div>
-      <div>
-        <h2>Editar gesto de <span id="gesture-name-span"></span></h2>
-        <button id="close-dialog">Fechar</button>
-      </div>
-      <p>Uma sequência de x fotos serão capturadas para registrar o novo gesto correspondente a ação de clique</p>
-    </div>
-    <div>
-      <div>
-        <button id="start-capture-button">Começar</button>
-        <button id="finish-capture-button">Finalizar</button>
-        <div id="video-container"></div>
-      </div>
-      <div>
-        <h4>Capturas</h4>
-        <div id="gestures-captures-previews-container">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
 
-        </div>
-      </div>
-    </div>
-  </dialog>
-  <main>
-    <header>
-      <button>Voltar</button>
-      <h1>Hand Mouse</h1>
-    </header>
-    <section>
-      <p>Altere de acordo com sua preferência os gestos correspondentes as ações que você realiza usando a Hand Mouse</p>
-      <div>
-        <div>
-          <div>
-            <div>
-              <img>
-            </div>
-            <div>
-              <h5>Ação</h5>
-              <h4>Clique</h4>
-            </div>
+      :root {
+        --color-neutral-100: #181820;
+        --color-neutral-90: #21212b;
+        --color-neutral-80: #414052;
+        --color-neutral-70: #55555d;
+        --color-neutral-0: #fff5ea;
+
+        --color-primary: #00c1d4;
+        --color-secondary: #d45800;
+
+        --poppins: 'Poppins', sans-serif;
+
+        --font-weight-light: 300;
+        --font-weight-regular: 400;
+        --font-weight-medium: 500;
+        --font-weight-bold: 700;
+      }
+
+      *,
+      html {
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+        border: 0;
+        outline: 0;
+
+        font-family: var(--poppins);
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        width: fit-content;
+
+        font-size: 1rem;
+        font-weight: var(--font-weight-medium);
+
+        background-color: var(--color-primary);
+        color: var(--color-neutral-0);
+
+        cursor: pointer;
+
+        transition-property: transform filter;
+        transition-duration: 100ms;
+        transition-timing-function: ease;
+
+        position: relative;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      button:hover {
+        filter: brightness(120%);
+      }
+
+      button:active {
+        transform: scale(0.95);
+        opacity: 0.7;
+      }
+
+      button.secondary {
+        background-color: var(--color-neutral-80);
+      }
+
+      button.tertiary {
+        background: none;
+      }
+
+      button.icon {
+        padding: 0.5rem;
+      }
+
+      .loading::after {
+        content: '';
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        border: 4px solid transparent;
+        border-top-color: var(--color-neutral-0);
+        border-radius: 50%;
+        animation: button-loading-spinner 1s ease infinite;
+      }
+
+      @keyframes button-loading-spinner {
+        from {
+          transform: rotate(0turn);
+        }
+
+        to {
+          transform: rotate(1turn);
+        }
+      }
+
+      /* COLORS */
+      .color-neutral-100 {
+        color: var(--color-neutral-100);
+      }
+
+      .color-neutral-90 {
+        color: var(--color-neutral-90);
+      }
+
+      .color-neutral-80 {
+        color: var(--color-neutral-80);
+      }
+
+      .color-neutral-70 {
+        color: var(--color-neutral-70);
+      }
+
+      .color-neutral-0 {
+        color: var(--color-neutral-0);
+      }
+
+      /* BACKGROUND COLORS */
+      .bg-neutral-100 {
+        background-color: var(--color-neutral-100);
+      }
+
+      .bg-neutral-90 {
+        background-color: var(--color-neutral-90);
+      }
+
+      .bg-neutral-80 {
+        background-color: var(--color-neutral-80);
+      }
+
+      .bg-neutral-70 {
+        background-color: var(--color-neutral-70);
+      }
+
+      .bg-neutral-0 {
+        background-color: var(--color-neutral-0);
+      }
+
+      /* FLEX */
+      .flex {
+        display: flex;
+      }
+
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .justify-space-between {
+        justify-content: space-between;
+      }
+
+      .align-center {
+        align-items: center;
+      }
+
+      .gap-8 {
+        gap: 0.5rem;
+      }
+
+      .gap-16 {
+        gap: 1rem;
+      }
+
+      .gap-64 {
+        gap: 4rem;
+      }
+
+      /* OVERFLOW */
+      .overflow-visible {
+        overflow: visible;
+      }
+
+      .overflow-hidden {
+        overflow: hidden;
+      }
+
+      /* SIZE */
+      .width-full {
+        width: 100%;
+      }
+
+      /* PAGE */
+      body {
+        background-color: var(--color-neutral-100);
+        width: 100vw;
+        height: 100vh;
+      }
+
+      main {
+        max-width: 59rem;
+        margin: auto;
+        padding: 6rem 0;
+
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+        font-weight: var(--font-weight-bold);
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: var(--font-weight-bold);
+      }
+
+      .info-text {
+        color: var(--color-neutral-0);
+        font-weight: var(--font-weight-light);
+        font-size: 1rem;
+      }
+
+      .action-card {
+        background-color: var(--color-neutral-90);
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .action-overline-text {
+        color: var(--color-neutral-70);
+        font-weight: var(--font-weight-medium);
+        font-size: 0.75rem;
+      }
+
+      .action-text {
+        color: var(--color-neutral-0);
+        font-weight: var(--font-weight-bold);
+        font-size: 1rem;
+      }
+
+      /* DIALOG */
+      dialog {
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -ms-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+
+        border-radius: 1.5rem;
+        background-color: var(--color-neutral-80);
+
+        max-width: 59rem;
+        max-height: 50rem;
+        width: 100%;
+      }
+
+      .dialog-container {
+        padding: 1.5rem;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        scrollbar-gutter: stable auto;
+      }
+
+      dialog::backdrop {
+        background-color: #000;
+        opacity: 0.75;
+      }
+
+      dialog::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      /* Handle */
+      dialog::-webkit-scrollbar-thumb {
+        padding: 0.25rem;
+        background: var(--color-neutral-70);
+        border-radius: 2px;
+      }
+
+      /* Handle on hover */
+      dialog::-webkit-scrollbar-thumb:hover {
+        background: var(--color-neutral-90);
+      }
+
+      /* WEBCAM */
+      #video-container {
+        border-radius: 0.5rem;
+
+        max-width: 59rem;
+        max-height: 32rem;
+        width: 100%;
+        height: 32rem;
+        background-color: var(--color-neutral-90);
+
+        overflow-y: hidden;
+        position: relative;
+      }
+
+      /* PROGRESSO */
+      #progress-bar-container {
+        background-color: var(--color-neutral-70);
+
+        position: relative;
+
+        width: 100%;
+        height: 0.5rem;
+
+        border-radius: 0.25rem;
+      }
+
+      #progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+
+        background-color: var(--color-primary);
+      }
+      
+      .on-progress {
+        animation: progress-bar 2s ease infinite;
+      }
+
+      @keyframes progress-bar {
+        from {
+          width: 0%;
+        }
+
+        to {
+          width: 100%;
+        }
+      }
+
+      /* CAPTURAS */
+      #gestures-captures-previews-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .gestures-captures-previews {
+        border-radius: 0.5rem;
+        width: 165px;
+        height: 165px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <dialog>
+      <div class="dialog-container">
+        <div class="gap-8">
+          <div class="flex justify-space-between">
+            <h2 class="color-neutral-0">
+              Editar gesto de <span id="gesture-name-span"></span>
+            </h2>
+            <button id="close-dialog" class="secondary icon">
+              <span class="material-icons"> close </span>
+            </button>
           </div>
-          <button id="edit-click-gesture-button">Editar</button>
+          <p class="info-text">
+            Uma sequência de x fotos serão capturadas para registrar o novo
+            gesto correspondente a ação de clique
+          </p>
         </div>
-      </div>
-      <div>
-        <div>
-          <div>
-            <div>
-              <img>
-            </div>
-            <div>
-              <h5>Ação</h5>
-              <h4>Rolar Para Cima</h4>
-            </div>
+        <div class="flex-col gap-16">
+          <div class="flex gap-16 overflow-hidden">
+            <button id="start-capture-button" class="width-full">
+              Começar
+            </button>
+            <button id="finish-capture-button" class="width-full" disabled>
+              Finalizar
+            </button>
           </div>
-          <button id="edit-scroll-up-gesture-button">Editar</button>
-        </div>
-      </div>
-      <div>
-        <div>
-          <div>
-            <div>
-              <img>
-            </div>
-            <div>
-              <h5>Ação</h5>
-              <h4>Rolar Para Baixo</h4>
-            </div>
+          <div id="video-container"><div class="loading"></div></div>
+          <div id="progress-bar-container">
+            <div id="progress-bar"></div>
           </div>
-          <button id="edit-scroll-down-gesture-button">Editar</button>
+        </div>
+        <div class="flex-col gap-8">
+          <h4 class="action-text">Capturas:</h4>
+          <div id="gestures-captures-previews-container"></div>
         </div>
       </div>
-      <div>
+    </dialog>
+    <main>
+      <header>
+        <button class="secondary icon" id="close-page-button">
+          <span class="material-icons"> chevron_left </span>
+        </button>
+        <h1 class="action-text">Hand Mouse</h1>
+      </header>
+      <section class="flex-col gap-16">
+        <p class="info-text">
+          Altere de acordo com sua preferência os gestos correspondentes as
+          ações que você realiza usando a Hand Mouse
+        </p>
         <div>
-          <div>
+          <div class="action-card">
             <div>
-              <img>
+              <div>
+                <h5 class="action-overline-text">Ação</h5>
+                <h4 class="action-text">Clique</h4>
+              </div>
             </div>
-            <div>
-              <h5>Ação</h5>
-              <h4>Mover Livremente</h4>
-            </div>
+            <button class="secondary" id="edit-click-gesture-button">
+              Editar
+            </button>
           </div>
-          <button id="edit-free-move-gesture-button">Editar</button>
         </div>
-      </div>
-      <div>
         <div>
-          <div>
+          <div class="action-card">
             <div>
-              <img>
+              <div>
+                <h5 class="action-overline-text">Ação</h5>
+                <h4 class="action-text">Rolar Para Cima</h4>
+              </div>
             </div>
-            <div>
-              <h5>Ação</h5>
-              <h4>Voltar Para Trás</h4>
-            </div>
+            <button class="secondary" id="edit-scroll-up-gesture-button">
+              Editar
+            </button>
           </div>
-          <button id="edit-backward-gesture-button">Editar</button>
         </div>
-      </div>
-      <div>
         <div>
-          <div>
+          <div class="action-card">
             <div>
-              <img>
+              <div>
+                <h5 class="action-overline-text">Ação</h5>
+                <h4 class="action-text">Rolar Para Baixo</h4>
+              </div>
             </div>
-            <div>
-              <h5>Ação</h5>
-              <h4>Voltar Para Frente</h4>
-            </div>
+            <button class="secondary" id="edit-scroll-down-gesture-button">
+              Editar
+            </button>
           </div>
-          <button id="edit-forward-gesture-button">Editar</button>
         </div>
-      </div>
-      <button id="train-model-button">Salvar</button>
-    </section>
-  </main>
-  <script src="options.js"></script>
-</body>
+        <div>
+          <div class="action-card">
+            <div>
+              <div>
+                <h5 class="action-overline-text">Ação</h5>
+                <h4 class="action-text">Mover Livremente</h4>
+              </div>
+            </div>
+            <button class="secondary" id="edit-free-move-gesture-button">
+              Editar
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="action-card">
+            <div>
+              <div>
+                <h5 class="action-overline-text">Ação</h5>
+                <h4 class="action-text">Voltar Para Trás</h4>
+              </div>
+            </div>
+            <button class="secondary" id="edit-backward-gesture-button">
+              Editar
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="action-card">
+            <div>
+              <div>
+                <h5 class="action-overline-text">Ação</h5>
+                <h4 class="action-text">Voltar Para Frente</h4>
+              </div>
+            </div>
+            <button class="secondary" id="edit-forward-gesture-button">
+              Editar
+            </button>
+          </div>
+        </div>
+        <button id="train-model-button">Salvar</button>
+      </section>
+    </main>
+    <script src="options.js"></script>
+  </body>
 </html>

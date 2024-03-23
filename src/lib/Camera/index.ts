@@ -23,14 +23,9 @@ export class Camera {
   }
 
   static draw(video: HTMLVideoElement, element: HTMLElement) {
-    video.style.height = CAMERA_DISPLAY_HEIGHT
-    video.style.width = CAMERA_DISPLAY_WIDTH
-    // video.style.transform = 'scaleX(-1)'
-    // video.style.position = 'absolute'
-    // video.style.top = '0'
-    // video.style.left = '0'
-    // video.style.zIndex = MAX_Z_INDEX  
-    element.append(video)
+    video.style.height = '100%'
+    video.style.width = '100%'
+    element.replaceChildren(video)
   }
 
   static async create() {
@@ -60,5 +55,16 @@ export class Camera {
     camera.video.play()
 
     return camera;
+  }
+
+  dispose() {
+    this.video.pause();
+
+    const stream = this.video.srcObject as MediaStream;
+    const tracks = stream.getTracks();
+    tracks.forEach(track => track.stop());
+    this.video.srcObject = null;
+
+    this.video.parentNode.removeChild(this.video);
   }
 }

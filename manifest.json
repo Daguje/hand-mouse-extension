@@ -15,7 +15,9 @@
         "contentScript.js"
       ],
       "css": [
-        "loading.css"
+        "loading.css",
+        "base.css",
+        "options.css"
       ]
     }
   ],
@@ -34,7 +36,8 @@
   ],
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "notifications"
   ],
   "options_ui": {
     "page": "options.html",

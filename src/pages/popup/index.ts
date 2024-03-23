@@ -1,5 +1,3 @@
-import '@styles/tailwind.css';
-
 import { setInputValueFromStorage } from '../../utils/setInputValueFromStorage';
 import { dispatchInputChanges } from '@pages/popup/dispatchInputChanges';
 
