@@ -13,11 +13,6 @@
       ],
       "js": [
         "contentScript.js"
-      ],
-      "css": [
-        "loading.css",
-        "base.css",
-        "options.css"
       ]
     }
   ],
@@ -26,9 +21,6 @@
   },
   "web_accessible_resources": [
     {
-      "resources": [
-        "loading.html"
-      ],
       "matches": [
         "<all_urls>"
       ]

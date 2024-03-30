@@ -4,7 +4,7 @@ export interface IClassifier {
     setup(): Promise<void>
     fit(data: unknown, labels: Array<unknown>): Promise<void>
     predict(x: unknown): Promise<GesturesDef>
-    save(): string
+    save(): object
 }
 
 export interface IStaticClassifier {

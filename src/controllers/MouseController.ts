@@ -18,12 +18,21 @@ export default class MouseController {
     private camera: Camera
     private handLandmarkService: HandLandmarkEstimatorService
     private gestureService: GestureEstimatorService
+    private _estimatedHands: Array<unknown>
+    private _estimatedGesture: GesturesDef
+    private _preProcessedHand: Array<number>
+    private _handCenter: Point
 
     constructor({ camera, view, handLandmarkService, gestureService }: IMouseControllerProps) {
         this.camera = camera
         this.view = view
         this.handLandmarkService = handLandmarkService
         this.gestureService = gestureService
+
+        this._estimatedHands = []
+        this._estimatedGesture = GesturesDef.None
+        this._preProcessedHand = []
+        this._handCenter = { x: 0, y: 0 }
     }
 
     private getHandCenter(hands: unknown) {
@@ -42,8 +51,7 @@ export default class MouseController {
     }
 
     private async estimateHands() {
-        const hands = await this.handLandmarkService.estimateFromVideo(this.camera.video)
-        return hands as Array<Hand>
+        return await this.handLandmarkService.estimateFromVideo(this.camera.video)
     }
 
     private preprocess(hand: Hand) {
@@ -51,21 +59,20 @@ export default class MouseController {
     }
 
     private async estimateGesture(data: Array<number>) {
-        const gesture = await this.gestureService.predict([data])
-        return gesture
+        return await this.gestureService.predict([data])
     }
 
     private async loop() {
-        const hands = await this.estimateHands()
-    
-        if(hands.length) {
-            const preProcessedHand = this.preprocess(hands[0])
-            
-            const handCenter = this.getHandCenter(hands)
-            const gesture = await this.estimateGesture(preProcessedHand)
+        this._estimatedHands = await this.estimateHands() as Array<Hand>
 
-            this.drawCursor(gesture, handCenter)
-            this.execute(gesture)
+        if(this._estimatedHands.length) {
+            this._preProcessedHand = this.preprocess(this._estimatedHands[0] as Hand)
+            
+            this._handCenter = this.getHandCenter(this._estimatedHands)
+            this._estimatedGesture = await this.estimateGesture(this._preProcessedHand)
+
+            this.drawCursor(this._estimatedGesture, this._handCenter)
+            this.execute(this._estimatedGesture)
         }
 
         this.view.loop(this.loop.bind(this))

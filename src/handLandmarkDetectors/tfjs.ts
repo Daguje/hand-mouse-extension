@@ -5,7 +5,7 @@ import { staticImplements } from '@utils/staticImplements';
 import { IStaticHandLandmarkDetector } from './types';
 import { Point } from '../types';
 import * as tf from '@tensorflow/tfjs'
-import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces';
+import { NotificationService } from '@services/NotificationService';
 
 @staticImplements<IStaticHandLandmarkDetector>()
 export class TFJSHandDector {
@@ -20,11 +20,13 @@ export class TFJSHandDector {
 
   async setup() {
     try {
-      console.log('Iniciando Detector TFJS')
+      NotificationService.info('Iniciando Detector de mãos')
       this.detector = await TFJSHandDector.createDetector();
-      console.log('Dectector TFJS inicializado')
-    } catch (err) {
-      throw new Error(`Houve um erro ao criar o detector de mãos TFJS: ${err}`);
+    } catch (e) {
+      const message = 'Houve um erro ao criar o Detector de Mãos'
+
+      NotificationService.error(message)
+      throw new Error(`${message}: ${e}`)
     }
   }
 
@@ -70,6 +72,7 @@ export class TFJSHandDector {
       return [newX, newY]
     })
 
+    input.dispose()
     return preProcessedHand.flat()
   }
 
@@ -82,19 +85,24 @@ export class TFJSHandDector {
   }
 
   async estimateHands(frame: HTMLVideoElement | HTMLImageElement, options?: handPoseDetection.MediaPipeHandsMediaPipeEstimationConfig) {
-    const detector = this.detector;
-
     let hands: Array<Hand> = [];
     const input = tf.browser.fromPixels(frame)
     
     try {
-      hands = await detector.estimateHands(input, { flipHorizontal: true, ...options });
-
-      return hands;
-    } catch (err) {
-      detector.dispose();
+      hands = await this.detector.estimateHands(input, { flipHorizontal: true, ...options });
+      
+    } catch (e) {
+      this.detector.dispose();
       this.detector = undefined;
-      throw new Error(`Houve um erro ao detectar as mãos: ${err}`);
+
+      const message = 'Houve um erro ao detectar as mãos'
+
+      NotificationService.error(message)
+      throw new Error(`${message}: ${e}`)
+    } finally {
+      input.dispose()
     }
+
+    return hands;
   }
 }

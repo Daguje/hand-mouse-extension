@@ -4,6 +4,7 @@ import { IStaticClassifier } from '@classifiers/types'
 import { staticImplements } from '@utils/staticImplements'
 import { GesturesDef } from '@gestures/types'
 import { getStorageItem } from '@utils/storage'
+import { NotificationService } from '@services/NotificationService'
 
 @staticImplements<IStaticClassifier>()
 export default class SVMClassifier {
@@ -18,69 +19,97 @@ export default class SVMClassifier {
 
     static async load() {
         try {
-            console.log('Carregando classificador SVM')
+            NotificationService.info('Iniciando Classificador de Gestos')
 
             const svm = new SVMClassifier()
             svm.setup()
 
             const { handMouseModel } = await getStorageItem('handMouseModel')
-            svm.estimator = SVM.load(handMouseModel)
-
-            console.log('classificador SVM carregado com sucesso!')
+            svm.estimator = await SVM.load(handMouseModel)
 
             return svm
         } catch(e) {
-            throw new Error(`Não foi possível carregar o modelo: ${e}`)
+            const message = 'Não foi possível carregar o Classificador de Gestos'
+
+            NotificationService.error(message)
+            throw new Error(`${message}: ${e}`)
         }
     }
 
     async setup() {
-        console.log('Iniciando classificador SVM')
-
         this.estimator  = new SVM({
-            kernel: SVM.KERNEL_TYPES.POLYNOMIAL,
+            kernel: SVM.KERNEL_TYPES.LINEAR,
             type: SVM.SVM_TYPES.C_SVC,
             gamma: 1,
             cost: 6,
-            degree: 2
+            degree: 1,
+            probabilityEstimates: true,
         });
-
-        console.log('Criado classificador SVM')
     }
-
 
     save() {
         try {
-            console.log('Serializando Classificador SVM')
+            NotificationService.info('Salvando Alterações...')
             const model = this.estimator.serializeModel()
-            console.log('Classificador SVM Serializado com sucesso!')
+            NotificationService.success('Alterações salvas com sucesso!')
     
             return model
         } catch (e) {
-            throw new Error(`Não foi possível salvar o modelo: ${e}`)
+            const message = 'Não foi possível salvar as alterações'
+
+            NotificationService.error(message)
+            throw new Error(`${message}: ${e}`)
         }
     }
 
     async fit(data: number[][], labels: number[]) {
         try {
-            console.log('Treinando Classificador SVM')
-            await this.estimator.train(data, labels)
-            console.log('Classificador SVM Treinado com sucesso!')
+            NotificationService.info('Treinando Classificador de Gestos')
+            this.estimator.train(data, labels)
+            NotificationService.success('Classificador de Gestos treinado com Sucesso')
         } catch (e) {
-            throw new Error(`Não foi possível treinar o modelo: ${e}`)
+            const message = 'Não foi possível treinar o Classificador de Gestos'
+
+            NotificationService.error(message)
+            throw new Error(`${message}: ${e}`)
         }
     }
 
     async predict(hand: number[]) {
         try {
-            const predictions = this.estimator.predict(hand)
-
+            const predictions = this.estimator.predictProbability(hand)
+            
             if(!predictions) return GesturesDef.None
             if(!predictions.length) return GesturesDef.None
-    
-            return Math.round(predictions[0]) as GesturesDef
+
+            const { estimates } = predictions[0]
+            
+            let greatestProbability = 0
+            let greatestProbabilityIndex = -1
+
+            estimates.forEach((estimate: any, index: number) => {
+                if(estimate.probability > greatestProbability) {
+                    greatestProbability = estimate.probability
+                    greatestProbabilityIndex = index
+                }
+            })
+
+            const { label, probability } = estimates[greatestProbabilityIndex]
+
+            console.log(label, probability)
+            if(probability < 0.5) return GesturesDef.None
+            
+            return label as GesturesDef
         } catch(e) {
-            throw new Error(`Não foi possível fazer a predição: ${e}`)
+            const message = 'Não foi possível predizer gestos'
+
+            NotificationService.error(message)
+            throw new Error(`${message}: ${e}`)
         }
+    }
+
+    dispose() {
+        this.estimator.free()
+        this.estimator = null
     }
 }

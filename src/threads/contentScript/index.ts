@@ -1,6 +1,13 @@
 import mouseFactory from '@factories/MouseFactory'
+import { NotificationService } from '@services/NotificationService'
 
-await mouseFactory.initialize()
+try {
+    await mouseFactory.initialize()
+    NotificationService.success('HandMouse iniciado com sucesso')
+} catch(e) {
+    NotificationService.error('Erro ao iniciar a HandMouse')
+}
+
 
 // import { PixelInput } from '@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces'
 // import { Camera, Cursor, HandDector, Loading } from '../../lib'

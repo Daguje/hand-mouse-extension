@@ -1,3 +1,5 @@
+import { NotificationService } from "@services/NotificationService";
+
 const MAX_Z_INDEX = '2147483647'
 const CAMERA_DISPLAY_WIDTH = '240px'
 const CAMERA_DISPLAY_HEIGHT = '320px'
@@ -29,7 +31,9 @@ export class Camera {
   }
 
   static async create() {
+    NotificationService.info('Iniciando Câmera')
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      NotificationService.error('Não foi possível iniciar a Câmera')
       throw new Error(
         'API do Browser navigator.mediaDevices.getUserMedia não está disponível',
       );

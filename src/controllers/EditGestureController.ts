@@ -3,6 +3,7 @@ import { gestureNameMap } from '@gestures/types';
 import { Camera } from '@lib/Camera';
 import { Constants } from '@lib/constants';
 import HandLandmarkEstimatorService from '@services/HandLandmarkEstimatorService';
+import { NotificationService } from '@services/NotificationService';
 import { Hand } from '@tensorflow-models/hand-pose-detection';
 import { checkEventCanExecute } from '@utils/checkEventCanExecute';
 import { setStorageItem } from '@utils/storage';
@@ -112,7 +113,7 @@ export default class EditGestureController {
     const data = []
     const labels = []
 
-    console.log('Pré-Processando Dados')
+    NotificationService.info('Processando Imagens')
     for await (const capture of captures) {
       const hands = await this.estimateHands(capture)
 
@@ -123,7 +124,7 @@ export default class EditGestureController {
       data.push(preprocessedData)
       labels.push(this.gesture)
     }
-    console.log('Dados Pré-Processados')
+    NotificationService.info('Imagens Processadas com sucesso')
 
     return [data, labels]
   }
