@@ -1,4 +1,3 @@
-import { PixelInput } from "@tensorflow-models/hand-pose-detection/dist/shared/calculators/interfaces/common_interfaces"
 import { Point } from "../types"
 
 export interface IHandLandmarkDetector {
@@ -8,6 +7,7 @@ export interface IHandLandmarkDetector {
     estimateFromImage(image: HTMLImageElement): Promise<unknown>
     getHandCenter(hand: unknown): Point
     preProcess(hand: unknown, img: unknown): Array<number>
+    dispose(): void
 }
 
 export interface IStaticHandLandmarkDetector {

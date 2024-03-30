@@ -1,11 +1,11 @@
+import { NotificationService } from '@services/NotificationService';
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import { Hand } from '@tensorflow-models/hand-pose-detection';
-import '@tensorflow/tfjs-backend-webgl'
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl';
 import { staticImplements } from '@utils/staticImplements';
-import { IStaticHandLandmarkDetector } from './types';
 import { Point } from '../types';
-import * as tf from '@tensorflow/tfjs'
-import { NotificationService } from '@services/NotificationService';
+import { IStaticHandLandmarkDetector } from './types';
 
 @staticImplements<IStaticHandLandmarkDetector>()
 export class TFJSHandDector {
@@ -104,5 +104,10 @@ export class TFJSHandDector {
     }
 
     return hands;
+  }
+
+  dispose() {
+    this.detector.dispose()
+    this.detector = undefined
   }
 }

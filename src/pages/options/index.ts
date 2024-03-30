@@ -1,9 +1,9 @@
-import editGestureFactory from '../../factories/EditGestureFactory'
-import { getStorageItem, setStorageData } from '@utils/storage'
-import { GesturesDef, gestureNameMap, gesturePortugueseTranslateMap } from '@gestures/types'
-import EditGestureController from '@controllers/EditGestureController'
-import GestureEstimatorService from '@services/GestureEstimatorService'
 import SVMClassifier from '@classifiers/svm'
+import EditGestureController from '@controllers/EditGestureController'
+import { GesturesDef, gestureNameMap, gesturePortugueseTranslateMap } from '@gestures/types'
+import GestureEstimatorService from '@services/GestureEstimatorService'
+import { getStorageItem, setStorageData } from '@utils/storage'
+import editGestureFactory from '../../factories/EditGestureFactory'
 
 const editClickGestureButton = document.getElementById('edit-click-gesture-button') as HTMLButtonElement
 const editScrollUpGestureButton = document.getElementById('edit-scroll-up-gesture-button') as HTMLButtonElement

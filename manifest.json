@@ -19,13 +19,6 @@
   "content_security_policy": {
     "sandbox": "sandbox allow-scripts script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval'; img-src data:"
   },
-  "web_accessible_resources": [
-    {
-      "matches": [
-        "<all_urls>"
-      ]
-    }
-  ],
   "permissions": [
     "storage",
     "scripting",

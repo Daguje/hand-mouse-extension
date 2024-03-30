@@ -27,4 +27,8 @@ export default class HandLandmarkEstimatorService {
     getHandCenter(hand: unknown) {
         return this.handLandmarkDetector.getHandCenter(hand)
     }
+
+    dispose() {
+        this.handLandmarkDetector.dispose()
+    }
 }

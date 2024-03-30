@@ -1,4 +1,3 @@
-import { Constants } from "@lib/constants"
 
 export default class EditGestureView {
     private gestureImageCaptureList: Array<HTMLImageElement> = []
@@ -6,18 +5,21 @@ export default class EditGestureView {
     private _startButton: HTMLButtonElement
     private _finishButton: HTMLButtonElement
     private _trainButton: HTMLButtonElement
+    private _editButtons: HTMLCollectionOf<HTMLButtonElement>
     private _progressBar: HTMLDivElement
-    private _progressBarContainer: HTMLDivElement
     private loopId: number
 
     constructor() {
         this._startButton = document.getElementById('start-capture-button') as HTMLButtonElement
         this._finishButton = document.getElementById('finish-capture-button') as HTMLButtonElement
         this._trainButton = document.getElementById('train-model-button') as HTMLButtonElement
+        this._editButtons = document.getElementsByClassName('edit-button') as HTMLCollectionOf<HTMLButtonElement>
         this._progressBar = document.getElementById('progress-bar') as HTMLDivElement
-        this._progressBarContainer = document.getElementById('progress-bar-container') as HTMLDivElement
         this.gesturesCapturesPreviewsContainer = document.getElementById('gestures-captures-previews-container') as HTMLDivElement
         this.loopId = null
+
+        this._startButton.disabled = true
+        this._finishButton.disabled = true
     }
 
     get startButton() {
@@ -32,12 +34,33 @@ export default class EditGestureView {
         return this._trainButton
     }
 
+    get editButtons() {
+        return this._editButtons
+    }
+
+    private setLoading(element: HTMLButtonElement) {
+        element.classList.add('loading')
+        element.innerHTML = ''
+        element.disabled = true
+    }
+
     getCaptureList() {
         return this.gestureImageCaptureList
     }
 
     getCaptureListLength() {
         return this.gestureImageCaptureList.length
+    }
+
+    onLoading() {
+        this.finishButton.disabled = true
+        this.startButton.disabled = true
+        
+        this.setLoading(this.trainButton)
+    
+        for (const button of this.editButtons) {
+            this.setLoading(button)
+        }
     }
 
     onStart() {
@@ -47,6 +70,7 @@ export default class EditGestureView {
 
     onRunning() {
         this.startButton.disabled = true
+        this.finishButton.disabled = true
     }
 
     onDone() {
@@ -54,7 +78,7 @@ export default class EditGestureView {
         this.startButton.disabled = true
     }
 
-    appendGesture(img: HTMLImageElement) {
+    appendCapture(img: HTMLImageElement) {
         this.gestureImageCaptureList.push(img)
     }
 
