@@ -7,10 +7,6 @@ const extensionPages = {
   options: './src/pages/options',
 }
 
-const resources = {
-  loading: './src/lib/Loading'
-}
-
 const scripts = {
   serviceWorker: './src/threads/serviceWorker',
   contentScript: './src/threads/contentScript',
@@ -20,7 +16,6 @@ module.exports = {
   entry: {
     ...scripts,
     ...extensionPages,
-    ...resources
   },
   experiments: {
     asyncWebAssembly: true,
@@ -75,9 +70,6 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         path.resolve(__dirname, "./manifest.json"),
-        path.resolve(__dirname, 'src', 'styles', "base.css"),
-        path.resolve(__dirname, 'src', 'lib', 'Loading', 'loading.css'),
-        path.resolve(__dirname, 'src', 'pages', 'options', 'options.css'),
         {
           from: 'src/**/*.html',
           to: '[name][ext]'

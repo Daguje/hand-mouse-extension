@@ -1,9 +1,3 @@
-// import { browser } from 'webextension-polyfill-ts';
-// import {
-//   getStorageItem,
-//   initializeStorageWithDefaults,
-// } from '../../utils/storage';
-
 import { initializeStorageWithDefaults } from '@utils/storage';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -23,23 +17,3 @@ browser.runtime.onMessage.addListener(data => {
     browser.notifications.create('', data.options);
   }
 });
-
-// chrome.runtime.onMessage.addListener(async (message, _, sendResponse) => {
-//   switch (message.from) {
-//     case 'popup':
-//       console.log(message);
-//       break;
-//     case 'content':
-//       if (message.content.requestStorage) {
-//         const storage = await getStorageItem(message.content.requestStorage);
-//         sendResponse(storage);
-//       }
-//       break;
-//     case 'app':
-//       break
-//     default:
-//       throw new Error('Message from not found');
-//   }
-
-//   return true
-// })

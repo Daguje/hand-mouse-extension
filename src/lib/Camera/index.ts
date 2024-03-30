@@ -1,9 +1,5 @@
 import { NotificationService } from "@services/NotificationService";
 
-const MAX_Z_INDEX = '2147483647'
-const CAMERA_DISPLAY_WIDTH = '240px'
-const CAMERA_DISPLAY_HEIGHT = '320px'
-
 export class Camera {
   video: HTMLVideoElement
 

@@ -1,4 +1,8 @@
-function checkEventCanExecute(delay: number) {
+/**
+ *  This function checks if an event can execute after a certain time in miliseconds
+ * @param {number} delay delay in miliseconds
+ */
+export function checkEventCanExecute(delay: number) {
     let lastEvent = Date.now()
 
     return {
@@ -10,8 +14,4 @@ function checkEventCanExecute(delay: number) {
             return result
         }
     }
-}
-
-export {
-    checkEventCanExecute
 }
