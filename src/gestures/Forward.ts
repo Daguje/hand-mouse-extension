@@ -8,6 +8,6 @@ export class Forward implements IGesture {
     }
 
     execute() {
-        console.log('Voltar')
+        history.forward()
     }
 }
