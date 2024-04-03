@@ -1,10 +1,10 @@
 import SVM from 'libsvm-js/dist/browser/asm/libsvm'
 
 import { IStaticClassifier } from '@classifiers/types'
-import { staticImplements } from '@utils/staticImplements'
 import { GesturesDef } from '@gestures/types'
-import { getStorageItem } from '@utils/storage'
 import { NotificationService } from '@services/NotificationService'
+import { staticImplements } from '@utils/staticImplements'
+import { getStorageItem } from '@utils/storage'
 
 @staticImplements<IStaticClassifier>()
 export default class SVMClassifier {
@@ -26,6 +26,8 @@ export default class SVMClassifier {
 
             const { handMouseModel } = await getStorageItem('handMouseModel')
             svm.estimator = await SVM.load(handMouseModel)
+
+            NotificationService.success('Classificador de Gestos iniciado com sucesso!')
 
             return svm
         } catch(e) {
@@ -96,8 +98,7 @@ export default class SVMClassifier {
 
             const { label, probability } = estimates[greatestProbabilityIndex]
 
-            console.log(label, probability)
-            if(probability < 0.5) return GesturesDef.None
+            if(probability < 0.7) return GesturesDef.None
             
             return label as GesturesDef
         } catch(e) {

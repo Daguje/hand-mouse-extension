@@ -1,7 +1,9 @@
+import { Constants } from "@lib/constants"
 
 export default class EditGestureView {
     private gestureImageCaptureList: Array<HTMLImageElement> = []
     private gesturesCapturesPreviewsContainer: HTMLDivElement
+    private captureCount: HTMLSpanElement
     private _startButton: HTMLButtonElement
     private _finishButton: HTMLButtonElement
     private _trainButton: HTMLButtonElement
@@ -16,6 +18,7 @@ export default class EditGestureView {
         this._editButtons = document.getElementsByClassName('edit-button') as HTMLCollectionOf<HTMLButtonElement>
         this._progressBar = document.getElementById('progress-bar') as HTMLDivElement
         this.gesturesCapturesPreviewsContainer = document.getElementById('gestures-captures-previews-container') as HTMLDivElement
+        this.captureCount = document.getElementById('capture-count') as HTMLSpanElement
         this.loopId = null
 
         this._startButton.disabled = true
@@ -127,6 +130,11 @@ export default class EditGestureView {
         })
     }
 
+    updateCaptureCount() {
+        const captureCount = this.gestureImageCaptureList.length
+        this.captureCount.innerHTML = `(${captureCount} de ${Constants.MAX_PICTURES_TAKEN})`
+    }
+
     loop(fn: FrameRequestCallback) {
         this.loopId = requestAnimationFrame(fn)
     }
@@ -134,6 +142,7 @@ export default class EditGestureView {
     dispose() {
         this.gestureImageCaptureList = []
         this.gesturesCapturesPreviewsContainer.innerHTML = ""
+        this.captureCount.innerHTML = ""
         cancelAnimationFrame(this.loopId)
     }
 }

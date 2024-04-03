@@ -49,6 +49,7 @@ export class Camera {
     await new Promise((resolve) => {
       camera.video.onloadedmetadata = () => {
         resolve(camera.video);
+        NotificationService.success('Câmera iniciado com sucesso!')
       };
     });
 

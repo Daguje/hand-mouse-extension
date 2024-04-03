@@ -1,4 +1,4 @@
-import { GesturesDef, gestureNameMap } from "@gestures/types";
+import { GesturesDef, gestureNameMap, gesturePortugueseTranslateMap } from "@gestures/types";
 import { Camera } from "@lib/Camera";
 import { Constants } from "@lib/constants";
 import HandLandmarkEstimatorService from "@services/HandLandmarkEstimatorService";
@@ -28,6 +28,10 @@ export class ImageCaptureHandler {
     return this.view.capture(this.camera.video);
   }
 
+  private updateCaptureCount() {
+    this.view.updateCaptureCount();
+  }
+
   private showCaptures() {
     this.view.showCaptures();
   }
@@ -54,6 +58,7 @@ export class ImageCaptureHandler {
     const img = this.capture();
     this.appendCapture(img);
     this.showCaptures();
+    this.updateCaptureCount()
   }
 
   start() {
@@ -98,7 +103,7 @@ export class ImageProcessingHandler {
     const data = []
     const labels = []
 
-    NotificationService.info('Processando Imagens')
+    NotificationService.info(`Processando Imagens de ${gesturePortugueseTranslateMap[this.gesture]}`)
     for await (const capture of captures) {
       const hands = await this.estimateHands(capture)
 
@@ -109,7 +114,7 @@ export class ImageProcessingHandler {
       data.push(preprocessedData)
       labels.push(this.gesture)
     }
-    NotificationService.info('Imagens Processadas com sucesso')
+    NotificationService.success(`Imagens de ${gesturePortugueseTranslateMap[this.gesture]} Processadas com sucesso`)
 
     return [data, labels]
   }
@@ -120,6 +125,7 @@ export class ImageProcessingHandler {
       if(data.length) await setStorageItem(gestureNameMap[this.gesture], data)
       if(labels.length) await setStorageItem(`${gestureNameMap[this.gesture]}Labels`, labels)
     } catch (e) {
+      NotificationService.error(`Não foi possível processar as imagens de ${gesturePortugueseTranslateMap[this.gesture]}`)
       throw new Error(`Não foi possível salvar os dados em Local Storage: ${e}`)
     }
   }

@@ -22,6 +22,7 @@ export class TFJSHandDector {
     try {
       NotificationService.info('Iniciando Detector de mãos')
       this.detector = await TFJSHandDector.createDetector();
+      NotificationService.success('Detector de mãos iniciado com sucesso!')
     } catch (e) {
       const message = 'Houve um erro ao criar o Detector de Mãos'
 
@@ -87,7 +88,7 @@ export class TFJSHandDector {
   async estimateHands(frame: HTMLVideoElement | HTMLImageElement, options?: handPoseDetection.MediaPipeHandsMediaPipeEstimationConfig) {
     let hands: Array<Hand> = [];
     const input = tf.browser.fromPixels(frame)
-    
+
     try {
       hands = await this.detector.estimateHands(input, { flipHorizontal: true, ...options });
       
