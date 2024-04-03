@@ -8,10 +8,18 @@ export class Click implements IGesture {
     }
 
     execute() {
-        const { x, y } = Cursor.getCursor()
-        const element = document.elementFromPoint(x, y)
+        try {
+            const { x, y } = Cursor.getCursor()
+            
+            if (!Number.isFinite(x)) return
+            if (!Number.isFinite(y)) return
 
-        this.fireClickEvent(element)
+            const element = document.elementFromPoint(x, y)
+    
+            this.fireClickEvent(element)
+        } catch (e) {
+            console.error(`Não foi possível executar o gesto de clique: ${e}`)
+        }
     }
 
     private fireClickEvent(element: Element) {
