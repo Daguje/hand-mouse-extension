@@ -89,6 +89,27 @@ export class ImageProcessingHandler {
     this.view = view;
   }
 
+  private getGesturePreview() {
+    const captureList = this.view.getCaptureList()
+    return captureList[0]
+  }
+
+  private clearCaptureList() {
+    this.view.clearCaptureList()
+  }
+
+  private clearCaptureListContainer() {
+    this.view.clearCaptureListContainer()
+  }
+
+  private updateCaptureCount() {
+    this.view.updateCaptureCount();
+  }
+
+  private showCaptures() {
+    this.view.showCaptures();
+  }
+
   private async estimateHands(img: HTMLImageElement) {
     const hands = await this.handLandmarkService.estimateFromImage(img);
     return hands as Array<Hand>;
@@ -122,8 +143,11 @@ export class ImageProcessingHandler {
   private async handleSaveOnLocalStorage() {
     try {
       const [data, labels] = await this.preProcessData()
-      if(data.length) await setStorageItem(gestureNameMap[this.gesture], data)
-      if(labels.length) await setStorageItem(`${gestureNameMap[this.gesture]}Labels`, labels)
+      if (data.length) {
+        await setStorageItem(gestureNameMap[this.gesture], data)
+        await setStorageItem(`${gestureNameMap[this.gesture]}Labels`, labels)
+        await setStorageItem(`${gestureNameMap[this.gesture]}Preview`, this.view.getCaptureList()[0])
+      }
     } catch (e) {
       NotificationService.error(`Não foi possível processar as imagens de ${gesturePortugueseTranslateMap[this.gesture]}`)
       throw new Error(`Não foi possível salvar os dados em Local Storage: ${e}`)
@@ -132,5 +156,9 @@ export class ImageProcessingHandler {
 
   async start() {
     await this.handleSaveOnLocalStorage()
+    this.clearCaptureList()
+    this.clearCaptureListContainer()
+    this.showCaptures()
+    this.updateCaptureCount()
   }
 }

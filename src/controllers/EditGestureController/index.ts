@@ -27,11 +27,15 @@ export default class EditGestureController {
     this.imageCaptureHandler = new ImageCaptureHandler({ camera, gesture, handLandmarkService, view })
     this.imageProcessingHandler = new ImageProcessingHandler({ gesture, handLandmarkService, view })
 
-    this.state = CaptureStates.Started;
+    this.state = CaptureStates.Stopped;
   }
 
   private setState(newState: CaptureStates) {
     this.state = newState
+  }
+
+  private onStopped() {
+    this.setState(CaptureStates.Started)
   }
 
   private onStart() {
@@ -58,8 +62,8 @@ export default class EditGestureController {
   }
 
   private async onProcessing() {
-    this.setState(CaptureStates.Stopped)
     await this.imageProcessingHandler.start()
+    this.setState(CaptureStates.Stopped)
   }
 
   private async loop() {
@@ -68,16 +72,17 @@ export default class EditGestureController {
         this.onStart();
         break;
       case CaptureStates.Running:
-        this.onRunning();
+        await this.onRunning();
         break;
       case CaptureStates.Done:
         this.onDone();
         break;
       case CaptureStates.Processing:
-        this.onProcessing();
+        await this.onProcessing();
         break;
-      case CaptureStates.Stopped: 
-        return
+      case CaptureStates.Stopped:
+        this.onStopped();
+        break
     }
 
     this.view.loop(this.loop.bind(this));

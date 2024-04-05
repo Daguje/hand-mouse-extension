@@ -21,6 +21,8 @@ export class Camera {
   }
 
   static draw(video: HTMLVideoElement, element: HTMLElement) {
+    video.width = video.videoWidth
+    video.height = video.videoHeight
     video.style.height = '100%'
     video.style.width = '100%'
     element.replaceChildren(video)

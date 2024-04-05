@@ -13,6 +13,7 @@ const editBackwardGestureButton = document.getElementById('edit-backward-gesture
 const editForwardGestureButton = document.getElementById('edit-forward-gesture-button') as HTMLButtonElement
 const closePageButton = document.getElementById('close-page-button') as HTMLButtonElement
 
+const startCaptureButton = document.getElementById('start-capture-button') as HTMLButtonElement
 const closeDialogButton = document.getElementById('close-dialog') as HTMLButtonElement
 const trainButton = document.getElementById('train-model-button') as HTMLButtonElement
 const dialog = document.querySelector('dialog')
@@ -28,6 +29,7 @@ const gestureService = new GestureEstimatorService({
 })
 
 const createEditGestureFactory = async (gesture: number) => {
+  startCaptureButton.disabled = true
   return await editGestureFactory.initialize(gesture)
 }
 

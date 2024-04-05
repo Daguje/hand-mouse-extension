@@ -41,29 +41,25 @@ export default class EditGestureView {
         return this._editButtons
     }
 
-    private setLoading(element: HTMLButtonElement) {
-        element.classList.add('loading')
-        element.innerHTML = ''
-        element.disabled = true
+    private toogleLoading(element: HTMLButtonElement) {
+        element.classList.toggle('loading')
+        element.disabled = !element.disabled
     }
 
     getCaptureList() {
         return this.gestureImageCaptureList
     }
 
-    getCaptureListLength() {
-        return this.gestureImageCaptureList.length
+    clearCaptureList() {
+        this.gestureImageCaptureList = []
     }
 
-    onLoading() {
-        this.finishButton.disabled = true
-        this.startButton.disabled = true
-        
-        this.setLoading(this.trainButton)
-    
-        for (const button of this.editButtons) {
-            this.setLoading(button)
-        }
+    clearCaptureListContainer() {
+        this.gesturesCapturesPreviewsContainer.innerHTML = ''
+    }
+
+    getCaptureListLength() {
+        return this.gestureImageCaptureList.length
     }
 
     onStart() {
@@ -107,7 +103,14 @@ export default class EditGestureView {
         const canvas = this.createGestureImageCaptureCanvas()
         const context = this.getContext2D(canvas)
 
-        context.drawImage(video, 0, 0, canvas.width, canvas.height)
+        const horizontalRatio = canvas.width  / video.width 
+        const verticalRatio =  canvas.height / video.height
+        const ratio  = Math.min (horizontalRatio, verticalRatio)
+        const centerShiftX = (canvas.width - video.width * ratio) / 2
+        const centerShiftY = (canvas.height - video.height * ratio) / 2 
+
+        context.drawImage(video, 0, 0, video.width, video.height,
+                      centerShiftX, centerShiftY, video.width * ratio, video.height * ratio);
 
         const photo = this.createGestureCaptureImage()
         const data = canvas.toDataURL("image/png");

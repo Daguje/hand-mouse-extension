@@ -71,6 +71,7 @@
       button:disabled {
         opacity: 0.5;
         pointer-events: none;
+        cursor: not-allowed;
       }
 
       button:hover {
@@ -398,10 +399,10 @@
         <div class="flex-col gap-16">
           <div class="flex gap-16 overflow-hidden">
             <button id="start-capture-button" class="width-full">
-              Começar
+              Começar Capturas
             </button>
             <button id="finish-capture-button" class="width-full" disabled>
-              Finalizar
+              Salvar Gesto
             </button>
           </div>
           <div id="video-container"><div class="loading"></div></div>
