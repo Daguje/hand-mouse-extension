@@ -87,7 +87,7 @@ export default class EditGestureView {
         return img
     }
 
-    private createGestureImageCaptureCanvas(): HTMLCanvasElement {
+    private createGestureImageCaptureCanvas(video: HTMLVideoElement): HTMLCanvasElement {
         const canvas = document.createElement('canvas')
         canvas.width = 165
         canvas.height = 165
@@ -100,7 +100,7 @@ export default class EditGestureView {
     }
 
     capture(video: HTMLVideoElement): HTMLImageElement {
-        const canvas = this.createGestureImageCaptureCanvas()
+        const canvas = this.createGestureImageCaptureCanvas(video)
         const context = this.getContext2D(canvas)
 
         const horizontalRatio = canvas.width  / video.width 

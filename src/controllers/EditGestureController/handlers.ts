@@ -89,11 +89,6 @@ export class ImageProcessingHandler {
     this.view = view;
   }
 
-  private getGesturePreview() {
-    const captureList = this.view.getCaptureList()
-    return captureList[0]
-  }
-
   private clearCaptureList() {
     this.view.clearCaptureList()
   }
@@ -137,16 +132,16 @@ export class ImageProcessingHandler {
     }
     NotificationService.success(`Imagens de ${gesturePortugueseTranslateMap[this.gesture]} Processadas com sucesso`)
 
-    return [data, labels]
+    return { data, labels, preview: captures[0] }
   }
 
   private async handleSaveOnLocalStorage() {
     try {
-      const [data, labels] = await this.preProcessData()
+      const { data, labels, preview } = await this.preProcessData()
       if (data.length) {
         await setStorageItem(gestureNameMap[this.gesture], data)
         await setStorageItem(`${gestureNameMap[this.gesture]}Labels`, labels)
-        await setStorageItem(`${gestureNameMap[this.gesture]}Preview`, this.view.getCaptureList()[0])
+        await setStorageItem(`${gestureNameMap[this.gesture]}Preview`, preview.src.replace(/^data:image\/(png|jpg);base64,/, ""))
       }
     } catch (e) {
       NotificationService.error(`Não foi possível processar as imagens de ${gesturePortugueseTranslateMap[this.gesture]}`)

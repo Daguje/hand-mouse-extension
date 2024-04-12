@@ -52,6 +52,7 @@
         align-items: center;
         gap: 0.5rem;
         width: fit-content;
+        height: 100%;
 
         font-size: 1rem;
         font-weight: var(--font-weight-medium);
@@ -248,11 +249,12 @@
 
       .action-card {
         background-color: var(--color-neutral-90);
-        padding: 1.5rem;
         border-radius: 1.5rem;
+        padding: 1.5rem;  
 
         display: flex;
         justify-content: space-between;
+        align-items: center;
       }
 
       .action-overline-text {
@@ -380,14 +382,28 @@
   </head>
 
   <body>
-    <dialog>
+    <dialog id="preview-dialog">
+      <div class="dialog-container">
+        <div class="flex justify-space-between">
+          <h2 class="edit-button color-neutral-0">
+            Visualizar gesto de <span id="gesture-name-span"></span>
+          </h2>
+          <button id="close-preview-dialog" class="secondary icon">
+            <span class="material-icons"> close </span>
+          </button>
+        </div>
+        <div id="preview-container">
+        </div>
+      </div>
+    </dialog>
+    <dialog id="edit-dialog">
       <div class="dialog-container">
         <div class="gap-8">
           <div class="flex justify-space-between">
             <h2 class="edit-button color-neutral-0">
               Editar gesto de <span id="gesture-name-span"></span>
             </h2>
-            <button id="close-dialog" class="secondary icon">
+            <button id="close-edit-dialog" class="secondary icon">
               <span class="material-icons"> close </span>
             </button>
           </div>
@@ -436,9 +452,15 @@
                 <h4 class="action-text">Clique</h4>
               </div>
             </div>
-            <button class="edit-button secondary" id="edit-click-gesture-button">
-              Editar
-            </button>
+            <div class="flex gap-8">
+              <button class="view-button secondary icon" id="view-click-gesture-preview">
+                <span class="material-icons "> visibility </span>
+              </button>
+              <button class="edit-button secondary" id="edit-click-gesture-button">
+                Editar
+                <span class="material-icons"> edit </span>
+              </button>
+            </div>
           </div>
         </div>
         <div>
@@ -449,9 +471,15 @@
                 <h4 class="action-text">Rolar Para Cima</h4>
               </div>
             </div>
-            <button class="edit-button secondary" id="edit-scroll-up-gesture-button">
-              Editar
-            </button>
+            <div class="flex gap-8">
+              <button class="view-button secondary icon" id="view-scroll-up-gesture-preview">
+                <span class="material-icons "> visibility </span>
+              </button>
+              <button class="edit-button secondary" id="edit-scroll-up-gesture-button">
+                Editar
+                <span class="material-icons"> edit </span>
+              </button>
+            </div>
           </div>
         </div>
         <div>
@@ -462,9 +490,15 @@
                 <h4 class="action-text">Rolar Para Baixo</h4>
               </div>
             </div>
-            <button class="edit-button secondary" id="edit-scroll-down-gesture-button">
-              Editar
-            </button>
+            <div class="flex gap-8">
+              <button class="view-button secondary icon" id="view-scroll-down-gesture-preview">
+                <span class="material-icons "> visibility </span>
+              </button>
+              <button class="edit-button secondary" id="edit-scroll-down-gesture-button">
+                Editar
+                <span class="material-icons"> edit </span>
+              </button>
+            </div>
           </div>
         </div>
         <div>
@@ -475,9 +509,15 @@
                 <h4 class="action-text">Mover Livremente</h4>
               </div>
             </div>
-            <button class="edit-button secondary" id="edit-free-move-gesture-button">
-              Editar
-            </button>
+            <div class="flex gap-8">
+              <button class="view-button secondary icon" id="view-free-move-gesture-preview">
+                <span class="material-icons "> visibility </span>
+              </button>
+              <button class="edit-button secondary" id="edit-free-move-gesture-button">
+                Editar
+                <span class="material-icons"> edit </span>
+              </button>
+            </div>
           </div>
         </div>
         <div>
@@ -488,9 +528,15 @@
                 <h4 class="action-text">Voltar Para Trás</h4>
               </div>
             </div>
-            <button class="edit-button secondary" id="edit-backward-gesture-button">
-              Editar
-            </button>
+            <div class="flex gap-8">
+              <button class="view-button secondary icon" id="view-backward-gesture-preview">
+                <span class="material-icons "> visibility </span>
+              </button>
+              <button class="edit-button secondary" id="edit-backward-gesture-button">
+                Editar
+                <span class="material-icons"> edit </span>
+              </button>
+            </div>
           </div>
         </div>
         <div>
@@ -501,9 +547,15 @@
                 <h4 class="action-text">Voltar Para Frente</h4>
               </div>
             </div>
-            <button class="edit-button secondary" id="edit-forward-gesture-button">
-              Editar
-            </button>
+            <div class="flex gap-8">
+              <button class="view-button secondary icon" id="view-forward-gesture-preview">
+                <span class="material-icons "> visibility </span>
+              </button>
+              <button class="edit-button secondary" id="edit-forward-gesture-button">
+                Editar
+                <span class="material-icons"> edit </span>
+              </button>
+            </div>
           </div>
         </div>
         <button id="train-model-button">Salvar</button>
