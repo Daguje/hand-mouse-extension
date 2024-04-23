@@ -11,16 +11,12 @@
       "@lib/*": ["./src/lib/*"],
       "@pages/*": ["./src/pages/*"],
       "@threads/*": ["./src/threads/*"],
-      "@views/*": ["./src/views/*"],
-      "@controllers/*": ["./src/controllers/*"],
       "@services/*": ["./src/services/*"],
-      "@factories/*": ["./src/factories/*"],
-      "@styles/*": ["./src/styles/*"],
       "@utils/*": ["./src/utils/*"],
-      "@models/*": ["./src/models/*"],
       "@classifiers/*": ["./src/classifiers/*"],
       "@handLandmarkDetectors/*": ["./src/handLandmarkDetectors/*"],
-      "@gestures/*": ["./src/gestures/*"]
+      "@gestures/*": ["./src/gestures/*"],
+      "@features/*": ["./src/features/*"]
     },
     "experimentalDecorators": true
   }

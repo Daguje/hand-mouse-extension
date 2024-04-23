@@ -40,10 +40,10 @@ export default class SVMClassifier {
 
     async setup() {
         this.estimator  = new SVM({
-            kernel: SVM.KERNEL_TYPES.LINEAR,
+            kernel: SVM.KERNEL_TYPES.RBF,
             type: SVM.SVM_TYPES.C_SVC,
             gamma: 1,
-            cost: 6,
+            cost: 2,
             degree: 1,
             probabilityEstimates: true,
         });
@@ -79,12 +79,11 @@ export default class SVMClassifier {
 
     async predict(hand: number[]) {
         try {
-            const predictions = this.estimator.predictProbability(hand)
+            const result = this.estimator.predictOneProbability(hand)
             
-            if(!predictions) return GesturesDef.None
-            if(!predictions.length) return GesturesDef.None
+            if(!result) return GesturesDef.None
 
-            const { estimates } = predictions[0]
+            const { estimates } = result
             
             let greatestProbability = 0
             let greatestProbabilityIndex = -1
@@ -97,6 +96,8 @@ export default class SVMClassifier {
             })
 
             const { label, probability } = estimates[greatestProbabilityIndex]
+
+            console.log()
 
             if(probability < 0.7) return GesturesDef.None
             

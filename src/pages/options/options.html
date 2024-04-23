@@ -52,7 +52,6 @@
         align-items: center;
         gap: 0.5rem;
         width: fit-content;
-        height: 100%;
 
         font-size: 1rem;
         font-weight: var(--font-weight-medium);
@@ -206,6 +205,11 @@
       /* SIZE */
       .width-full {
         width: 100%;
+      }
+
+      /* DISPLAY */
+      .hide {
+        display: none;
       }
 
       /* PAGE */
@@ -400,21 +404,24 @@
       <div class="dialog-container">
         <div class="gap-8">
           <div class="flex justify-space-between">
-            <h2 class="edit-button color-neutral-0">
-              Editar gesto de <span id="gesture-name-span"></span>
+            <h2 class="color-neutral-0" id="edit-gesture-dialog-title">
             </h2>
-            <button id="close-edit-dialog" class="secondary icon">
+            <button id="close-edit-dialog" class="secondary icon" disabled>
               <span class="material-icons"> close </span>
             </button>
           </div>
-          <p class="info-text">
-            Uma sequência de x fotos serão capturadas para registrar o novo
-            gesto correspondente a ação de clique
+          <p class="info-text" id="edit-gesture-dialog-description">
           </p>
         </div>
         <div class="flex-col gap-16">
           <div class="flex gap-16 overflow-hidden">
-            <button id="start-capture-button" class="width-full">
+            <button id="pause-capture-button" class="icon width-full" disabled>
+              <span class="material-icons"> pause </span>
+            </button>
+            <button id="resume-capture-button" class="icon width-full hide" disabled>
+              <span class="material-icons"> play_arrow </span>
+            </button>
+            <button id="start-capture-button" class="width-full" disabled>
               Começar Capturas
             </button>
             <button id="finish-capture-button" class="width-full" disabled>
@@ -430,6 +437,9 @@
           <h4 class="action-text">Capturas <span id="capture-count"></span>:</h4>
           <div id="gestures-captures-previews-container"></div>
         </div>
+        <button class="button hide" id="delete-captures-button">
+          Excluir Gestos
+        </button>
       </div>
     </dialog>
     <main>

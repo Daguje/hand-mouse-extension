@@ -1,6 +1,6 @@
-import { GesturesDef, GesturesStringDef, IGesture } from "@gestures/types";
-import { Point } from "../types";
+import { GesturesStringDef, IGesture } from "@gestures/types";
 import { Cursor } from "@lib/Cursor";
+import { Point } from "../../../types";
 
 interface IMouseViewProps {
     gestures: Partial<Record<GesturesStringDef, IGesture>>

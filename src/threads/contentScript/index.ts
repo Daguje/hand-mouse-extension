@@ -1,4 +1,4 @@
-import mouseFactory from '@factories/MouseFactory'
+import mouseFactory from '@features/mouse/factory'
 import { NotificationService } from '@services/NotificationService'
 
 try {

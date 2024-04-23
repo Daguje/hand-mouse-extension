@@ -1,10 +1,10 @@
+import MouseView from '@features/mouse/views'
 import { GesturesDef, GesturesStringDef, gestureNameMap } from '@gestures/types'
 import { Camera } from '@lib/Camera'
 import GestureEstimatorService from '@services/GestureEstimatorService'
 import HandLandmarkEstimatorService from '@services/HandLandmarkEstimatorService'
 import { Hand } from '@tensorflow-models/hand-pose-detection'
-import MouseView from '@views/MouseView'
-import { Point } from '../types'
+import { Point } from '../../../types'
 
 interface IMouseControllerProps {
     view: MouseView
@@ -59,7 +59,7 @@ export default class MouseController {
     }
 
     private async estimateGesture(data: Array<number>) {
-        return await this.gestureService.predict([data])
+        return await this.gestureService.predict(data)
     }
 
     private async loop() {

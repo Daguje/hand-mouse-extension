@@ -1,9 +1,8 @@
 import SVMClassifier from '@classifiers/svm'
-import EditGestureController from '@controllers/EditGestureController'
+import editGestureFactory from '@features/editGestureDialog/factory'
 import { GesturesDef, gestureNameMap, gesturePortugueseTranslateMap } from '@gestures/types'
 import GestureEstimatorService from '@services/GestureEstimatorService'
 import { getStorageItem, setStorageData } from '@utils/storage'
-import editGestureFactory from '../../factories/EditGestureFactory'
 
 document.onreadystatechange = async () => {
   if(document.readyState !== 'complete') return
@@ -23,7 +22,6 @@ document.onreadystatechange = async () => {
   const editForwardGestureButton = document.getElementById('edit-forward-gesture-button') as HTMLButtonElement
   const closePageButton = document.getElementById('close-page-button') as HTMLButtonElement
   const startCaptureButton = document.getElementById('start-capture-button') as HTMLButtonElement
-  const closeEditDialogButton = document.getElementById('close-edit-dialog') as HTMLButtonElement
   const editDialog = document.getElementById('edit-dialog') as HTMLDialogElement
 
   const viewClickGestureButton = document.getElementById('view-click-gesture-preview') as HTMLButtonElement
@@ -51,8 +49,6 @@ document.onreadystatechange = async () => {
 
   const gestureNameSpan = document.getElementById('gesture-name-span') as HTMLSpanElement
 
-  let factory = null as EditGestureController
-
   const gestureService = new GestureEstimatorService({
     gestureClassifier: svmClassifier,
   })
@@ -62,14 +58,10 @@ document.onreadystatechange = async () => {
     return await editGestureFactory.initialize(gesture)
   }
 
-  const disposeEditGestureFactory = (controller: EditGestureController) => {
-    return editGestureFactory.dispose(controller)
-  }
-
   const onEditButtonClick = async (gesture: number) => {
     editDialog.showModal()
     gestureNameSpan.innerHTML = gesturePortugueseTranslateMap[gesture]
-    factory = await createEditGestureFactory(gesture)
+    await createEditGestureFactory(gesture)
   }
 
   const onPreviewButtonClick = async (gesture: number, src: string) => {
@@ -100,11 +92,6 @@ document.onreadystatechange = async () => {
   viewForwardGestureButton.addEventListener('click', () => onPreviewButtonClick(GesturesDef.Forward, forwardPreview))
 
   closePageButton.addEventListener('click', () => window.close())
-
-  closeEditDialogButton.addEventListener('click', () => {
-    editDialog.close()
-    factory = disposeEditGestureFactory(factory)
-  })
 
   closePreviewDialogButton.addEventListener('click', () => {
     previewDialog.close()
