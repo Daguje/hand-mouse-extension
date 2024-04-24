@@ -24,7 +24,7 @@ export class CapturesListView implements ICapturesListView {
     }
 
     createCapture(video: HTMLVideoElement) {
-        const newCaptureId = this.captures.length
+        const newCaptureId = Math.random()
         return Capture.create({ id: newCaptureId, onSelect: () => this.toggleSelect(newCaptureId) }, video)
     }
 
@@ -46,23 +46,31 @@ export class CapturesListView implements ICapturesListView {
 
     delete() {
         this.captures = this.captures.filter(capture => !this.selectedCaptures.includes(capture))
-        console.log(this.captures)
+        this.selectedCaptures = []
     }
 
-    private getCaptureIndex(captureArray: Array<Capture>, id: number) {
-        const index = captureArray.findIndex(capture => capture.id === id)
-        if(index < 0) return null 
+    private getCapture(captureArray: Array<Capture>, id: number) {
+        const capture = captureArray.find(capture => capture.id === id)
+        if(!capture) return null 
 
-        return index
+        return capture
+    }
+
+    private select(capture: Capture) {
+        this.selectedCaptures.push(capture)
+    }
+
+    private unSelect(capture: Capture) {
+        this.selectedCaptures = this.selectedCaptures.filter(selectedCapture => selectedCapture.id !== capture.id)
     }
 
     private toggleSelect(id: number) {
-        const index = this.getCaptureIndex(this.captures, id)
+        const capture = this.getCapture(this.captures, id)
 
-        if (this.selectedCaptures.includes(this.captures[index])) {
-            this.selectedCaptures.splice(index, 1)
+        if (this.selectedCaptures.includes(capture)) {
+            this.unSelect(capture)
         } else {
-            this.selectedCaptures.push(this.captures[index])
+            this.select(capture)
         }
 
         console.log(this.selectedCaptures)

@@ -68,7 +68,7 @@ export class Capture {
         input.setAttribute('value', this.id.toString())
         input.setAttribute('id', this.id.toString())
 
-        input.addEventListener('change', () => this.onSelect(this.id))
+        input.addEventListener('mousedown', () => this.onSelect(this.id))
 
         return input
     }
