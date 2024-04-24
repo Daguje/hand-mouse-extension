@@ -8,7 +8,7 @@ export class Capture {
     onSelect: ICapture['onSelect']
     img: HTMLImageElement
     checkbox: HTMLInputElement
-    container: HTMLDivElement
+    container: HTMLButtonElement
 
     constructor({ id, onSelect }: ICapture) {
         this.id = id
@@ -20,7 +20,7 @@ export class Capture {
         this.img = this.createCaptureImageElement(src)
         this.checkbox = this.createCheckboxElement()
 
-        this.container = document.createElement('div')
+        this.container = this.createContainer()
         this.container.appendChild(this.checkbox)
         this.container.appendChild(this.img)
     }
@@ -67,11 +67,23 @@ export class Capture {
         input.setAttribute('type', 'checkbox')
         input.setAttribute('value', this.id.toString())
         input.setAttribute('id', this.id.toString())
-
-        input.addEventListener('mousedown', () => this.onSelect(this.id))
+        input.classList.add('capture-preview-checkbox')
 
         return input
     }
+
+    private createContainer(): HTMLButtonElement {
+        const container = document.createElement('button')
+        container.classList.add('gestures-captures-previews')
+
+        container.addEventListener('mousedown', () => {
+            this.onSelect(this.id)
+            this.checkbox.checked = !this.checkbox.checked
+        })
+
+        return container
+    }
+
 
     dispose() {
         this.checkbox = null

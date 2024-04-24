@@ -111,6 +111,18 @@
         animation: button-loading-spinner 1s ease infinite;
       }
 
+      /* CHECKBOX */
+      input[type='checkbox'] {
+        cursor: pointer;
+        accent-color: var(--color-primary);
+      }
+
+      .capture-preview-checkbox {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+      }
+
       @keyframes button-loading-spinner {
         from {
           transform: rotate(0turn);
@@ -379,8 +391,9 @@
 
       .gestures-captures-previews {
         border-radius: 0.5rem;
-        width: 165px;
-        height: 165px;
+        background-color: var(--color-neutral-90);
+        position: relative;
+        padding: 0.5rem;
       }
     </style>
   </head>
