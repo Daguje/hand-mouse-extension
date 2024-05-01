@@ -39,13 +39,14 @@ export class Camera {
 
     const stream = await navigator.mediaDevices.getUserMedia(
       this.getVideoConfig(),
-      );
-      
+    );
+    
     const camera = new Camera();
     camera.video.srcObject = stream;
     camera.video.height = camera.video.videoHeight;
     camera.video.width = camera.video.videoWidth;
     camera.video.id = 'hm-camera-display';
+
     
     // Permissão da Câmera
     await new Promise((resolve) => {

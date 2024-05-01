@@ -24,8 +24,8 @@ export default class HandLandmarkEstimatorService {
         return this.handLandmarkDetector.preProcess(hand, img)
     }
 
-    getHandCenter(hand: unknown) {
-        return this.handLandmarkDetector.getHandCenter(hand)
+    getHandCenter(hand: unknown, video: HTMLVideoElement) {
+        return this.handLandmarkDetector.getHandCenter(hand, video)
     }
 
     dispose() {

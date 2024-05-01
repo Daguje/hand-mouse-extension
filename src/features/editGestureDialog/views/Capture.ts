@@ -10,7 +10,7 @@ export class Capture {
     checkbox: HTMLInputElement
     container: HTMLButtonElement
 
-    constructor({ id, onSelect }: ICapture) {
+    private constructor({ id, onSelect }: ICapture) {
         this.id = id
         this.onSelect = onSelect
     }

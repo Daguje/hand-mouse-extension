@@ -1,15 +1,15 @@
 interface IDialogViewProps {
     dialog: HTMLDialogElement
     title: HTMLHeadingElement
-    description: HTMLParagraphElement
+    description?: HTMLParagraphElement
 }
 
 export class DialogView {
     private dialog: HTMLDialogElement
     private title: HTMLHeadingElement
-    private description: HTMLParagraphElement 
+    private description?: HTMLParagraphElement 
 
-    constructor({ dialog, description, title }: IDialogViewProps) {
+    constructor({ dialog, description = null, title }: IDialogViewProps) {
         this.dialog = dialog
         this.description = description
         this.title = title
@@ -20,6 +20,7 @@ export class DialogView {
     }
 
     setDescription(description: string) {
+        if(!this.description) return 
         this.description.innerText = description
     }   
 

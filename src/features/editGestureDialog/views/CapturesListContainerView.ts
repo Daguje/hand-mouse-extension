@@ -1,3 +1,4 @@
+import { Constants } from "@lib/constants";
 import { Capture, CapturesListView } from ".";
 
 interface ICapturesListContainerView {
@@ -6,9 +7,11 @@ interface ICapturesListContainerView {
 
 export class CapturesListContainerView implements ICapturesListContainerView {
     list: CapturesListView
+    captureCounterSpan: HTMLSpanElement
 
     constructor({ list }: ICapturesListContainerView) {
         this.list = list
+        this.captureCounterSpan = document.getElementById('capture-count') as HTMLSpanElement
     }
 
     clear() {
@@ -35,5 +38,9 @@ export class CapturesListContainerView implements ICapturesListContainerView {
         this.clear()
         this.list.dispose()
         this.list = null
+    }
+
+    updateCapturesCounter() {
+        this.captureCounterSpan.innerHTML = `(${this.list.totalCaptures}/${Constants.MAX_PICTURES_TAKEN})`
     }
 }

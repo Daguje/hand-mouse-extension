@@ -1,7 +1,7 @@
 import { GesturesDef, gesturePortugueseTranslateMap } from "@gestures/types";
 import { Constants } from "@lib/constants";
 import { CaptureObserversView, CaptureProgressView, CapturesListContainerView } from ".";
-import { DialogView } from "./DialogView";
+import { DialogView } from "../../DialogView";
 
 interface IEditGestureDialogView {
     capturesListContainerView: CapturesListContainerView
@@ -56,6 +56,7 @@ export class EditGestureDialogView {
     }
 
     onSetup(gesture: GesturesDef) {
+        this.dialogView.show()
         this.captureObserversView.setup()
         this.capturesListContainerView.clear()
         this.dialogView.setTitle(`Editar gesto de ${gesturePortugueseTranslateMap[gesture]}`)
@@ -87,6 +88,7 @@ export class EditGestureDialogView {
         const capture = this.capturesListContainerView.capture(video)
         this.capturesListContainerView.append(capture)
         this.capturesListContainerView.show()
+        this.capturesListContainerView.updateCapturesCounter()
     }
 
     onDoneCapturing() {

@@ -5,7 +5,7 @@ export interface IHandLandmarkDetector {
     estimateHands(args: unknown): Promise<unknown>
     estimateFromVideo(video: HTMLVideoElement): Promise<unknown>
     estimateFromImage(image: HTMLImageElement): Promise<unknown>
-    getHandCenter(hand: unknown): Point
+    getHandCenter(hand: unknown, video: HTMLVideoElement): Point
     preProcess(hand: unknown, img: unknown): Array<number>
     dispose(): void
 }

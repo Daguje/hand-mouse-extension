@@ -36,7 +36,7 @@ export default class MouseController {
     }
 
     private getHandCenter(hands: unknown) {
-        return this.handLandmarkService.getHandCenter(hands)
+        return this.handLandmarkService.getHandCenter(hands, this.camera.video)
     }
 
     private drawCursor(gesture: GesturesDef, handCenter: Point) {

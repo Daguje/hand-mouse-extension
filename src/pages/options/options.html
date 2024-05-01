@@ -402,8 +402,7 @@
     <dialog id="preview-dialog">
       <div class="dialog-container">
         <div class="flex justify-space-between">
-          <h2 class="edit-button color-neutral-0">
-            Visualizar gesto de <span id="gesture-name-span"></span>
+          <h2 class="edit-button color-neutral-0" id="preview-gesture-dialog-title">
           </h2>
           <button id="close-preview-dialog" class="secondary icon">
             <span class="material-icons"> close </span>
@@ -448,7 +447,9 @@
         </div>
         <div class="flex-col gap-8">
           <h4 class="action-text">Capturas <span id="capture-count"></span>:</h4>
-          <div id="gestures-captures-previews-container"></div>
+          <div id="gestures-captures-previews-container">
+            
+          </div>
         </div>
         <button class="button hide" id="delete-captures-button">
           Excluir Gestos
