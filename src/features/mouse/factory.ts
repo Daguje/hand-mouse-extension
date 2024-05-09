@@ -18,6 +18,8 @@ const factory = {
         const camera = await Camera.create()
         const tfjsHandLandmarkDetector = await TFJSHandDector.create()
         const svmClassifier = await SVMClassifier.load()
+          
+        await Camera.drawOnTop(camera.video, document.body);
 
         return MouseController.initialize({
             camera,

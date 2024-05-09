@@ -59,13 +59,18 @@ export class TFJSHandDector {
     const x = (wrist.x + indexFingerMCP.x + middleFingerMCP.x + ringFingerMCP.x + fingerMCP.x) / 5
     const y = (wrist.y + indexFingerMCP.y + middleFingerMCP.y + ringFingerMCP.y + fingerMCP.y) / 5
 
-    const xRatio = globalThis.screen.availWidth / video.width
-    const yRatio = globalThis.screen.availHeight / video.height
+    const handCenter: Point = {
+      x,
+      y
+    } 
 
-    const handCenter: Point = { 
-      x: 2 * (x * xRatio - video.width / 2), 
-      y: 2 * (y * yRatio - video.height / 2)
-    }
+    // const xRatio = globalThis.screen.availWidth / video.width
+    // const yRatio = globalThis.screen.availHeight / video.height
+
+    // const handCenter: Point = { 
+    //   x: 2 * (x * xRatio - video.width / 2), 
+    //   y: 2 * (y * yRatio - video.height / 2)
+    // }
 
     return handCenter
   }

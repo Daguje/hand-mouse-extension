@@ -1,7 +1,7 @@
-import { setInputValueFromStorage } from '../../utils/setInputValueFromStorage';
 import { dispatchInputChanges } from '@pages/popup/dispatchInputChanges';
+import { setInputValueFromStorage } from '../../utils/setInputValueFromStorage';
 
-const elements = ['hide-camera', 'disable-detection'].map(
+const elements = ['disable-detection', 'hide-camera'].map(
   (id) => document.getElementById(id) as HTMLInputElement,
 );
 

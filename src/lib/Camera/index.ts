@@ -1,4 +1,5 @@
 import { NotificationService } from "@services/NotificationService";
+import { getStorageItem } from "@utils/storage";
 
 export class Camera {
   video: HTMLVideoElement
@@ -26,6 +27,26 @@ export class Camera {
     video.style.height = '100%'
     video.style.width = '100%'
     element.replaceChildren(video)
+  }
+
+  static async drawOnTop(video: HTMLVideoElement, element: HTMLElement) {
+    const data = await getStorageItem('hide-camera')
+    const isCameraHidden = data['hide-camera']
+
+    if(isCameraHidden) return
+    
+    video.height = video.videoHeight;
+    video.width = video.videoWidth;
+    video.style.height = '240px';
+    video.style.width = '320px';
+    video.style.transform = 'scaleX(-1)';
+    video.style.position = 'fixed';
+    video.style.top = '16px';
+    video.style.left = '16px';
+    video.style.zIndex = '2147483647';
+    video.id = 'hm-camera-display';
+
+    element.append(video);
   }
 
   static async create() {

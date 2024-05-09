@@ -41,6 +41,14 @@ export class CapturesListContainerView implements ICapturesListContainerView {
     }
 
     updateCapturesCounter() {
-        this.captureCounterSpan.innerHTML = `(${this.list.totalCaptures}/${Constants.MAX_PICTURES_TAKEN})`
+        let text = ''
+
+        if (this.list.totalCaptures > 0) {
+            text = `(${this.list.totalCaptures}/${Constants.MAX_PICTURES_TAKEN})`
+            this.captureCounterSpan.innerHTML = text
+            return
+        }
+
+        this.captureCounterSpan.innerHTML = text
     }
 }

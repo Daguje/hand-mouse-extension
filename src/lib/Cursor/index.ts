@@ -12,8 +12,14 @@ export class Cursor {
     private static stickToClickableElement(handCenter: Point) {
         const neighborPixels = 64
         const position: Point = handCenter
+        const x = position.x
+        const y = position.y
         const clickableTagElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY']
-        const element = document.elementFromPoint(handCenter.x, handCenter.y)
+
+        if (!Number.isFinite(x)) return position
+        if (!Number.isFinite(y)) return position
+
+        const element = document.elementFromPoint(x, y)
 
         if(!element) return position
 
@@ -24,8 +30,8 @@ export class Cursor {
 
         if(!isClickableElement) return position
 
-        for (let x = handCenter.x - neighborPixels; x <= handCenter.x + neighborPixels; x++) {
-            for (let y = handCenter.y - neighborPixels; y <= handCenter.y + neighborPixels; y++) {
+        for (let i = x - neighborPixels; i <= x + neighborPixels; i++) {
+            for (let j = y - neighborPixels; j <= y + neighborPixels; j++) {
                 const rect = element.getBoundingClientRect()
                 position.x = rect.x + rect.width / 2
                 position.y = rect.y + rect.height / 2
@@ -54,9 +60,7 @@ export class Cursor {
         ctx.strokeStyle = this.secondaryColor
         ctx.lineWidth = 2
 
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI)
-        ctx.closePath()
+        this.arc(ctx, radius, 2 * Math.PI)
         
         ctx.lineWidth = 1
         ctx.strokeStyle = this.secondaryColor
@@ -65,18 +69,20 @@ export class Cursor {
         ctx.fill()
     }
 
-    static outterCircle(ctx: CanvasRenderingContext2D) {
+    static arc(ctx: CanvasRenderingContext2D, radius: number, angle: number) {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, 18, 0, 2 * Math.PI)
+        ctx.arc(this.x, this.y, radius, 0, angle)
         ctx.closePath()
+    }
+
+    static outterCircle(ctx: CanvasRenderingContext2D) {
+        this.arc(ctx, 18, 2 * Math.PI)
 
         ctx.lineWidth = 2
         ctx.strokeStyle = this.primaryColor
         ctx.stroke()
 
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, 18, 0, 2 * Math.PI)
-        ctx.closePath()
+        this.arc(ctx, 18, 2 * Math.PI)
 
         ctx.lineWidth = 4
         ctx.strokeStyle = this.secondaryColor

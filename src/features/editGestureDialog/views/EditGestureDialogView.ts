@@ -67,6 +67,7 @@ export class EditGestureDialogView {
         this.captureObserversView.onDelete()
         this.capturesListContainerView.delete()
         this.capturesListContainerView.show()
+        this.capturesListContainerView.updateCapturesCounter()
     }
 
     onPaused() {

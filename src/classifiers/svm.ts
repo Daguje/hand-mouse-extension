@@ -9,6 +9,7 @@ import { getStorageItem } from '@utils/storage'
 @staticImplements<IStaticClassifier>()
 export default class SVMClassifier {
     private estimator: typeof SVM
+    private lastDetectedGesture: GesturesDef = GesturesDef.None
 
     static create() {
         const svm = new SVMClassifier()
@@ -40,11 +41,11 @@ export default class SVMClassifier {
 
     async setup() {
         this.estimator  = new SVM({
-            kernel: SVM.KERNEL_TYPES.RBF,
+            kernel: SVM.KERNEL_TYPES.POLYNOMIAL,
             type: SVM.SVM_TYPES.C_SVC,
-            gamma: 1,
-            cost: 2,
-            degree: 1,
+            cost: 6,
+            degree: 3,
+            gamma: 1 / 6,
             probabilityEstimates: true,
         });
     }
@@ -80,7 +81,6 @@ export default class SVMClassifier {
     async predict(hand: number[]) {
         try {
             const result = this.estimator.predictOneProbability(hand)
-            
             if(!result) return GesturesDef.None
 
             const { estimates } = result
@@ -97,8 +97,10 @@ export default class SVMClassifier {
 
             const { label, probability } = estimates[greatestProbabilityIndex]
 
-            console.log()
+            if (label === this.lastDetectedGesture) return label
 
+            this.lastDetectedGesture = label
+            console.log(label)
             if(probability < 0.7) return GesturesDef.None
             
             return label as GesturesDef

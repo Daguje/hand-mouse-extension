@@ -1,5 +1,6 @@
 import GestureEstimatorService from "@services/GestureEstimatorService";
 import { GesturesDataService } from "@services/GesturesDataService";
+import { setStorageData } from "@utils/storage";
 import { EditGesturesPageView } from "../views";
 
 interface IEditGesturesPageControllerProps {
@@ -37,6 +38,8 @@ export class EditGesturesPageController {
             }
 
             await this.gestureEstimatorService.train(allData, allLabels)
+            const customModel = this.gestureEstimatorService.save()
+            await setStorageData({ handMouseModel: customModel })
         })
     }
 

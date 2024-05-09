@@ -3,10 +3,10 @@ import { checkEventCanExecute } from "@utils/checkEventCanExecute";
 import { Point } from "../types";
 import { IGesture } from "./types";
 
-const { shouldExecute } = checkEventCanExecute(100)
+const { shouldExecute } = checkEventCanExecute(300)
 
 export class FreeMove implements IGesture {
-    lastPosition: Point = { x: 0, y: 0 }
+    private static fixedPoint: Point = { x: 0, y: 0 }
 
     draw(ctx: CanvasRenderingContext2D) {
         Cursor.innerCircle(Cursor.executingActionRadius, ctx)
@@ -16,24 +16,30 @@ export class FreeMove implements IGesture {
         Cursor.bottomTriangle(ctx)
         Cursor.leftTriangle(ctx)
 
-        if(!shouldExecute()) return
+        if (!shouldExecute())
 
-        this.lastPosition = Cursor.getCursor()
+        FreeMove.fixedPoint = Cursor.getCursor()
     }
     
     execute() {
         const { x, y } = Cursor.getCursor()
+        const distX = x - FreeMove.fixedPoint.x 
+        const distY =  y - FreeMove.fixedPoint.y
+        const mag2 = distX * distX + distY * distY
 
-        if (this.lastPosition.y > y) {
-            window.scrollBy(0, - (this.lastPosition.y - y) * 100 / 10)
-        } else if (this.lastPosition.y < y) {
-            window.scrollBy(0, (y - this.lastPosition.y) / 10)
+        console.log({distX})
+        console.log({distY})
+
+        if (FreeMove.fixedPoint.y > y) {
+            window.scrollBy(0, -distY / 10)
+        } else if (FreeMove.fixedPoint.y < y) {
+            window.scrollBy(0, distY / 10)
         }
 
-        if(this.lastPosition.x > x) {
-            window.scrollBy(-(this.lastPosition.x - x) * 100/ 10, 0)
-        } else if(this.lastPosition.x < x) {
-            window.scrollBy((x - this.lastPosition.x) / 10, 0)
+        if(FreeMove.fixedPoint.x > x) {
+            window.scrollBy(-distX / 10, 0)
+        } else if(FreeMove.fixedPoint.x < x) {
+            window.scrollBy(distX / 10, 0)
         }
     }
 }
