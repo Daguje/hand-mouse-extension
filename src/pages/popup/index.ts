@@ -1,4 +1,5 @@
 import { dispatchInputChanges } from '@pages/popup/dispatchInputChanges';
+import { browser } from 'webextension-polyfill-ts';
 import { setInputValueFromStorage } from '../../utils/setInputValueFromStorage';
 
 const elements = ['disable-detection', 'hide-camera'].map(
@@ -9,3 +10,9 @@ elements.forEach((element) => {
   dispatchInputChanges(element);
   setInputValueFromStorage(element);
 });
+
+const optionsPageLink = document.getElementById('options-page-link') as HTMLAnchorElement
+optionsPageLink.addEventListener('click', () => {
+  console.log('a')
+  browser.runtime.sendMessage('OPEN_OPTIONS')
+})

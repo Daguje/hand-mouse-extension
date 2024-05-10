@@ -1,5 +1,4 @@
 import { NotificationService } from "@services/NotificationService";
-import { getStorageItem } from "@utils/storage";
 
 export class Camera {
   video: HTMLVideoElement
@@ -30,11 +29,6 @@ export class Camera {
   }
 
   static async drawOnTop(video: HTMLVideoElement, element: HTMLElement) {
-    const data = await getStorageItem('hide-camera')
-    const isCameraHidden = data['hide-camera']
-
-    if(isCameraHidden) return
-    
     video.height = video.videoHeight;
     video.width = video.videoWidth;
     video.style.height = '240px';

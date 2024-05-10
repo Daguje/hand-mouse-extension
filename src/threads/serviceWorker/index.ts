@@ -1,5 +1,6 @@
 import { initializeStorageWithDefaults } from "@utils/storage";
 import { browser } from "webextension-polyfill-ts";
+import { MessageActions } from './types';
 
 // const handMouseModel = `
 // svm_type c_svc
@@ -215,3 +216,11 @@ browser.runtime.onInstalled.addListener(async () => {
   });
   await openOptionsPage()
 });
+
+browser.runtime.onMessage.addListener((message: MessageActions) => {
+  switch(message) {
+    case 'OPEN_OPTIONS':
+      openOptionsPage()
+      break;
+  }
+})

@@ -12,14 +12,21 @@ import { TFJSHandDector } from "@handLandmarkDetectors/tfjs";
 import { Camera } from "@lib/Camera";
 import GestureEstimatorService from "@services/GestureEstimatorService";
 import HandLandmarkEstimatorService from "@services/HandLandmarkEstimatorService";
+import { getStorageItem } from "@utils/storage";
 
 const factory = {
     async initialize() {
         const camera = await Camera.create()
         const tfjsHandLandmarkDetector = await TFJSHandDector.create()
         const svmClassifier = await SVMClassifier.load()
+
+        const data = await getStorageItem('hide-camera')
+        const isCameraHidden = data['hide-camera']
+
+        if(isCameraHidden) {
+            await Camera.drawOnTop(camera.video, document.body);
+        }
           
-        await Camera.drawOnTop(camera.video, document.body);
 
         return MouseController.initialize({
             camera,
