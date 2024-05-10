@@ -42,4 +42,6 @@ export const gestureNameMap: { [key: number]: string } = {
 export interface IGesture {
     draw(ctx: CanvasRenderingContext2D): void
     execute(): void
+    canExecute?(): boolean
+    timeToExecute?: number
 }

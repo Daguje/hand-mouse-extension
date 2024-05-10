@@ -72,7 +72,6 @@ export class Cursor {
     static arc(ctx: CanvasRenderingContext2D, radius: number, angle: number) {
         ctx.beginPath()
         ctx.arc(this.x, this.y, radius, 0, angle)
-        ctx.closePath()
     }
 
     static outterCircle(ctx: CanvasRenderingContext2D) {

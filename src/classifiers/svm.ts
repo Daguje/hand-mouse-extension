@@ -100,7 +100,6 @@ export default class SVMClassifier {
             if (label === this.lastDetectedGesture) return label
 
             this.lastDetectedGesture = label
-            console.log(label)
             if(probability < 0.7) return GesturesDef.None
             
             return label as GesturesDef
