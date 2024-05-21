@@ -1,4 +1,4 @@
-import SVMClassifier from "@classifiers/svm";
+import KNNClassifier from "@classifiers/knn";
 import MouseController from "@features/mouse/controllers";
 import MouseView from "@features/mouse/views";
 import { Backward } from "@gestures/Backward";
@@ -18,7 +18,7 @@ const factory = {
     async initialize() {
         const camera = await Camera.create()
         const tfjsHandLandmarkDetector = await TFJSHandDector.create()
-        const svmClassifier = await SVMClassifier.load()
+        const knnClassifier = await KNNClassifier.load()
 
         const data = await getStorageItem('hide-camera')
         const isCameraHidden = data['hide-camera']
@@ -45,7 +45,7 @@ const factory = {
                 handLandmarkDetector: tfjsHandLandmarkDetector
             }),
             gestureService: new GestureEstimatorService({
-                gestureClassifier: svmClassifier
+                gestureClassifier: knnClassifier
             })
         })
     }

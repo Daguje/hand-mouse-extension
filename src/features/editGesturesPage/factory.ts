@@ -1,4 +1,4 @@
-import SVMClassifier from "@classifiers/svm"
+import KNNClassifier from "@classifiers/knn"
 import editGestureDialogFactory from '@features/editGestureDialog/factory'
 import previewGestureDialogFactory from '@features/previewGestureDialog/factory'
 import GestureEstimatorService from "@services/GestureEstimatorService"
@@ -8,7 +8,7 @@ import { EditGestureButtonsView, EditGesturesPageView, TrainButtonView, ViewGest
 
 const factory = {
     async initialize() {
-        const svmClassifier = SVMClassifier.create()
+        const knnClassifier = KNNClassifier.create()
 
         return EditGesturesPageController.initialize({
             view: EditGesturesPageView.create({
@@ -18,7 +18,7 @@ const factory = {
                 onClosePage: () => window.close()
             }),
             gestureEstimatorService: new GestureEstimatorService({
-                gestureClassifier: svmClassifier
+                gestureClassifier: knnClassifier
             }),
             gesturesDataService: new GesturesDataService()
         })
