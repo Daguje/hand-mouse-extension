@@ -5,7 +5,6 @@ export class Click implements IGesture {
     timeToExecute = Cursor.baseRadius;
 
     draw(ctx: CanvasRenderingContext2D) {
-        console.log(this.timeToExecute)
         Cursor.innerCircle(this.timeToExecute, ctx)
         Cursor.outterCircle(ctx)
     }
@@ -25,9 +24,8 @@ export class Click implements IGesture {
                 const element = document.elementFromPoint(x, y)
                 
                 this.fireClickEvent(element)
-                this.timeToExecute = Cursor.baseRadius
             } else {
-                this.timeToExecute -= 0.2;
+                this.timeToExecute -= 0.8;
             }
         } catch (e) {
             console.error(`Não foi possível executar o gesto de clique: ${e}`)
@@ -41,5 +39,9 @@ export class Click implements IGesture {
             cancelable: true
         })
         element?.dispatchEvent(event)
+    }
+
+    dispose(): void {
+        this.timeToExecute = Cursor.baseRadius
     }
 }

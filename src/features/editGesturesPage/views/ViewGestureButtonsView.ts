@@ -25,7 +25,8 @@ export class ViewGestureButtonsView {
             { id: 'view-scroll-down-gesture-preview', gesture: GesturesDef.ScrollDown},
             { id: 'view-free-move-gesture-preview', gesture: GesturesDef.FreeMove },
             { id: 'view-backward-gesture-preview', gesture: GesturesDef.Backward },
-            { id: 'view-forward-gesture-preview', gesture: GesturesDef.Forward}
+            { id: 'view-forward-gesture-preview', gesture: GesturesDef.Forward},
+            { id: 'view-move-gesture-preview', gesture: GesturesDef.None}
         ];
 
         viewButtonInfo.forEach(info => {

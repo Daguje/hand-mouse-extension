@@ -9,6 +9,10 @@ export class ScrollUp implements IGesture {
     }
 
     execute() {
-        window.scrollBy(0, -10)
+        window.scrollBy(0, -30)
+    }
+
+    dispose(): void {
+        return
     }
 }

@@ -23,6 +23,7 @@ export default class MouseController {
     private gestureService: GestureEstimatorService
     private _estimatedHands: Array<unknown>
     private _estimatedGesture: GesturesDef
+    private _lastEstimatedGesture: GesturesDef
     private _preProcessedHand: Array<number>
     private _handCenter: Point
 
@@ -34,6 +35,7 @@ export default class MouseController {
 
         this._estimatedHands = []
         this._estimatedGesture = GesturesDef.None
+        this._lastEstimatedGesture = GesturesDef.None
         this._preProcessedHand = []
         this._handCenter = { x: 0, y: 0 }
     }
@@ -43,7 +45,6 @@ export default class MouseController {
     }
 
     private drawCursor(gesture: GesturesDef, handCenter: Point) {
-        if(!gesture) return
         if(!handCenter) return
 
         this.view.drawCursor(gestureNameMap[gesture] as GesturesStringDef, handCenter)
@@ -51,6 +52,10 @@ export default class MouseController {
 
     private execute(gesture: GesturesDef) {
         this.view.execute(gestureNameMap[gesture] as GesturesStringDef)
+    }
+
+    private disposeGesture(gesture: GesturesDef) {
+        this.view.diposeGesture(gestureNameMap[gesture] as GesturesStringDef)
     }
 
     private async estimateHands() {
@@ -73,9 +78,14 @@ export default class MouseController {
             
             this._handCenter = this.getHandCenter(this._estimatedHands)
             this._estimatedGesture = await this.estimateGesture(this._preProcessedHand)
-            
-            this.execute(this._estimatedGesture)
-            this.drawCursor(this._estimatedGesture, this._handCenter)
+
+            if(this._estimatedGesture !== this._lastEstimatedGesture) {
+                this.disposeGesture(this._lastEstimatedGesture)
+                this._lastEstimatedGesture = this._estimatedGesture
+            } else {
+                this.drawCursor(this._estimatedGesture, this._handCenter)
+                this.execute(this._estimatedGesture)
+            }
         }
 
         this.view.loop(this.loop.bind(this))

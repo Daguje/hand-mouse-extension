@@ -8,6 +8,10 @@ export class None implements IGesture {
     }
 
     execute() {
-        // nada
+        return
+    }
+
+    dispose(): void {
+        return
     }
 }

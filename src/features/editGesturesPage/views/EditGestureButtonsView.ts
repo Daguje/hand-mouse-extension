@@ -20,7 +20,8 @@ export class EditGestureButtonsView {
             { id: 'edit-scroll-down-gesture-button', gesture: GesturesDef.ScrollDown},
             { id: 'edit-free-move-gesture-button', gesture: GesturesDef.FreeMove },
             { id: 'edit-backward-gesture-button', gesture: GesturesDef.Backward },
-            { id: 'edit-forward-gesture-button', gesture: GesturesDef.Forward}
+            { id: 'edit-forward-gesture-button', gesture: GesturesDef.Forward},
+            { id: 'edit-move-gesture-button', gesture: GesturesDef.None}
         ];
 
         editButtonInfo.forEach(info => {

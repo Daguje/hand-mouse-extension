@@ -44,6 +44,10 @@ export default class MouseView {
         this.gestures[gesture].execute()
     }
 
+    diposeGesture(gesture: GesturesStringDef) {
+        this.gestures[gesture].dispose()
+    }
+
     loop(fn: FrameRequestCallback) {
         requestAnimationFrame(fn)
     }

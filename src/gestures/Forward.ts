@@ -23,4 +23,8 @@ export class Forward implements IGesture {
             this.timeToExecute += 0.2;
         }
     }
+
+    dispose(): void {
+        this.timeToExecute = 0
+    }
 }

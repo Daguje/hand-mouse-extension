@@ -25,7 +25,7 @@ export const gesturePortugueseTranslateMap: { [key: number]: string } = {
     [GesturesDef.FreeMove]: 'Mover Livremente',
     [GesturesDef.Backward]: 'Voltar Para Trás',
     [GesturesDef.Forward]: 'Voltar Para Frente',
-    [GesturesDef.None]: 'Nenhum',
+    [GesturesDef.None]: 'Mover Mouse',
 }
 
 export const gestureNameMap: { [key: number]: string } = {
@@ -42,6 +42,7 @@ export const gestureNameMap: { [key: number]: string } = {
 export interface IGesture {
     draw(ctx: CanvasRenderingContext2D): void
     execute(): void
+    dispose(): void
     canExecute?(): boolean
     timeToExecute?: number
 }

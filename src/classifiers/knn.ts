@@ -10,8 +10,7 @@ import { IStaticClassifier } from "./types";
 @staticImplements<IStaticClassifier>()
 export default class KNNClassifier {
     private estimator: knnClassifier.KNNClassifier
-    private lastDetectedGesture: GesturesDef = GesturesDef.None
-
+    
     static create() {
         const knn = new KNNClassifier()
         knn.setup()
