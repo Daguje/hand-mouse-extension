@@ -25,12 +25,14 @@ export class DialogView {
     }   
 
     show() {
-        this.setTitle('Carregando...')
         this.dialog.showModal()
     }
 
     hide() {
         this.dialog.close()
+    }
+
+    dispose() {
         this.setTitle('')
         this.setDescription('')
     }

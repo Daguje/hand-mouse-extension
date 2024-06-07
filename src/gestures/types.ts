@@ -23,9 +23,9 @@ export const gesturePortugueseTranslateMap: { [key: number]: string } = {
     [GesturesDef.ScrollUp]: 'Rolar para cima',
     [GesturesDef.ScrollDown]: 'Rolar para baixo',
     [GesturesDef.FreeMove]: 'Mover Livremente',
-    [GesturesDef.Backward]: 'Voltar Para Trás',
-    [GesturesDef.Forward]: 'Voltar Para Frente',
-    [GesturesDef.None]: 'Mover Mouse',
+    [GesturesDef.Backward]: 'Voltar página',
+    [GesturesDef.Forward]: 'Avançar página',
+    [GesturesDef.None]: 'Mover cursor do mouse',
 }
 
 export const gestureNameMap: { [key: number]: string } = {

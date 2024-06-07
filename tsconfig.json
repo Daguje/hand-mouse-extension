@@ -18,6 +18,8 @@
       "@gestures/*": ["./src/gestures/*"],
       "@features/*": ["./src/features/*"]
     },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true
   }
 }

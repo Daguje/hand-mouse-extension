@@ -60,7 +60,7 @@ export class EditGestureDialogView {
         this.captureObserversView.setup()
         this.capturesListContainerView.clear()
         this.dialogView.setTitle(`Editar gesto de ${gesturePortugueseTranslateMap[gesture]}`)
-        this.dialogView.setDescription(`Uma sequência de ${Constants.MAX_PICTURES_TAKEN} fotos serão capturadas para registrar o novo gesto correspondente a ação. Use apenas uma das mãos, movimente e varie o ângulo do gesto`)
+        this.dialogView.setDescription(`Uma sequência de ${Constants.MAX_PICTURES_TAKEN} fotos serão capturadas para registrar o novo gesto correspondente a ação de ${gesturePortugueseTranslateMap[gesture]}. Use apenas uma das mãos, movimente e varie o ângulo do gesto.`)
     }
 
     onDelete() {
@@ -109,5 +109,6 @@ export class EditGestureDialogView {
         this.captureProgressView.dispose()
         this.captureObserversView.dispose()
         this.capturesListContainerView.dispose()
+        this.dialogView.dispose()
     }
 }

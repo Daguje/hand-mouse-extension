@@ -72,11 +72,10 @@ export class CapturesListView implements ICapturesListView {
         } else {
             this.select(capture)
         }
-
-        console.log(this.selectedCaptures)
     }
 
     dispose() {
         this.captures.forEach(capture => capture.dispose())
+        this.clear()
     }
 }

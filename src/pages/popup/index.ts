@@ -13,6 +13,5 @@ elements.forEach((element) => {
 
 const optionsPageLink = document.getElementById('options-page-link') as HTMLAnchorElement
 optionsPageLink.addEventListener('click', () => {
-  console.log('a')
   browser.runtime.sendMessage('OPEN_OPTIONS')
 })

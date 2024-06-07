@@ -44,9 +44,7 @@ export class CaptureObserversView {
         this._saveCapturesButton.disabled = true
         this._pauseCapturesButton.disabled = true
         this._closeDialogButton.disabled = false
-
         this._deleteCapturesButton.disabled = true
-        this._deleteCapturesButton.classList.add('hide')
 
         this._saveCapturesButton.classList.remove('loading')
         this._saveCapturesButton.innerHTML = 'Salvar Gesto'
@@ -60,7 +58,6 @@ export class CaptureObserversView {
         this._resumeCaptureButton.classList.remove('hide')
 
         this._deleteCapturesButton.disabled = false
-        this._deleteCapturesButton.classList.remove('hide')
 
         this._beginCapturesButton.disabled = true
         this._saveCapturesButton.disabled = true
@@ -74,7 +71,6 @@ export class CaptureObserversView {
         this._resumeCaptureButton.classList.remove('hide')
 
         this._deleteCapturesButton.disabled = true
-        this._deleteCapturesButton.classList.remove('hide')
 
         this._beginCapturesButton.disabled = true
         this._saveCapturesButton.disabled = true
@@ -103,7 +99,6 @@ export class CaptureObserversView {
         this._saveCapturesButton.classList.remove('loading')
 
         this._deleteCapturesButton.disabled = true
-        this._deleteCapturesButton.classList.add('hide')
 
         this._beginCapturesButton.disabled = true
         this._closeDialogButton.disabled = true
@@ -111,7 +106,6 @@ export class CaptureObserversView {
 
     onDoneCapturing() {
         this._deleteCapturesButton.disabled = false
-        this._deleteCapturesButton.classList.remove('hide')
 
         this._pauseCapturesButton.disabled = true
         this._pauseCapturesButton.classList.remove('hide')

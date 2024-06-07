@@ -60,13 +60,11 @@ export default class EditGestureDialogController {
   }
 
   private onClosing() {
-    console.log('closing');
     this.view.onClosing();
     return this.dispose();
   }
 
   private async onSaving() {
-    console.log('saving');
     this.view.onSaving();
 
     const captures = this.view.captures
@@ -78,22 +76,18 @@ export default class EditGestureDialogController {
 
   private async onPaused() {
     this.view.onPaused();
-    console.log('paused');
   }
 
   private onDelete() {
-    console.log('deleting')
     this.view.onDelete()
     this.setState(CaptureStates.Paused)
   }
 
   private onDoneCapturing() {
-    console.log('done capturing');
     this.view.onDoneCapturing();
   }
 
   private onCapturing() {
-    console.log('capturing');
     if (this.view.totalCaptures >= Constants.MAX_PICTURES_TAKEN) {
       this.setState(CaptureStates.DoneCapturing);
       return;
@@ -105,7 +99,7 @@ export default class EditGestureDialogController {
   }
 
   private onIdle() {
-    console.log('idle');
+    return
   }
 
   private onSetup() {

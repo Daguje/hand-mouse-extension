@@ -23,11 +23,9 @@ const factory = {
         const data = await getStorageItem('hide-camera')
         const isCameraHidden = data['hide-camera']
 
-        if(isCameraHidden) {
+        if(!isCameraHidden)
             await Camera.drawOnTop(camera.video, document.body);
-        }
           
-
         return MouseController.initialize({
             camera,
             view: new MouseView({

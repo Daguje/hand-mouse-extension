@@ -14,6 +14,7 @@ const factory = {
     })
 
     dialogView.show()
+    dialogView.setTitle('Carregando Câmera...')
     
     const tfjsHandLandmarkDetector = await TFJSHandDector.create();
     const camera = await Camera.create();

@@ -25,6 +25,7 @@ export class PreviewGestureDialogView {
     private setPreview(preview: string) {
         const previewImage = document.createElement('img')
         previewImage.setAttribute('src', "data:image/png;base64," + preview)
+        previewImage.setAttribute('width', '100%')
         this._previewContainer.appendChild(previewImage)
     }
 
@@ -35,14 +36,14 @@ export class PreviewGestureDialogView {
     }
     
     setup(gesture: GesturesDef, preview: string) {
-        this._closeDialogButton.addEventListener('mousedown', this.onClose)
+        this._closeDialogButton.addEventListener('mousedown', () => this.onClose())
         this.setPreview(preview)
         this.setDialogTitle(gesture)
     }
     
     private dispose() {
-        this.dialogView = null
-        this._closeDialogButton.removeEventListener('mousedown', this.onClose)
-        this._closeDialogButton = null
+        this.dialogView.dispose()
+        this._closeDialogButton.removeEventListener('mousedown', () => this.onClose())
+        this._previewContainer.innerHTML = ''
     }
 }

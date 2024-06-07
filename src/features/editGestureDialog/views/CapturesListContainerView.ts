@@ -38,6 +38,7 @@ export class CapturesListContainerView implements ICapturesListContainerView {
         this.clear()
         this.list.dispose()
         this.list = null
+        this.captureCounterSpan.innerHTML = ''
     }
 
     updateCapturesCounter() {

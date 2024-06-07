@@ -414,35 +414,38 @@
     </dialog>
     <dialog id="edit-dialog">
       <div class="dialog-container">
-        <div class="gap-8">
-          <div class="flex justify-space-between">
-            <h2 class="color-neutral-0" id="edit-gesture-dialog-title">
-            </h2>
-            <button id="close-edit-dialog" class="secondary icon" disabled>
-              <span class="material-icons"> close </span>
-            </button>
-          </div>
-          <p class="info-text" id="edit-gesture-dialog-description">
-          </p>
-        </div>
         <div class="flex-col gap-16">
+          <div class="gap-8">
+            <div class="flex justify-space-between">
+              <h2 class="color-neutral-0" id="edit-gesture-dialog-title">
+              </h2>
+              <button id="close-edit-dialog" class="secondary icon" disabled>
+                <span class="material-icons"> close </span>
+              </button>
+            </div>
+            <p class="info-text" id="edit-gesture-dialog-description">
+            </p>
+          </div>
+          <div id="video-container"><div class="loading"></div></div>
+          <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+          </div>
           <div class="flex gap-16 overflow-hidden">
+            <button id="start-capture-button" class="width-full" disabled>
+              Começar Capturas
+            </button>
             <button id="pause-capture-button" class="icon width-full" disabled>
               <span class="material-icons"> pause </span>
             </button>
             <button id="resume-capture-button" class="icon width-full hide" disabled>
               <span class="material-icons"> play_arrow </span>
             </button>
-            <button id="start-capture-button" class="width-full" disabled>
-              Começar Capturas
-            </button>
             <button id="finish-capture-button" class="width-full" disabled>
               Salvar Gesto
             </button>
-          </div>
-          <div id="video-container"><div class="loading"></div></div>
-          <div id="progress-bar-container">
-            <div id="progress-bar"></div>
+            <button class="width-full" id="delete-captures-button" disabled>
+              Excluir Capturas Selecionadas
+            </button>
           </div>
         </div>
         <div class="flex-col gap-8">
@@ -451,9 +454,6 @@
             
           </div>
         </div>
-        <button class="button hide" id="delete-captures-button">
-          Excluir Gestos
-        </button>
       </div>
     </dialog>
     <main>
@@ -461,19 +461,18 @@
         <button class="secondary icon" id="close-page-button">
           <span class="material-icons"> chevron_left </span>
         </button>
-        <h1 class="action-text">Hand Mouse</h1>
+        <h1 class="action-text">Configurações Hand Mouse</h1>
       </header>
       <section class="flex-col gap-16">
         <p class="info-text">
-          Altere de acordo com sua preferência os gestos correspondentes as
-          ações que você realiza usando a Hand Mouse
+          Personalize os gestos das seguintes ações de acordo com sua preferência.
         </p>
         <div>
           <div class="action-card">
             <div>
               <div>
                 <h5 class="action-overline-text">Ação</h5>
-                <h4 class="action-text">Mover o Mouse</h4>
+                <h4 class="action-text">Mover o cursor do mouse</h4>
               </div>
             </div>
             <div class="flex gap-8">
@@ -568,7 +567,7 @@
             <div>
               <div>
                 <h5 class="action-overline-text">Ação</h5>
-                <h4 class="action-text">Voltar Para Trás</h4>
+                <h4 class="action-text">Voltar página</h4>
               </div>
             </div>
             <div class="flex gap-8">
@@ -587,7 +586,7 @@
             <div>
               <div>
                 <h5 class="action-overline-text">Ação</h5>
-                <h4 class="action-text">Voltar Para Frente</h4>
+                <h4 class="action-text">Avançar página</h4>
               </div>
             </div>
             <div class="flex gap-8">

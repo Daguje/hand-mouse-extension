@@ -59,18 +59,29 @@ export class TFJSHandDector {
     const x = (wrist.x + indexFingerMCP.x + middleFingerMCP.x + ringFingerMCP.x + fingerMCP.x) / 5
     const y = (wrist.y + indexFingerMCP.y + middleFingerMCP.y + ringFingerMCP.y + fingerMCP.y) / 5
 
-    const handCenter: Point = {
-      x,
-      y
-    } 
+    const input = tf.browser.fromPixels(video)
+    const cameraWidth = input.shape[0]
+    const cameraHeight = input.shape[1]
 
-    // const xRatio = globalThis.screen.availWidth / video.width
-    // const yRatio = globalThis.screen.availHeight / video.height
+    input.dispose()
 
-    // const handCenter: Point = { 
-    //   x: 2 * (x * xRatio - video.width / 2), 
-    //   y: 2 * (y * yRatio - video.height / 2)
-    // }
+    const screenWidth = window.screen.width
+    const screenHeight = window.screen.height
+
+    const xRatio = screenWidth / cameraWidth
+    const yRatio = screenHeight / cameraHeight
+    const aspectRatio = Math.max(xRatio, yRatio)
+
+    const newCameraWidth = cameraWidth * aspectRatio
+    const newCameraHeight = cameraHeight * aspectRatio
+
+    const xOff = (screenWidth / 2 - newCameraWidth) / 2
+    const yOff = (2 * screenHeight - newCameraHeight) / 2
+
+    const handCenter: Point = { 
+      x: x * aspectRatio + xOff, 
+      y: y * aspectRatio + yOff
+    }
 
     return handCenter
   }
@@ -80,7 +91,7 @@ export class TFJSHandDector {
 
     const preProcessedHand =  hand.keypoints.map(({ x, y }) => {
       const newX = (x - hand.keypoints[0].x) / input.shape[0]
-      const newY = (y - hand.keypoints[0].y) / input.shape[0]
+      const newY = (y - hand.keypoints[0].y) / input.shape[1]
 
       return [newX, newY]
     })

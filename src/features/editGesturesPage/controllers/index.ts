@@ -38,7 +38,7 @@ export class EditGesturesPageController {
             }
 
             await this.gestureEstimatorService.train(allData, allLabels)
-            const customModel = this.gestureEstimatorService.save()
+            const customModel = await this.gestureEstimatorService.save()
             await setStorageData({ handMouseModel: customModel })
         })
     }
