@@ -1,22 +1,22 @@
-import { Cursor } from "../lib/Cursor";
+import { CursorDrawer, CursorPosition } from "../lib/Cursor";
 import { IGesture } from "./types";
 
 export class Click implements IGesture {
-    timeToExecute = Cursor.baseRadius;
+    timeToExecute = CursorDrawer.radii.md;
 
     draw(ctx: CanvasRenderingContext2D) {
-        Cursor.innerCircle(this.timeToExecute, ctx)
-        Cursor.outterCircle(ctx)
+        CursorDrawer.circleAtHandCenter(this.timeToExecute, ctx)
+        CursorDrawer.circunferenceAtHandCenter(CursorDrawer.radii.xl, ctx)
     }
 
     canExecute(): boolean {
-        return this.timeToExecute < Cursor.executingActionRadius;
+        return this.timeToExecute < CursorDrawer.radii.xs;
     }
 
     execute() {
         try {
             if(this.canExecute()) {
-                const { x, y } = Cursor.getCursor()
+                const { x, y } = CursorPosition.getCursor()
                 
                 if (!Number.isFinite(x)) return
                 if (!Number.isFinite(y)) return
@@ -42,6 +42,6 @@ export class Click implements IGesture {
     }
 
     dispose(): void {
-        this.timeToExecute = Cursor.baseRadius
+        this.timeToExecute = CursorDrawer.radii.md
     }
 }

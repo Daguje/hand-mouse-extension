@@ -1,2 +1,4 @@
 export { Camera } from './Camera'
-export { Cursor } from './Cursor'
+export { CursorDrawer, CursorPosition } from './Cursor'
+export * from './Shapes'
+

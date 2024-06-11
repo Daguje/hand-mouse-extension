@@ -1,5 +1,5 @@
 import { GesturesStringDef, IGesture } from "@gestures/types";
-import { Cursor } from "@lib/Cursor";
+import { CursorPosition } from "@lib/Cursor";
 import { Point } from "../../../types";
 
 interface IMouseViewProps {
@@ -36,7 +36,7 @@ export default class MouseView {
 
     drawCursor(gesture: GesturesStringDef, handCenter: Point) {
         this.clearCanvas()
-        Cursor.setCursor(handCenter)
+        CursorPosition.setCursor(handCenter)
         this.gestures[gesture].draw(this.ctx)   
     }
 

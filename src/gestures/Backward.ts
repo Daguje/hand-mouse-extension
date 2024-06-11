@@ -1,15 +1,12 @@
-import { Cursor } from "@lib/Cursor";
+import { CursorDrawer } from "@lib/Cursor";
 import { IGesture } from "./types";
 
 export class Backward implements IGesture {
     timeToExecute = 0;
 
     draw(ctx: CanvasRenderingContext2D) {
-        Cursor.innerCircle(Cursor.executingActionRadius, ctx)
-        Cursor.arc(ctx, 18, this.timeToExecute)
-        ctx.lineWidth = 2
-        ctx.strokeStyle = '#f7f7f7'
-        ctx.stroke()
+        CursorDrawer.arcAtHandCenter(CursorDrawer.radii.xl, this.timeToExecute, ctx)
+        CursorDrawer.rightTriangleAtHandCenter(CursorDrawer.radii.xl * 0.8,ctx)
     }
 
     canExecute(): boolean {

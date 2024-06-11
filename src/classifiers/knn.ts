@@ -68,8 +68,7 @@ export default class KNNClassifier {
       knn.setup();
 
       const { handMouseModel } = await getStorageItem('handMouseModel');
-      const parsedHandMouseModel = JSON.parse(handMouseModel);
-      const dataset = this.fromDatasetObject(parsedHandMouseModel);
+      const dataset = this.fromDatasetObject(handMouseModel);
       knn.estimator.setClassifierDataset(dataset);
 
       NotificationService.success(
