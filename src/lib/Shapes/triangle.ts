@@ -3,7 +3,7 @@ import { IStaticShape } from "./types"
 
 @staticImplements<IStaticShape>()
 export class Triangle {
-    static draw(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number, ctx: CanvasRenderingContext2D, strokeColor: string) {
+    static draw(x1: number, y1: number, x2: number, y2: number, xOff: number, yOff: number, ctx: CanvasRenderingContext2D, primaryColor: string, secondaryColor: string) {
         ctx.beginPath()
         ctx.moveTo(xOff, yOff)
         ctx.lineTo(x1, y1)
@@ -11,7 +11,7 @@ export class Triangle {
         ctx.closePath()
         
         ctx.lineWidth = 1
-        ctx.strokeStyle = strokeColor
+        ctx.strokeStyle = primaryColor
         ctx.stroke()
 
         ctx.fill()
