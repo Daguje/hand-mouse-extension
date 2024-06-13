@@ -1,5 +1,4 @@
-export { HandDector } from './HandDetector'
 export { Camera } from './Camera'
-export { Hand } from './Hand'
-export { Cursor } from './Cursor'
-export { Loading } from './Loading'
+export { CursorDrawer, CursorPosition } from './Cursor'
+export * from './Shapes'
+

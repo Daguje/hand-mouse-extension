@@ -13,25 +13,16 @@
       ],
       "js": [
         "contentScript.js"
-      ],
-      "css": [
-        "loading.css"
       ]
     }
   ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "loading.html"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
-    }
-  ],
+  "content_security_policy": {
+    "sandbox": "sandbox allow-scripts script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval'; img-src data:"
+  },
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "notifications"
   ],
   "options_ui": {
     "page": "options.html",

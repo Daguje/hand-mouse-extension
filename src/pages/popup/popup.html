@@ -1,30 +1,142 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    *,
+    html {
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+      border: 0;
+      outline: 0;
 
-  <link rel="stylesheet" href="tailwind.css">
+      font-family: var(--poppins);
+    }
+
+    body {
+      background-color: #181820;
+      color: #fff5ea;
+      width: 250px;
+    }
+
+    main {
+      padding: 0.5rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    a {
+      cursor: pointer;
+    }
+
+    .input-containers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .input-label {
+      cursor: pointer;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #414052;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: #00c1d4;
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px #00c1d4;
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(16px);
+      -ms-transform: translateX(16px);
+      transform: translateX(16px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
 </head>
 
 <body>
-  <div>
-    <main>
-      <article>
-        <h3><b>HAND MOUSE</b></h3>
-        <i>control your browser with your hand</i>
-      </article>
-      <section>
-        <label for="disable-detection">Disable Detection</label>
-        <input type="checkbox" id="disable-detection">
-      </section>      
-      <section>
-        <label for="hide-camera">Hide camera</label>
-        <input type="checkbox" id="hide-camera">
-      </section>      
-    </main>
-  </div>
+  <main>
+    <article>
+      <h2><b>HAND MOUSE</b></h2>
+      <i>Controle seu mouse com as mãos</i>
+    </article>
+    <div class="input-containers">
+      <section class="input-container">
+        <label class="switch">
+          <input id="disable-detection" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+        <label for="disable-detection" class="input-label">Desabilitar Hand Mouse</label>
+      </section>
+      <section class="input-container">
+        <label class="switch">
+          <input id="hide-camera" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+        <label for="hide-camera" class="input-label">Desligar Câmera</label>
+      </section>
+      <a id="options-page-link">Personalizar Gestos</a>
+    </div>
+  </main>
   <script src="popup.js"></script>
 </body>
+
 </html>

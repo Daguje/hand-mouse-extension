@@ -7,20 +7,22 @@ const extensionPages = {
   options: './src/pages/options',
 }
 
-const resources = {
-  loading: './src/lib/Loading'
-}
-
 const scripts = {
-  serviceWorker: './src/services/serviceWorker',
-  contentScript: './src/services/contentScript',
+  serviceWorker: './src/threads/serviceWorker',
+  contentScript: './src/threads/contentScript',
 }
 
 module.exports = {
   entry: {
     ...scripts,
     ...extensionPages,
-    ...resources
+  },
+  experiments: {
+    asyncWebAssembly: true,
+    layers: true,
+    outputModule: true,
+    syncWebAssembly: true,
+    topLevelAwait: true,
   },
   module: {
     rules: [
@@ -36,12 +38,21 @@ module.exports = {
     ],
   },
   resolve: {
+    fallback: {
+      path: false,
+      crypto: false,
+      fs: false,
+    },
     alias: {
       '@lib': path.resolve(__dirname, 'src', 'lib'),
       '@pages': path.resolve(__dirname, 'src', 'pages'),
+      '@threads': path.resolve(__dirname, 'src', 'threads'),
       '@services': path.resolve(__dirname, 'src', 'services'),
-      '@styles': path.resolve(__dirname, 'src', 'styles'),
       '@utils': path.resolve(__dirname, 'src', 'utils'),
+      '@handLandmarkDetectors': path.resolve(__dirname, 'src', 'handLandmarkDetectors'),
+      '@gestures': path.resolve(__dirname, 'src', 'gestures'),
+      '@classifiers': path.resolve(__dirname, 'src', 'classifiers'),
+      '@features': path.resolve(__dirname, 'src', 'features'),
     },
     extensions: ['.ts', '.js'],
   },
@@ -49,13 +60,12 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    wasmLoading: 'fetch'
   },
   plugins: [
     new CopyPlugin({
       patterns: [
         path.resolve(__dirname, "./manifest.json"),
-        path.resolve(__dirname, 'src', 'styles', "./tailwind.css"),
-        path.resolve(__dirname, 'src', 'lib', 'Loading', 'loading.css'),
         {
           from: 'src/**/*.html',
           to: '[name][ext]'
@@ -65,7 +75,12 @@ module.exports = {
     }),
     new ESLintPlugin({
       extensions: ['js', 'ts'],
-      overrideConfigFile: path.resolve(__dirname, '.eslintrc'),
+      overrideConfigFile: path.resolve(__dirname, '.eslintrc.cjs'),
     }),
   ],
+  node: {
+    global: false,
+    __filename: false,
+    __dirname: false,
+  }
 };

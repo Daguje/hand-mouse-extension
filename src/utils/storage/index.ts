@@ -6,7 +6,7 @@ import { Storage } from './types';
  * @returns {Promise<Storage>} The data from the storage.
  */
 export function getStorageData(): Promise<Storage> {
-  return browser.storage.sync.get();
+  return browser.storage.local.get();
 }
 
 /**
@@ -18,7 +18,7 @@ export function getStorageItem(
   key: keyof Storage,
 ): Promise<Storage[keyof Storage]> {
   if (typeof key !== 'string') key = key.toString();
-  return browser.storage.sync.get(key);
+  return browser.storage.local.get(key);
 }
 
 /**
@@ -27,7 +27,7 @@ export function getStorageItem(
  * @returns {Promise<void>} A promise that resolves when the data is set.
  */
 export function setStorageData(data: Storage): Promise<void> {
-  return browser.storage.sync.set(data);
+  return browser.storage.local.set(data);
 }
 
 /**
@@ -41,7 +41,7 @@ export function setStorageItem(
   value: Storage[keyof Storage],
 ): Promise<void> {
   if (typeof key !== 'string') key = key.toString();
-  return browser.storage.sync.set({ [key]: value });
+  return browser.storage.local.set({ [key]: value });
 }
 
 /**

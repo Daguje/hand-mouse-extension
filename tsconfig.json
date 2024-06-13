@@ -2,16 +2,24 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "ES2022",
+    "target": "ES2020",
     "allowJs": true,
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@lib/*": ["./src/lib/*"],
       "@pages/*": ["./src/pages/*"],
+      "@threads/*": ["./src/threads/*"],
       "@services/*": ["./src/services/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils/*"]
-    }
+      "@utils/*": ["./src/utils/*"],
+      "@classifiers/*": ["./src/classifiers/*"],
+      "@handLandmarkDetectors/*": ["./src/handLandmarkDetectors/*"],
+      "@gestures/*": ["./src/gestures/*"],
+      "@features/*": ["./src/features/*"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true
   }
 }
