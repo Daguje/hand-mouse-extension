@@ -1,204 +1,141 @@
-![Chrome Extension Webpack](https://user-images.githubusercontent.com/21238816/147307879-a3cb179e-3368-412a-88db-284474183884.png)
-Get started with Chrome extensions development using webpack, TypeScript, Sass, and more.
+# Hand Mouse Chrome Extension
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sszczep)
+Hand Mouse is a chrome extension that allows the user to controll its mouse using only hand gestures.  This project was develop by Computer Engineers [Daniel Gustavo Favero](https://github.com/danielg-favero), [Gustavo Alexandre](https://github.com/Gugonunes) and [Jeferson Rosa de Souza](https://github.com/souzjfe).
 
-## Announcements
+The main actions that can be performed within web pages are:
 
-_Nothing to see here yet._
+- Move the mouse
+- Click element of the page
+- Scroll Up
+- Scroll Down
+- Forward a page
+- Backward a page
+- Auto Scroll (also known as Free Move)
 
-## Features
+## Table of Contents
 
-Chrome Extension Webpack is a simple boilerplate for fast extension development. It helps writing modern TypeScript code with SCSS support.
-It is meant to be lightweight and scalable, hence easily adaptable to your needs.
+- [How to install](#how-to-install)
+- [How to use](#how-to-use)
+  - [1. Mouse Controll](#1-mouse-controll)
+  - [2. Hand Gesture Customization](#1-hand-gesture-customization)
+- [How to customize a gesture](#how-to-customize-a-gesture)
+- [Contributing](#contributing)
+  - [Branch name conventions](#branch-name-conventions)
+  - [Commit conventions](#commit-conventions)
 
-It features:
+## How to install
 
-- [Chrome Extension Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/)
-- [Webpack 5](https://webpack.js.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [Sass](https://sass-lang.com)
-- [Babel](https://babeljs.io/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
+*chrome extension page install link soon*
 
-If you need React support, please check this awesome boilerplate created by [Michael Xieyang Liu](https://github.com/lxieyang): [chrome-extension-boilerplate-react](https://github.com/lxieyang/chrome-extension-boilerplate-react).
 
-## Getting started
+## How to use
 
-### Installing and running
+The Hand Mouse Chrome Extension comes with the major features
 
-1. Clone the repository
-2. Run `yarn`
-3. Run `yarn dev` for development mode, `yarn build` for production build
-4. Add the extension to Chrome:
-   1. Go to `chrome://extensions/` or [click here](chrome://extensions/)
-   2. Enable the `Developer mode`
-   3. Click on `Load unpacked`
-   4. Choose the `dist` directory
-5. You are good to go! You can also pin the extension to the toolbar for easy access.
+### 1. Mouse Controll
 
-### Project structure
+After installing Hand Mouse, open a new tab in chrome, a dialog message asking for camera permissions should appear, upon agreeing, a new toast message should appear informing the initialization of the Hand Mouse. With a success start, the Hand Mouse is up and running.
 
-All TypeScript files are placed in `src` directory. There are few files already prepared for you:
+Once the extension detects a hand from the webcam's / camera's image, one of the following mouse drawings should appear:
 
-- `contentScript.ts` - the [content script](https://developer.chrome.com/docs/extensions/mv3/content_scripts/) to be run in the context of selected web pages
-- `serviceWorker.ts` - the [background script](https://developer.chrome.com/docs/extensions/mv3/service_workers/) usually used to initialize the extension and monitor events
-- `storage.ts` - little helper utility to easily manage the extension's [storage](https://developer.chrome.com/docs/extensions/reference/storage/). In this particular project we are using _synced_ storage area
-- `popup.ts` and `options.ts` - per-page scripts
+![Hand Mouse Cursors](public/hand-mouse-cursors.png)
 
-Style files are placed in `styles` directory. There you can find per-page stylesheets and `common.scss` with stylings common across the pages.
-We also use [Normalize.css](https://necolas.github.io/normalize.css/) so your extensions look good and consistent wherever they are installed.
+This drawings represent these different actions on the page:
 
-`static` directory includes all the files to be copied over to the final build. It consists of `manifest.json` defining our extension, `.html` pages and icon set.
+1. Move the mouse;
+2. Click element of the page;
+3. Scroll Up;
+4. Scroll Down;
+5. Forward a page;
+6. Backward a page;
+7. Auto Scroll.
 
-### Pages
+> After new tab creation / loading the extension restarts and load itself again
 
-Currently, there are two pages: `popup.html` and `options.html`, which can be found in `static` directory. Both have corresponding script and style files at `src` and `styles` directories accordingly.
+### 2. Hand Gesture Customization
 
-#### Popup
+Opening the extension pop up, some options can be performed
 
-It's a default extension's page, visible after clicking on extension's icon in toolbar. According to the documentation:
+![Hand Mouse Pop up](public/pop-up.png)
 
-> The popup cannot be smaller than 25x25 and cannot be larger than 800x600.
+1. Disable Hand Mouse;
+2. Turn off camera;
+3. Navigate to the gesture customization page.
 
-Read more [here](https://developer.chrome.com/docs/extensions/reference/browserAction/#popup).
+Upon entering the gesture customization page, the list of mouse actions are displayed as follows:
 
-#### Options
+![Hand Mouse Customization Page](public/customization-page.png)
 
-Options page shown by right-clicking the extension icon in the toolbar and selecting _Options_.
+In this page the user can:
 
-There are two available types of options pages: `full page` and `embedded`. By default it is set to `full page`. You can change that behaviour in the `manifest.json`:
+1. Close the page;
+2. See the related action in the card's title;
+3. Preview gesture (an image of the user performing the gesture is displayed);
+4. Edit gesture;
+5. Save changes;
 
-```javascript
-"open_in_tab": true // For `full page`
-"open_in_tab": false // For `embedded`
+Once clicking in the edit button (5), a dialog is displayed as such:
+
+![Hand Mouse Customization Dialog](public/dialog-customization.png)
+![Hand Mouse Customization Captures](public/captures-customization.png)
+
+The following actions can be performed once in the dialog:
+
+1. Close the dialog;
+2. Webcam preview;
+3. Begin captures;
+4. Pause captures;
+5. Save gesture
+6. See the current captures count;
+7. Select captures;
+8. Delete selected captures;
+
+## How to customize a gesture
+
+Once in the [edit gesture dialog](#2-hand-gesture-customization), make sure the webcam preview is shown correctly, for good practice, think first of the action you want to perform in a web page, after that, click "Começar Capturas" and a sequence of 15 pictures will be taken, with a 2 seconds gap each, any time you want, you can pause and resume the capture sequence, as well as select and delete undesired captures. This process continues until the 15 captures were taken, only then you can click "Salvar gesto" and close the dialog.
+
+The new gesture is only registred in the user's local storage upon clicking "Salvar" in the gesture edit page.
+
+## Contributing
+
+Clone the git repository
+
+```bash
+git clone git@github.com:Daguje/hand-mouse-extension.git
 ```
 
-Read more [here](https://developer.chrome.com/docs/extensions/mv3/options/).
+Change directory
 
-### Storage
-
-I have prepared a bunch of helper functions to simplify storage usage:
-
-```typescript
-function getStorageData(): Promise<Storage> {...}
-
-// Example usage
-const storageData = await getStorageData();
-console.log(storageData);
+```bash
+cd hand-mouse-extension
 ```
 
-```typescript
-function setStorageData(data: Storage): Promise<void> {...}
+Install the required dependencies
 
-// Example usage
-const newStorageData = { visible: true };
-await setStorageData(newStorageData);
+```bash
+yarn
 ```
 
-```typescript
-function getStorageItem<Key extends keyof Storage>(
-  key: Key,
-): Promise<Storage[Key]> {...}
+Run the development server
 
-// Example usage
-const isVisible = await getStorageItem('visible');
-console.log(isVisible);
+```bash
+yarn dev
+```
+> This command will create a `dist` directory, wich should be uploaded into chromes extension manager page
+
+### Branch name conventions
+
+For contributing with the project create a new `git` branch from the `master` branch using one of the following prefixes:
+- **feature**: for new features;
+- **hotfix**: fixing major bugs;
+- **bugfix**: fixing minor bugs.
+
+Followed by a short title for the branch. For example:
+
+```bash
+git branch -b feature/new-feature
 ```
 
-```typescript
-function setStorageItem<Key extends keyof Storage>(
-  key: Key,
-  value: Storage[Key],
-): Promise<void> {...}
+### Commit conventions
 
-// Example usage
-await setStorageItem('visible', true);
-```
-
-```typescript
-async function initializeStorageWithDefaults(defaults: Storage) {...}
-
-// If `visible` property is already set in the storage, it won't be replaced.
-// This function might be used in `onInstalled` event in service worker
-// to set default storage values on extension's initialization.
-const defaultStorageData = { visible: false };
-await initializeStorageWithDefaults(defaultStorageData);
-```
-
-All of the above functions use `Storage` interface which guarantees type safety. In the above use-case scenario, it could be declared as:
-
-```typescript
-interface Storage {
-  visible: boolean;
-}
-```
-
-**IMPORTANT!** Don't forget to change the interface according to your needs.
-
-_Check `src/storage.ts` for implementation details._
-
-### Content scripts
-
-Content scripts are files that run in the context of web pages. They live in an isolated world (private execution environment), so they do not conflict with the page or other extensions' content sripts.
-
-The content script can be _declared statically_ or _programmatically injected_.
-
-#### Static declaration (match patterns)
-
-Statically declared scripts are registered in the manifest file under the `"content_scripts"` field. They all must specify corresponding [match patterns](https://developer.chrome.com/docs/extensions/mv3/match_patterns/). In this boilerplate, the content script will be injected under all URLs by default. You can change that behaviour in `manifest.json` file.
-
-You can edit the default content script at `src/contentScript.ts`.
-
-#### Programmatic injection
-
-You can also inject the scripts programmatically. It might come in handy when you want to inject the script only in response to certain events. You also need to set extra permissions in manifest file. Read more about programmatic injection [here](https://developer.chrome.com/docs/extensions/mv3/content_scripts/#programmatic).
-
-#### Adding new content script
-
-To add a new content script, create a new script file in `src` directory. You also need to create a new entry in the _webpack_ config file - `webpack.common.js`:
-
-```javascript
-entry: {
-  serviceWorker: './src/serviceWorker.ts',
-  contentScript: './src/contentScript.ts',
-  popup: './src/popup.ts',
-  options: './src/options.ts',
-
-  // New entry down here
-  myNewContentScript: './src/myNewContentScript.ts',
-},
-```
-
-In case of static declaration, you might also need to modify the manifest file.
-
-### Service worker (_old background pages_)
-
-_If you are coming from Manifest V2, you might want to read this page first: [Migrating from background pages to service workers](https://developer.chrome.com/docs/extensions/mv3/migrating_to_service_workers/)._
-
-As per docs:
-
-> Extensions are event-based programs used to modify or enhance the Chrome browsing experience. Events are browser triggers, such as navigating to a new page, removing a bookmark, or closing a tab. Extensions monitor these events using scripts in their background service worker, which then react with specified instructions.
-
-The most common event you will listen to is `chrome.runtime.onInstalled`:
-
-```typescript
-chrome.runtime.onInstalled.addListener(async () => {
-  // Here goes everything you want to execute after extension initialization
-  console.log('Extension successfully installed!');
-});
-```
-
-It is also the perfect (**and the only**) place to create a [context menu](https://developer.chrome.com/docs/extensions/reference/contextMenus/).
-
-You can edit the service worker at `src/serviceWorker.ts`.
-
-Read more about service workers [here](https://developer.chrome.com/docs/extensions/mv3/service_workers/).
-
-## More resources
-
-- [Welcome to Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/)
-- [webpack documentation](https://webpack.js.org/concepts/)
-- [The TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [Sass Basics](https://sass-lang.com/guide)
+The commit messages conventions follows the [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0-beta.4/) pattern.
