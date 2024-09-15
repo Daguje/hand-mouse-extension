@@ -5,7 +5,7 @@ Hand Mouse is a chrome extension that allows the user to controll its mouse usin
 The main actions that can be performed within web pages are:
 
 - Move the mouse
-- Click element of the page
+- Click elements of a page
 - Scroll Up
 - Scroll Down
 - Forward a page
@@ -17,7 +17,7 @@ The main actions that can be performed within web pages are:
 - [How to install](#how-to-install)
 - [How to use](#how-to-use)
   - [1. Mouse Controll](#1-mouse-controll)
-  - [2. Hand Gesture Customization](#1-hand-gesture-customization)
+  - [2. Hand Gesture Customization](#2-hand-gesture-customization)
 - [How to customize a gesture](#how-to-customize-a-gesture)
 - [Contributing](#contributing)
   - [Branch name conventions](#branch-name-conventions)
@@ -43,7 +43,7 @@ Once the extension detects a hand from the webcam's / camera's image, one of the
 This drawings represent these different actions on the page:
 
 1. Move the mouse;
-2. Click element of the page;
+2. Click elements of a page;
 3. Scroll Up;
 4. Scroll Down;
 5. Forward a page;
