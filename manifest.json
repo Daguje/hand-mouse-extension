@@ -4,7 +4,13 @@
   "version": "0.1.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "serviceWorker.js"
+    "service_worker": "serviceWorker.js",
+    "scripts": ["serviceWorker.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "danielfavero17@gmail.com"
+    }
   },
   "content_scripts": [
     {
