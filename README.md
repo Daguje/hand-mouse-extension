@@ -30,6 +30,7 @@ The main actions that can be performed within web pages are:
 #### Requirements:
 
 - `yarn v1.22.2`
+- `npm v10.9.0`
 - `node v22.12.0`
 
 1. Clone the git repository:
