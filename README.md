@@ -1,6 +1,6 @@
-# Hand Mouse Chrome Extension
+# Hand Mouse Extension
 
-Hand Mouse is a chrome extension that allows the user to controll its mouse using only hand gestures.  This project was develop by Computer Engineers [Daniel Gustavo Favero](https://github.com/danielg-favero), [Gustavo Alexandre](https://github.com/Gugonunes) and [Jeferson Rosa de Souza](https://github.com/souzjfe).
+Hand Mouse is a browser extension that allows the user to controll its mouse using only hand gestures.  This project was develop by Computer Engineers [Daniel Gustavo Favero](https://github.com/danielg-favero), [Gustavo Alexandre](https://github.com/Gugonunes) and [Jeferson Rosa de Souza](https://github.com/souzjfe).
 
 The main actions that can be performed within web pages are:
 
@@ -25,16 +25,48 @@ The main actions that can be performed within web pages are:
 
 ## How to install
 
-*chrome extension page install link soon*
+### Install as a developer
 
+#### Requirements:
+
+- `yarn v1.22.2`
+- `node v22.12.0`
+
+1. Clone the git repository:
+
+```bash
+git clone git@github.com:Daguje/hand-mouse-extension.git
+```
+
+2. Change to the project's directory
+
+```bash
+cd hand-mouse-extension
+```
+
+3. Install the project's dependencies
+
+```bash
+yarn
+```
+
+4. Build de extension
+
+```bash
+yarn build
+```
+
+> This will generate a `dist` folder in the project's root
+
+5. Import the `dist` folder into the browser. It will depend on the browser you're using.
 
 ## How to use
 
-The Hand Mouse Chrome Extension comes with the major features
+The Hand Mouse Extension comes with the major features
 
 ### 1. Mouse Controll
 
-After installing Hand Mouse, open a new tab in chrome, a dialog message asking for camera permissions should appear, upon agreeing, a new toast message should appear informing the initialization of the Hand Mouse. With a success start, the Hand Mouse is up and running.
+After installing Hand Mouse, open a new tab in the browser, a dialog message asking for camera permissions should appear, upon agreeing, a new toast message should appear informing the initialization of the Hand Mouse. With a success start, the Hand Mouse is up and running.
 
 Once the extension detects a hand from the webcam's / camera's image, one of the following mouse drawings should appear:
 
@@ -121,7 +153,7 @@ Run the development server
 ```bash
 yarn dev
 ```
-> This command will create a `dist` directory, wich should be uploaded into chromes extension manager page
+> This command will create a `dist` directory, wich should be uploaded into browser's extension manager page
 
 ### Branch name conventions
 
