@@ -3,9 +3,12 @@
   "version": "0.2.0",
   "description": "Get started with Chrome extensions development using webpack, Typescript, Sass, and more",
   "scripts": {
-    "dev": "webpack --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js --target web",
-    "build:zip": "yarn build && cd dist && zip -r ../extension.zip * && cd ..",
+    "dev:firefox": "BROWSER=firefox webpack --config webpack.dev.js",
+    "build:firefox": "BROWSER=firefox webpack --config webpack.prod.js --target web",
+    "build:zip:firefox": "BROWSER=firefox yarn build:firefox && cd dist && zip -r ../extension.zip * && cd ..",
+    "dev:chrome": "BROWSER=chrome webpack --config webpack.dev.js",
+    "build:chrome": "BROWSER=chrome webpack --config webpack.prod.js --target web",
+    "build:zip:chrome": "BROWSER=chrome yarn build:chrome && cd dist && zip -r ../extension.zip * && cd ..",
     "lint": "eslint --ext .ts,.js --max-warnings=0 .",
     "prettier": "prettier --write",
     "test": "jest --passWithNoTests"

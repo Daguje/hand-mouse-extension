@@ -12,6 +12,11 @@ const scripts = {
   contentScript: './src/threads/contentScript',
 }
 
+const manifests = {
+  firefox: 'manifests/manifest.firefox.json',
+  chrome: 'manifests/manifest.chrome.json'
+}
+
 module.exports = {
   entry: {
     ...scripts,
@@ -65,7 +70,10 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        path.resolve(__dirname, "./manifest.json"),
+        {
+          from: path.resolve(__dirname, manifests[process.env.BROWSER]),
+          to: './manifest.json'
+        },
         {
           from: 'src/**/*.html',
           to: '[name][ext]'

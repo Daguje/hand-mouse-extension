@@ -1,5 +1,5 @@
-import { initializeStorageWithDefaults } from "@utils/storage";
-import { browser } from "webextension-polyfill-ts";
+import { initializeStorageWithDefaults } from '@utils/storage';
+import { browser } from 'webextension-polyfill-ts';
 import { MessageActions } from './types';
 
 import initialGestures from './initialGestures.json';
@@ -7,10 +7,8 @@ import initialLabels from './initialLabels.json';
 import initialModel from './initialModel.json';
 
 const openOptionsPage = async () => {
-  await browser.tabs.create({
-    url: `chrome-extension://${browser.runtime.id}/options.html` 
-  });
-} 
+  await browser.runtime.openOptionsPage();
+};
 
 browser.runtime.onInstalled.addListener(async () => {
   await initializeStorageWithDefaults({
@@ -18,13 +16,13 @@ browser.runtime.onInstalled.addListener(async () => {
     ...initialGestures,
     ...initialLabels,
   });
-  await openOptionsPage()
+  await openOptionsPage();
 });
 
 browser.runtime.onMessage.addListener((message: MessageActions) => {
-  switch(message) {
+  switch (message) {
     case 'OPEN_OPTIONS':
-      openOptionsPage()
+      openOptionsPage();
       break;
   }
-})
+});
